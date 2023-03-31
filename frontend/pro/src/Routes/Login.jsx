@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Tab,
   Tabs,
@@ -14,6 +14,24 @@ import {
 } from "@chakra-ui/react";
 import './Styles/Login.css'
 const Login = () => {
+  const [signupForm, setSignupForm] = useState({
+    email:"",
+    username:"",
+    password:""
+  })
+
+  const [loginForm, setLoginForm] = useState({
+    email:"",
+    password:""
+  })
+
+  const handleSignupChange = (e) =>{
+    const {name,value} = e.target
+    setSignupForm({[name]:value})
+  }
+  const signupButton = () =>{
+    console.log(signupForm);
+  }
   return (
     <>
       <Box
@@ -46,14 +64,14 @@ const Login = () => {
 
               {/* Signup Form */}
 
-              <FormControl>
+              <FormControl onSubmit={signupButton}>
               <FormLabel>UserName</FormLabel>
-                <Input type="text" required />
+                <Input type="text" required name='username' onChange={handleSignupChange} />
                 <FormLabel>Email address</FormLabel>
-                <Input type="email" required />
+                <Input type="email" required name='email' onChange={handleSignupChange}/>
                 <FormLabel>Password</FormLabel>
-                <Input type="password" required />
-                <Input type="submit" color="white" bgColor={"green.500"} />
+                <Input type="password" required name = 'password' onChange={handleSignupChange} />
+                <Input type="submit"  color="white" bgColor={"green.500"} />
                 <FormHelperText>We'll never share your email.</FormHelperText>
               </FormControl>
             </TabPanel>
