@@ -5,33 +5,22 @@ import {
   TabList,
   TabPanels,
   TabPanel,
-  Center,
   Box,
-  FormHelperText,
   Input,
   FormLabel,
   FormControl,
 } from "@chakra-ui/react";
 import './Styles/Login.css'
+import Signup from "./Signup";
 const Login = () => {
-  const [signupForm, setSignupForm] = useState({
-    email:"",
-    username:"",
-    password:""
-  })
+
 
   const [loginForm, setLoginForm] = useState({
     email:"",
     password:""
   })
 
-  const handleSignupChange = (e) =>{
-    const {name,value} = e.target
-    setSignupForm({[name]:value})
-  }
-  const signupButton = () =>{
-    console.log(signupForm);
-  }
+ 
   return (
     <>
       <Box
@@ -53,27 +42,18 @@ const Login = () => {
 
               <FormControl>
                 <FormLabel>Email address</FormLabel>
-                <Input type="email" required />
+                <Input type="email" required name='email' />
                 <FormLabel>Password</FormLabel>
-                <Input type="password" required />
-                <Input type="submit" color="white" bgColor={"green.500"} />
-                <FormHelperText>We'll never share your email.</FormHelperText>
+                <Input type="password" required name = 'password'  />
+                <Input type="submit"  color="white" bgColor={"green.500"} />
+                {/* <FormHelperText>We'll never share your email.</FormHelperText> */}
               </FormControl>
             </TabPanel>
             <TabPanel>
 
               {/* Signup Form */}
 
-              <FormControl onSubmit={signupButton}>
-              <FormLabel>UserName</FormLabel>
-                <Input type="text" required name='username' onChange={handleSignupChange} />
-                <FormLabel>Email address</FormLabel>
-                <Input type="email" required name='email' onChange={handleSignupChange}/>
-                <FormLabel>Password</FormLabel>
-                <Input type="password" required name = 'password' onChange={handleSignupChange} />
-                <Input type="submit"  color="white" bgColor={"green.500"} />
-                <FormHelperText>We'll never share your email.</FormHelperText>
-              </FormControl>
+             <Signup/>
             </TabPanel>
           </TabPanels>
         </Tabs>

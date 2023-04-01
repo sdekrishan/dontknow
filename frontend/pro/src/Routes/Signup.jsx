@@ -1,30 +1,32 @@
-import React from 'react'
+import { FormControl, FormLabel, Input } from '@chakra-ui/react'
+import React, { useState } from 'react'
 
 const Signup = () => {
+  const [signupForm, setSignupForm] = useState({
+    email:"",
+    username:"",
+    password:""
+  })
+  const handleSignupChange = (e) =>{
+    const {name,value} = e.target
+    setSignupForm({[name]:value})
+  }
+  const signupButton = () =>{
+    console.log(signupForm);
+  }
   return (
-    <div>
-        <form action="">
-            <label htmlFor="">Username</label>
-            <input type="text"  />
-            <label htmlFor="">Email</label>
-            <input type="email"  />
-            <label htmlFor="">Date of Birth</label>
-            <input type="date"  />
-            <label htmlFor="">Role</label>
-            <select name="" id="">
-                <option value="">Admin</option>
-                <option value="">Explorer</option>
-            </select>
-
-            <label htmlFor="">Location</label>
-            <input type="text" />
-            <label htmlFor="">Password</label>
-            <input type="password"  />
-            <label htmlFor="">Confirm  Password</label>
-            <input type="password"  />
-
-        </form>
-    </div>
+    <>
+ <FormControl onSubmit={signupButton}>
+              <FormLabel>UserName</FormLabel>
+                <Input type="text" required name='username' onChange={handleSignupChange}/>
+                <FormLabel>Email address</FormLabel>
+                <Input type="email" required name='email' onChange={handleSignupChange} />
+                <FormLabel>Password</FormLabel>
+                <Input type="password" required name = 'password' onChange={handleSignupChange} />
+                <Input type="submit"  color="white" bgColor={"green.500"} />
+                {/* <FormHelperText>We'll never share your email.</FormHelperText> */}
+              </FormControl>
+    </>
   )
 }
 
