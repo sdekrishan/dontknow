@@ -24,7 +24,6 @@ const Signup = () => {
                 <FormLabel>Password</FormLabel>
                 <Input type="password" required name = 'password' onChange={handleSignupChange} />
                 <Input type="submit"  color="white" bgColor={"green.500"} />
-                {/* <FormHelperText>We'll never share your email.</FormHelperText> */}
               </FormControl>
     </>
   )
