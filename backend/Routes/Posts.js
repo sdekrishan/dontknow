@@ -9,7 +9,7 @@ PostRouter.get("/",async(req,res)=>{
         res.send(allPosts);
     } catch (error) {
         console.log(error);
-        res.status(404).send("something went wrong");
+        res.status(404).send("something went wrong. Please try again after some time.");
     }
 })
 
