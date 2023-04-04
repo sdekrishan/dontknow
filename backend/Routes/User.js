@@ -3,13 +3,12 @@ const UserRouter = express.Router();
 const { UserModel } = require("../models/Users.model");
 const bcrypt = require("bcrypt");
 const jwt = require('jsonwebtoken');
-const e = require("express");
 
 
 UserRouter.get("/all", async (req, res) => {
   try {
     let allusers = await UserModel.find();
-    res.send(allusers);
+    res.send('working');
   } catch (error) {
     console.log(error);
     res.send(error);
@@ -17,17 +16,17 @@ UserRouter.get("/all", async (req, res) => {
 });
 
 UserRouter.post("/register", async (req, res) => {
-  let { mobile, name, username, password } = req.body;
+  let { email, name, password, gender } = req.body;
   try {
     bcrypt.hash(password, 8, async (err, protected_password) => {
       if (err) {
         console.log(err);
       } else {
         let newUser = new UserModel({
-          mobile,
+          email,
           name,
-          username,
           password: protected_password,
+          gender
         });
         await newUser.save();
         res.send("User has been created");
