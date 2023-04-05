@@ -8,17 +8,17 @@ const link = 'http://localhost:5000'
 function App() {
   const [messages, setMessages] = useState([]);
 
-useEffect(()=>{
-  let socket = io(link);
-  socket.emit('setup','ramkrishan')
-  socket.on("connection",()=>{
-    console.log(socket.id)
-  })
-},[])
+// useEffect(()=>{
+//   let socket = io(link);
+//   socket.emit('setup','ramkrishan')
+//   socket.on("connection",()=>{
+//     console.log(socket.id)
+//   })
+// },[])
   return (
     <div className="App">
-     {/* <AllRoutes/> */}
-     <Login/>
+     <AllRoutes/>
+     {/* <Login/> */}
     </div>
   );
 }
