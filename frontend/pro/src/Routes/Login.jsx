@@ -33,10 +33,9 @@ const Login = () => {
     setToggleSignOut(true);
     // dispatch(signUpUser(signupForm))
   };
-
+console.log(loading);
   const handleSignInChange = (e) => {
     const { name, value } = e.target;
-    console.log(value);
     setLoginForm({ ...loginForm, [name]: value });
   };
   const handleSignOutChange = (e) => {
@@ -122,7 +121,7 @@ const Login = () => {
                 </select>
               </div>
 
-              <input type="submit" className="btn" value={'Sign Up'} disabled={loading}/>
+              <input type="submit" className="btn" value={'Sign Up'}/>
               <p className="social-text">Or Sign up with social platforms</p>
             </form>
           </div>
