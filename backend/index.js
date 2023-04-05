@@ -1,10 +1,11 @@
 const express = require("express");
+require('dotenv').config()
 const cors = require("cors");
 const { Socket } = require("socket.io");
 const { UserRouter } = require("./Routes/User");
-const { connection } = require("mongoose");
 const app = express();
-
+const mongoose = require("mongoose")
+mongoose.set('strictQuery', false);
 app.use(express.json());
 app.use(cors({ origin: true }));
 
@@ -12,13 +13,12 @@ app.use("/user",UserRouter)
 // const server = app.listen(8000,()=>{
 //   console.log('server has been started')
 // });
-app.listen(8000,async()=>{
-  try {
-    await connection;
-    console.log('server has been started');
-  } catch (error) {
-    console.log(error);
-  }
+app.listen(process.env.port,()=>{
+  mongoose.connect(
+    process.env.MONGO,
+  )
+  .then(()=>console.log(`server has been connected on ${process.env.port}`))
+  .catch(e=>console.log(e));
 })
 // const io = require("socket.io")(server,{
 //   pingTimeout:60000,

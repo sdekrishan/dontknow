@@ -5,7 +5,8 @@ const bcrypt = require("bcrypt");
 const jwt = require('jsonwebtoken');
 
 
-UserRouter.get("/all", async (req, res) => {
+UserRouter.get("/all",  async(req, res) => {
+  // res.send("working")
   try {
     let allusers = await UserModel.find();
     res.send('working');
@@ -17,22 +18,30 @@ UserRouter.get("/all", async (req, res) => {
 
 UserRouter.post("/register", async (req, res) => {
   let { email, name, password, gender } = req.body;
+  console.log(email,name,password);
   try {
-    bcrypt.hash(password, 8, async (err, protected_password) => {
-      if (err) {
-        console.log(err);
-      } else {
-        let newUser = new UserModel({
-          email,
-          name,
-          password: protected_password,
-          gender
-        });
-        await newUser.save();
-        res.send("User has been created");
-      }
-    });
-  } catch (error) {
+    let checkUser =await UserModel.find({email})
+    console.log(checkUser);
+    if(checkUser.length===0){
+      bcrypt.hash(password, 8, async (err, protected_password) => {
+        if (err) {
+          console.log(err);
+        } else {
+          let newUser = new UserModel({
+            email,
+            name,
+            password:protected_password,
+            gender
+          });
+          await newUser.save();
+          res.send("User has been created");
+        }
+      });
+    }else{
+      res.send("user already exist")
+    }
+  } 
+  catch (error) {
     res.send(error);
     console.log(error)
   }

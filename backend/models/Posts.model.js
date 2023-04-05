@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const PostSchema = mongoose.Schema({
 user:{
-    type:mongoose.Schema.Types.ObjectId,ref:'User'
+    type:mongoose.Schema.Types.ObjectId,ref:'user'
 },
 content:{
     picture:String,
@@ -10,7 +10,7 @@ content:{
 },
 likes:Number,
 comments:[{
-   type:mongoose.Schema.Types.ObjectId,ref:"Comment"
+   type:mongoose.Schema.Types.ObjectId,ref:"comment"
 }]
 
 });
