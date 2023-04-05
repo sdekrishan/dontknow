@@ -94,7 +94,7 @@ form.sign-in-form {
 .input-field i {
   text-align: center;
   line-height: 55px;
-  color: #acacac;
+  color: #acacac; 
   transition: 0.5s;
   font-size: 1.1rem;
 }
