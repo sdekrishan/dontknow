@@ -5,6 +5,7 @@ const initialState= {
     isAuth:sessionStorage.getItem("token") ? true : false,
     loading:false,
     error:false,
+    signupSuccess : false
 }
 
 const AuthReducer = (state= initialState,{type,payload})=>{
@@ -19,6 +20,7 @@ const AuthReducer = (state= initialState,{type,payload})=>{
             return {
                 ...state,
                 loading:false,
+                signupSuccess:true
             }
         }
         case(SIGNUP_ERROR):{

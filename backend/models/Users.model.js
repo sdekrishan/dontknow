@@ -30,7 +30,8 @@ userData:{
 profile:{
     type:String,
     default:'https://img.freepik.com/free-icon/user_318-563642.jpg'
-}
+},
+requests:[{type:mongoose.Schema.Types.ObjectId,ref:'User'}]
 });
 
 const UserModel = mongoose.model("user",UserSchema);

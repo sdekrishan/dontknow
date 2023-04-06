@@ -9,7 +9,7 @@ mongoose.set('strictQuery', false);
 app.use(express.json());
 app.use(cors({ origin: true }));
 
-app.use("/user",UserRouter)
+app.use("/",UserRouter)
 // const server = app.listen(8000,()=>{
 //   console.log('server has been started')
 // });

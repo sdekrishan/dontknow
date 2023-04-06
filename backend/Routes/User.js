@@ -23,26 +23,34 @@ UserRouter.post("/register", async (req, res) => {
     let checkUser =await UserModel.find({email})
     console.log(checkUser);
     if(checkUser.length===0){
-      bcrypt.hash(password, 8, async (err, protected_password) => {
-        if (err) {
-          console.log(err);
-        } else {
-          let newUser = new UserModel({
-            email,
-            name,
-            password:protected_password,
-            gender
-          });
-          await newUser.save();
-          res.send("User has been created");
-        }
-      });
+      let regexpression = "[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+[.]+[a-z]{2,3}$";
+      let response = email.match(regexpression);
+      if(response){
+        bcrypt.hash(password, 8, async (err, protected_password) => {
+          if (err) {
+            console.log(err);
+          } else {
+            let newUser = new UserModel({
+              email,
+              name,
+              password:protected_password,
+              gender
+            });
+            await newUser.save();
+            res.status(201).send("User has been created");
+          }
+        });
+      }
+      else{
+        res.status(400).send("Invalid Email")
+      }
+      
     }else{
-      res.send("user already exist")
+      res.status(400).send("user already exist")
     }
   } 
   catch (error) {
-    res.send(error);
+    res.status(400).send(error);
     console.log(error)
   }
 });
@@ -55,19 +63,19 @@ UserRouter.post("/login",async(req,res)=>{
       bcrypt.compare(password,user[0].password,(err,result)=>{
         if(result){
           const token = jwt.sign({project:"mywork"},"phoenix");
-          res.send({"msg":"login successful","token":token});
+          res.status(200).send({"msg":"login successful","token":token});
 
         }
         else{
-          res.send("Wrong Credentials")
+          res.status(400).send("Wrong Credentials")
         }
       })
     }
     else{
-      res.send("Please fill correct email id")
+      res.status(400).send("Please fill correct email id")
     }
   } catch (error) {
-    res.send(error)
+    res.status(400).send(error)
   }
 })
 

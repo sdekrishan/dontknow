@@ -6,14 +6,14 @@ import {
   BsFillShieldLockFill,
   BsGenderAmbiguous,
 } from "react-icons/bs";
+import {useToast} from '@chakra-ui/react'
 import { FiUser } from "react-icons/fi";
-import { Spinner, useDisclosure} from '@chakra-ui/react'
 import { useDispatch, useSelector } from "react-redux";
 import { signInUser, signUpUser } from "../Redux/Auth/Auth.action";
+import { useNavigate } from "react-router-dom";
 const Login = () => {
   const [toggleSignOut, setToggleSignOut] = useState(false);
-  const {loading,error} = useSelector(store=> store.auth);
-  const dispatch = useDispatch()
+  const { loading, error,isAuth,signupSuccess } = useSelector((store) => store.auth);
   const [loginForm, setLoginForm] = useState({
     email: "",
     password: "",
@@ -24,35 +24,85 @@ const Login = () => {
     password: "",
     gender: "",
   });
-
+  const dispatch = useDispatch();
+  const toast = useToast()
+  const navigate = useNavigate()
   const handleSignIn = () => {
     setToggleSignOut(false);
   };
 
   const handleSignOut = () => {
     setToggleSignOut(true);
-    // dispatch(signUpUser(signupForm))
   };
-console.log(loading);
+  
+  console.log(loading);
   const handleSignInChange = (e) => {
     const { name, value } = e.target;
     setLoginForm({ ...loginForm, [name]: value });
   };
+
   const handleSignOutChange = (e) => {
     const { name, value } = e.target;
     setSignupForm({ ...signupForm, [name]: value });
   };
+
   const handleSignInButton = (e) => {
     e.preventDefault();
-    console.log(loginForm);
     dispatch(signInUser(loginForm))
+    .then(res=>{
+      if(res.type === 'SIGNIN_SUCCESS'){
+        toast({
+          title: 'Login Successful.',
+          description: "You've logged in successfully.",
+          status: 'success',
+          duration: 9000,
+          isClosable: true,
+          position:'top'
+        })
+        navigate("/")
+      }
+      else{
+        toast({
+          title: 'Login Error.',
+          description:`An Error Occured.` ,
+          status: 'error',
+          duration: 9000,
+          isClosable: true,
+          position:'top'
+        })
+      }
+    })
   };
+
   const handleSignOutButton = (e) => {
     e.preventDefault();
-    console.log(signupForm);  
     dispatch(signUpUser(signupForm))
-    // axios.post(`http://localhost:8080/register`,signupForm);
-  };
+    .then(res=>{
+      if(res.type === 'SIGNUP_SUCCESS'){
+        toast({
+          title: 'Account created.',
+          description: "We've created your account for you.",
+          status: 'success',
+          duration: 9000,
+          isClosable: true,
+          position:'top'
+        })
+        setToggleSignOut(false)
+      }
+      else{
+        toast({
+          title: 'Error Occured.',
+          description: "Something went Wrong.",
+          status: 'error',
+          duration: 9000,
+          isClosable: true,
+          position:'top'
+        })
+      }
+    })
+
+  }
+
   return (
     <>
       <div className={`container ${toggleSignOut ? "sign-up-mode" : ""}`}>
@@ -67,6 +117,7 @@ console.log(loading);
                   placeholder="Email"
                   name="email"
                   onChange={handleSignInChange}
+                  required
                 />
               </div>
               <div className="input-field">
@@ -76,10 +127,11 @@ console.log(loading);
                   placeholder="Password"
                   name="password"
                   onChange={handleSignInChange}
+                  required
                 />
               </div>
               <input type="submit" value="Login" className="btn solid" />
-              <p className="social-text">Or Sign in with social platforms</p>
+              {/* <p className="social-text">Or Sign in with social platforms</p> */}
             </form>
             <form className="sign-up-form" onSubmit={handleSignOutButton}>
               <h2 className="title">Sign up</h2>
@@ -90,6 +142,7 @@ console.log(loading);
                   placeholder="Username"
                   name="name"
                   onChange={handleSignOutChange}
+                  required
                 />
               </div>
               <div className="input-field">
@@ -99,6 +152,7 @@ console.log(loading);
                   placeholder="Email"
                   name="email"
                   onChange={handleSignOutChange}
+                  required
                 />
               </div>
               <div className="input-field">
@@ -113,15 +167,15 @@ console.log(loading);
 
               <div className="input-field">
                 <BsGenderAmbiguous />
-                <select name="gender" id="" onChange={handleSignOutChange}>
-                  <option value=''>Gender</option>
+                <select name="gender" id="" onChange={handleSignOutChange} required>
+                  <option value="">Gender</option>
                   <option value="male">Male</option>
                   <option value="female">Female</option>
                   <option value="prefer not to say">Prefer not to say</option>
                 </select>
               </div>
 
-              <input type="submit" className="btn" value={'Sign Up'}/>
+              <input type="submit" className="btn" value={"Sign Up"}  />
               <p className="social-text">Or Sign up with social platforms</p>
             </form>
           </div>
@@ -132,8 +186,7 @@ console.log(loading);
             <div className="content">
               <h3>New here ?</h3>
               <p>
-                Lorem ipsum, dolor sit amet consectetur adipisicing elit.
-                Debitis, ex ratione. Aliquid!
+                Let's Start with creating a Account first😎
               </p>
               <button
                 className="btn transparent"
@@ -147,10 +200,9 @@ console.log(loading);
           </div>
           <div className="panel right-panel">
             <div className="content">
-              <h3>One of us ?</h3>
+              <h3>Already a member ?</h3>
               <p>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Nostrum
-                laboriosam ad deleniti.
+                Let's Start the chat again.
               </p>
               <button
                 className="btn transparent"
