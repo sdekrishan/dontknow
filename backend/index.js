@@ -4,12 +4,14 @@ const cors = require("cors");
 const { Socket } = require("socket.io");
 const { UserRouter } = require("./Routes/User");
 const app = express();
-const mongoose = require("mongoose")
+const mongoose = require("mongoose");
+const { PostRouter } = require("./Routes/Posts");
 mongoose.set('strictQuery', false);
 app.use(express.json());
 app.use(cors({ origin: true }));
 
 app.use("/",UserRouter)
+app.use("/posts",PostRouter)
 // const server = app.listen(8000,()=>{
 //   console.log('server has been started')
 // });

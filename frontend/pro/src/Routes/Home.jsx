@@ -1,16 +1,22 @@
-import { useState } from "react";
-import {Routes,Route, Link} from 'react-router-dom';
-import About from "./About";
-import Login from "./Login";
-import Signup from "./Signup";
+import Chatbar from "../components/Chatbar";
+import PostBar from "../components/PostBar";
+import Sidebar from "../components/Sidebar";
+import './Styles/Home.css'
 const Home = () => {
   return (
-    <nav style={{display:"flex",justifyContent:"space-evenly ",backgroundColor:'lightblue',padding:"1rem"}}>
-        <Link to={'/'}>Home</Link>
-        <Link to={'/about'}>About</Link>
-        <Link to={'/login'}>Login </Link>
-        <Link to={'/signup'}>SignUp</Link>
-    </nav>
+  <>
+  <div className="maindiv">
+    <div className="sidebar">
+      <Sidebar/>
+    </div>
+    <div className="postdiv">
+      <PostBar/>
+    </div>
+    <div className="chatdiv">
+      <Chatbar/>
+    </div>
+  </div>
+  </>
   )
 }
 

@@ -1,11 +1,16 @@
 const express = require("express");
 const {PostModel} = require("../models/Posts.model");
+const { UserModel } = require("../models/Users.model");
 
 const PostRouter = express.Router();
 
+
+//for getting all the posts related to a particular user
 PostRouter.get("/",async(req,res)=>{
+    const {email} =  req.body;
+    
     try {
-        let allPosts = await PostModel.find();
+        let allPosts = await UserModel.findOne({email}).populate('user')
         res.send(allPosts);
     } catch (error) {
         console.log(error);
@@ -20,4 +25,6 @@ PostRouter.post("/create",async(req,res)=>{
         
     }
 })
+
+module.exports = {PostRouter}
 

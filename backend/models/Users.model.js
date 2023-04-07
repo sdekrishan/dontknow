@@ -21,11 +21,9 @@ password:{
     type:String,
     required:true
 },
-userData:{
-    friends:[{type:mongoose.Schema.Types.ObjectId,ref:'User'}],
-    posts:[{type:mongoose.Schema.Types.ObjectId,ref:'Post'}],
-    likes:Number,
-    Comment:Number
+friends:{
+    type:Array,
+    default:[]
 },
 profile:{
     type:String,
