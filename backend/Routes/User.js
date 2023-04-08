@@ -9,7 +9,7 @@ UserRouter.get("/all",  async(req, res) => {
   // res.send("working")
   try {
     let allusers = await UserModel.find();
-    res.send('working');
+    res.send(allusers);
   } catch (error) {
     console.log(error);
     res.send(error);
@@ -76,6 +76,44 @@ UserRouter.post("/login",async(req,res)=>{
     }
   } catch (error) {
     res.status(400).send(error)
+  }
+})
+
+//get one user detail
+
+UserRouter.get("/:id",async(req,res)=>{
+  const {id} = req.params;
+
+  try {
+  const user = await UserModel.findOne({_id:id});
+
+  const data = await Promise.all(user.friends.map(el=>UserModel.findById(el)))
+  res.send(data)
+  if(user){
+    res.status(200).send(user)
+
+  }else{
+    res.status(404).send("User not found")
+  }
+  } catch (error) {
+    res.status(404).send("something went wrong")
+    console.log(error);
+  }
+})
+
+//for sending friend Requests
+
+UserRouter.patch("/follow",async(req,res)=>{
+  const {userId,followId} = req.body;
+
+  try {
+  const user = await UserModel.findOne({_id:userId})  ;
+  console.log(user);
+  let allFriends = user.friends;
+  const newUser = await UserModel.findByIdAndUpdate({_id:userId},{friends:[...allFriends,followId]});
+  res.status(200).send("followed")
+  } catch (error) {
+    res.status(500).send("something went wrong")
   }
 })
 

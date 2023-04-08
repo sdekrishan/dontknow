@@ -1,7 +1,6 @@
 const mongoose = require('mongoose');
 
 const UserSchema = mongoose.Schema({
-// _id:mongoose.Schema.Types.ObjectId,
 name:{
     type:String,
     lowercase:true,
@@ -25,11 +24,12 @@ friends:{
     type:Array,
     default:[]
 },
+posts:[{type:mongoose.Schema.Types.ObjectId,ref:'post'}],
 profile:{
     type:String,
     default:'https://img.freepik.com/free-icon/user_318-563642.jpg'
 },
-requests:[{type:mongoose.Schema.Types.ObjectId,ref:'User'}]
+requests:[{type:mongoose.Schema.Types.ObjectId,ref:'user'}]
 });
 
 const UserModel = mongoose.model("user",UserSchema);
