@@ -1,5 +1,5 @@
 import { Box, Flex, Text } from "@chakra-ui/react";
-import React from "react";
+import React, { useState } from "react";
 import { BsFillChatHeartFill, BsPeople, BsSearch } from "react-icons/bs";
 import { BiHomeAlt, BiMenu } from "react-icons/bi";
 import { CgProfile } from "react-icons/cg";
@@ -33,6 +33,8 @@ const linkbar = [
 ];
 
 const Sidebar = () => {
+  const [active, setActive] = useState("Home");
+  console.log(active);
   return (
     <>
       <Flex alignItems={"center"} justifyContent={"flex-start"}>
@@ -45,13 +47,18 @@ const Sidebar = () => {
         {linkbar.map((el, ind) => {
           return (
             <Flex
-              key={el.name}
+              key={ind}
+              onClick={()=>setActive(el.name)}
               justifyContent={"flex-start"}
               alignItems="center"
               mb={'1rem'}   
+              cursor='pointer'
+              bg={active === el.name ? "black" : "none"}
+              // bgColor={'black'}
+              color={active===el.name ? "white":"black"}
             >
-              <Box mr='1rem'>{el.icon}</Box>
-              <Text fontSize={'lg'} cursor={'pointer'} >{el.name}</Text>
+              <Box mr='1rem' >{el.icon}</Box>
+              <Text fontSize={'lg'}>{el.name}</Text>
             </Flex>
           );
         })}

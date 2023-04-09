@@ -88,7 +88,7 @@ UserRouter.get("/:id",async(req,res)=>{
   const user = await UserModel.findOne({_id:id});
 
   const data = await Promise.all(user.friends.map(el=>UserModel.findById(el)))
-  res.send(data)
+  res.send(user)
   if(user){
     res.status(200).send(user)
 
@@ -103,17 +103,63 @@ UserRouter.get("/:id",async(req,res)=>{
 
 //for sending friend Requests
 
-UserRouter.patch("/follow",async(req,res)=>{
-  const {userId,followId} = req.body;
+UserRouter.patch("/follow/:id",async(req,res)=>{
+  const {id} = req.params
+  const {followId} = req.body;
 
   try {
-  const user = await UserModel.findOne({_id:userId})  ;
+  const user = await UserModel.findOne({_id:id})  ;
   console.log(user);
   let allFriends = user.friends;
-  const newUser = await UserModel.findByIdAndUpdate({_id:userId},{friends:[...allFriends,followId]});
+  const newUser = await UserModel.findByIdAndUpdate({_id:id},{friends:[...allFriends,followId]});
   res.status(200).send("followed")
   } catch (error) {
     res.status(500).send("something went wrong")
+  }
+})
+
+//for unfollow a friend
+
+UserRouter.patch("/unfollow/:id",async(req,res)=>{
+  const {id} = req.params;
+  const {followId} = req.body
+  try {
+    const user = await UserModel.findById(id);
+    const newFriends = user.friends.filter((el)=> el!== followId )
+    console.log("newFriends list ",newFriends);
+    await UserModel.findByIdAndUpdate({_id:id},{friends:newFriends});
+
+    res.send(`unfollowed successfully`)
+  } catch (error) {
+    
+  }
+})
+
+
+//for clearing friends list 
+
+UserRouter.patch("/clear/:id",async(req,res)=>{
+  const {id} = req.params;
+
+  try {
+  const user = await UserModel.findByIdAndUpdate({_id:id},{friends:[]})  ;
+    res.send("cleared friend list")
+  } catch (error) {
+    console.log(error);
+    res.send(error)
+  }
+})
+//for updating a user
+
+UserRouter.patch("/:id",async(req,res)=>{
+  const {id} = req.params
+  const {name,gender} = req.body
+  try {
+    await UserModel.findByIdAndUpdate({_id:id},{name,gender})
+    res.send("user has been updated")
+  } catch (error) {
+    console.log(error);
+    res.send(error)
   }
 })
 

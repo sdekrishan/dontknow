@@ -30,7 +30,7 @@ PostRouter.post("/",async(req,res)=>{
     } catch (error) {
         console.log(error);
     }
-})
+});
 
 //get all posts 
 
@@ -38,15 +38,15 @@ PostRouter.get("/all",async(req,res)=>{
     const {userId} = req.body;
     try {
         const allPosts = await PostModel.find({userId});
-        const user = await UserModel.findOne({_id:userId})
+        const user = await UserModel.findOne({_id:userId});
         console.log(user);
         const usersFriendsPosts=  await Promise.all(
             user.friends.map((el)=>PostModel.find({userId:el}))
         )
         console.log(allPosts,usersFriendsPosts);
-        res.send(allPosts.concat(usersFriendsPosts.flat(1)))
+        res.send(allPosts.concat(usersFriendsPosts.flat(1)));
     } catch (error) {
-        res.send(error)
+        res.send(error);
         console.log(error);
     }
 })
