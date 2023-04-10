@@ -55,7 +55,7 @@ const Login = () => {
           title: 'Login Successful.',
           description: "You've logged in successfully.",
           status: 'success',
-          duration: 9000,
+          duration: 5000,
           isClosable: true,
           position:'top'
         })
@@ -66,7 +66,7 @@ const Login = () => {
           title: 'Login Error.',
           description:`An Error Occured.` ,
           status: 'error',
-          duration: 9000,
+          duration: 5000,
           isClosable: true,
           position:'top'
         })
@@ -83,7 +83,7 @@ const Login = () => {
           title: 'Account created.',
           description: "We've created your account for you.",
           status: 'success',
-          duration: 9000,
+          duration: 5000,
           isClosable: true,
           position:'top'
         })
@@ -94,7 +94,7 @@ const Login = () => {
           title: 'Error Occured.',
           description: "Something went Wrong.",
           status: 'error',
-          duration: 9000,
+          duration: 5000,
           isClosable: true,
           position:'top'
         })
