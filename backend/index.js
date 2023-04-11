@@ -12,6 +12,7 @@ app.use(cors({ origin: true }));
 
 app.use("/",UserRouter)
 app.use("/posts",PostRouter)
+
 // const server = app.listen(8000,()=>{
 //   console.log('server has been started')
 // });

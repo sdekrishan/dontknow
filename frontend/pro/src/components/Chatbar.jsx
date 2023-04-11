@@ -2,7 +2,9 @@ import React from 'react'
 
 const Chatbar = () => {
   return (
-    <div>Chatbar</div>
+    <div>
+      
+    </div>
   )
 }
 
