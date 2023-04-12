@@ -5,6 +5,7 @@ const authentication = (req,res, next)=>{
     if(token){
         const decodedToken = jwt.verify(token,"phoenix");
         if(decodedToken){
+            req.body.userId = decodedToken.id;
             next()
         }
         else{

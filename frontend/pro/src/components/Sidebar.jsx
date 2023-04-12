@@ -34,7 +34,6 @@ const linkbar = [
 
 const Sidebar = () => {
   const [active, setActive] = useState("Home");
-  console.log(active);
   return (
     <>
       <Flex alignItems={"center"} justifyContent={"flex-start"}>
