@@ -3,8 +3,9 @@ import './App.css';
 import AllRoutes from './Routes/AllRoutes';
 import Home from './Routes/Home';
 import {io} from 'socket.io-client'
-import Login from './Routes/Login';
-const link = 'http://localhost:5000'
+import Sidebar from './components/Sidebar';
+import CheckingRoute from './components/CheckingRoute';
+const link = 'http://localhost:5000';
 function App() {
   const [messages, setMessages] = useState([]);
 
@@ -17,8 +18,12 @@ function App() {
 // },[])
   return (
     <div className="App">
-     <AllRoutes/>
+       <div className="sidebar">
+      <Sidebar/>
+    </div>
+     {/* <AllRoutes/> */}
      {/* <Login/> */}
+     <CheckingRoute/>
     </div>
   );
 }

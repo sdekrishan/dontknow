@@ -5,7 +5,7 @@ const bcrypt = require("bcrypt");
 const jwt = require('jsonwebtoken');
 
 
-UserRouter.get("/all",  async(req, res) => {
+UserRouter.get("/search",  async(req, res) => {
   // res.send("working")
   try {
     let allusers = await UserModel.find();
@@ -162,5 +162,6 @@ UserRouter.patch("/:id",async(req,res)=>{
     res.send(error)
   }
 })
+
 
 module.exports = {UserRouter}

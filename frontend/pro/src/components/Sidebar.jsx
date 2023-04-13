@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { BsFillChatHeartFill, BsPeople, BsSearch } from "react-icons/bs";
 import { BiHomeAlt, BiMenu } from "react-icons/bi";
 import { CgProfile } from "react-icons/cg";
+import { useNavigate } from "react-router-dom";
 
 const linkbar = [
   {
@@ -34,6 +35,11 @@ const linkbar = [
 
 const Sidebar = () => {
   const [active, setActive] = useState("Home");
+  const navigate = useNavigate()
+  const handleClick = (el)=>{
+    setActive(el.name);
+    navigate(`${el.route}`)
+  }
   return (
     <>
       <Flex alignItems={"center"} justifyContent={"flex-start"}>
@@ -47,7 +53,7 @@ const Sidebar = () => {
           return (
             <Flex
               key={ind}
-              onClick={()=>setActive(el.name)}
+              onClick={()=>handleClick(el)}
               justifyContent={"flex-start"}
               alignItems="center"
               mb={'1rem'}   
