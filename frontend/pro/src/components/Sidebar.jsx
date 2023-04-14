@@ -4,7 +4,7 @@ import { BsFillChatHeartFill, BsPeople, BsSearch } from "react-icons/bs";
 import { BiHomeAlt, BiMenu } from "react-icons/bi";
 import { CgProfile } from "react-icons/cg";
 import { useNavigate } from "react-router-dom";
-
+import "./Styles/Sidebar.css"
 const linkbar = [
   {
     name: "Home",

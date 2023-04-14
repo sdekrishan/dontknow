@@ -1,0 +1,7 @@
+.sidebar{
+    width: 300px;
+    height: 100vh;
+    padding:2rem 1rem;
+    border: 1px solid lightgray;
+    position: fixed;
+  }

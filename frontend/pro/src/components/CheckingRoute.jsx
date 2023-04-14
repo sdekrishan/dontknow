@@ -6,6 +6,7 @@ import More from './More';
 import "./Styles/CheckingRoute.css"
 import Friends from './Friends';
 import Profile from './Profile';
+import Login from '../Routes/Login';
 const CheckingRoute = () => {
     const location = useLocation()
     console.log(location);
@@ -16,6 +17,7 @@ const CheckingRoute = () => {
         : location.pathname === '/search' ? <SearchBar/>
         : location.pathname === '/friends' ? <Friends/>
         : location.pathname === '/profile' ? <Profile/>
+        : location.pathname === "/" ? <Login/>
         : <More/>
     }
     </div>

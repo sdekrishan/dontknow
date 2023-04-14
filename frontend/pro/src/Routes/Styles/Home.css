@@ -1,7 +1,7 @@
 .maindiv{
     border:1px solid lightgray;
     display: flex;
-    width: 100%;
+    width: calc(100vw-300px);
     min-height: 100vh;
 }
 

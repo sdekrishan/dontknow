@@ -18,12 +18,12 @@ function App() {
 // },[])
   return (
     <div className="App">
-       <div className="sidebar">
+       {/* <div className="sidebar">
       <Sidebar/>
-    </div>
-     {/* <AllRoutes/> */}
+    </div> */}
+     <AllRoutes/>
      {/* <Login/> */}
-     <CheckingRoute/>
+     {/* <CheckingRoute/> */}
     </div>
   );
 }

@@ -59,7 +59,7 @@ const Login = () => {
           isClosable: true,
           position:'top'
         })
-        navigate("/")
+        navigate("/home")
       }
       else{
         toast({
