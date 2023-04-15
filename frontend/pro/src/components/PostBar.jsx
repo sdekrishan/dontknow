@@ -1,7 +1,5 @@
 import React, { useEffect } from "react";
-import { getSingleUserPosts } from "../Redux/Posts/Post.action";
-import { useDispatch, useSelector } from "react-redux";
-import { Box, Flex, Skeleton, SkeletonCircle, SkeletonText, Text } from "@chakra-ui/react";
+import { Box, Flex,  SkeletonCircle, SkeletonText, Text } from "@chakra-ui/react";
 
 const PostBar = ({data,loading}) => {
 
@@ -35,7 +33,7 @@ if(loading){
     <Text fontSize={'3xl'}>PostBar</Text>
       {data ? (
         <Box>
-        {data.map((el,ind)=>(
+        {data && data.map((el,ind)=>(
           <Flex key={ind}> 
             <Text>{el.content}</Text>
           </Flex>
