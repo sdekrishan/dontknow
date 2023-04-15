@@ -1,8 +1,10 @@
 .maindiv{
-    border:1px solid lightgray;
+    border:1px solid black;
     display: flex;
-    width: calc(100vw-300px);
+    /* width: 80vw; */
     min-height: 100vh;
+    /* margin-inline:auto; */
+    margin-left: 300px;
 }
 
 .postdiv{

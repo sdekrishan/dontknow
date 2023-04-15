@@ -8,15 +8,14 @@ import Sidebar from "../components/Sidebar";
 const Home = () => {
   const dispatch = useDispatch();
   const { posts,isLoading } = useSelector((store) => store.posts);
-  const {token} = useSelector(store=>store.auth)
+  const {token} = useSelector(store=>store.auth);
+
   useEffect(() => {
     dispatch(getSingleUserPosts(token));
   }, []);
-console.log(posts,token);
+
   return (
   <>
-  {/* <div className="main_container"> */}
-
     <Sidebar/>
   <div className="maindiv">
     <div className="postdiv">
@@ -26,7 +25,6 @@ console.log(posts,token);
       <Chatbar/>
     </div>
   </div>
-  {/* </div> */}
   </>
   )
 }

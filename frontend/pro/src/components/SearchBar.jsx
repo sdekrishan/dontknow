@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { getAllUsers } from '../Redux/User/User.Actions';
 import { Box, Button, Flex, Input, Text } from '@chakra-ui/react';
+import Sidebar from './Sidebar';
 
 const SearchBar = () => {
     const {searchData} = useSelector(store => store.user);
@@ -22,8 +23,9 @@ const SearchBar = () => {
     }
   return (
     <>
-    <Flex>
-    <Input placeholder='Enter People Name' value={query} onChange={(e)=>handleChange(e)}/>
+    <Sidebar/>
+    <Flex ml='300px'>
+    <Input placeholder='Enter People Name' w='60%' marginInline={'auto'} value={query} onChange={(e)=>handleChange(e)}/>
     {/* <Button></Button> */}
     </Flex>
     <Flex direction={'column'}>

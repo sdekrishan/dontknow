@@ -163,5 +163,31 @@ UserRouter.patch("/:id",async(req,res)=>{
   }
 })
 
+//for getting all unfollowed people
 
+UserRouter.get("/unfollowed/:id",async(req,res)=>{
+  const {id} = req.params
+  try {
+  const allUsers = await UserModel.find();
+  const friends = await UserModel.findById(id);
+  const unfollowedPeople = [];
+  let allfriendsId = allUsers.map((el)=> el._id)
+  console.log(allfriendsId, allUsers);
+  // if(friends.friends.length > 0){
+  //   for(let i = 0; i <  friends.friends.length ; i++){
+  //     for(let j = 0; j < allUsers.length; j++){
+  //       if(friends.friends(i) !== allUsers[j]._id){
+          
+  //       }
+  //   }
+  // }
+
+  // }
+
+  res.status(200).send({unfollowedPeople})
+  } catch (error) {
+    console.log(error);
+    res.status(404).send(error)
+  }
+})
 module.exports = {UserRouter}
