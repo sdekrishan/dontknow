@@ -1,4 +1,3 @@
-import React, { useEffect } from "react";
 import { Box, Flex,  SkeletonCircle, SkeletonText, Text } from "@chakra-ui/react";
 
 const PostBar = ({data,loading}) => {
@@ -28,6 +27,7 @@ if(loading){
 </Box>
   </>
 }
+console.log(data);
   return (
     <>
     <Text fontSize={'3xl'}>PostBar</Text>

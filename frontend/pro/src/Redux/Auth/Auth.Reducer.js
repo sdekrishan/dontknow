@@ -5,7 +5,8 @@ const initialState= {
     isAuth:sessionStorage.getItem("token") ? true : false,
     loading:false,
     error:false,
-    email:sessionStorage.getItem("email") || null
+    email: JSON.parse(sessionStorage.getItem("details")).email || null,
+    id: JSON.parse(sessionStorage.getItem("details")).id || null, 
 }
 
 const AuthReducer = (state= initialState,{type,payload})=>{

@@ -63,7 +63,7 @@ UserRouter.post("/login",async(req,res)=>{
       bcrypt.compare(password,user[0].password,(err,result)=>{
         if(result){
           const token = jwt.sign({email:email,id:user[0]._id},"phoenix");
-          res.status(200).send({"msg":"login successful","token":token,email});
+          res.status(200).send({"msg":"login successful","token":token,"details":{email,id:user[0]._id}});
 
         }
         else{
@@ -90,7 +90,7 @@ UserRouter.get("/:id",async(req,res)=>{
   const data = await Promise.all(user.friends.map(el=>UserModel.findById(el)))
   res.send(user)
   if(user){
-    res.status(200).send(user)
+    res.status(200).send(data)
 
   }else{
     res.status(404).send("User not found")
@@ -100,6 +100,7 @@ UserRouter.get("/:id",async(req,res)=>{
     console.log(error);
   }
 })
+
 
 //for sending friend Requests
 
@@ -190,4 +191,20 @@ UserRouter.get("/unfollowed/:id",async(req,res)=>{
     res.status(404).send(error)
   }
 })
+
+//for getting single user data
+
+UserRouter.get("/single/:id",async(req,res)=>{
+  const {id} = req.params;
+
+  try {
+  const user = await UserModel.findOne({_id:id});
+    res.status(200).send(user)
+  } catch (error) {
+    res.status(404).send("something went wrong")
+    console.log(error);
+  }
+})
+
+
 module.exports = {UserRouter}

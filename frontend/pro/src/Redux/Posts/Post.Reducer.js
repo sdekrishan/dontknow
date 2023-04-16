@@ -1,9 +1,10 @@
-import { GET_SINGLE_USER_POSTS_ERROR, GET_SINGLE_USER_POSTS_REQUEST, GET_SINGLE_USER_POSTS_SUCCESS } from "./Post.ActionTypes"
+import { GET_SINGLE_USER_POSTS_ERROR, GET_SINGLE_USER_POSTS_REQUEST, GET_SINGLE_USER_POSTS_SUCCESS, GET_SINGLE_USER_PROFILE_POSTS_ERROR, GET_SINGLE_USER_PROFILE_POSTS_REQUEST, GET_SINGLE_USER_PROFILE_POSTS_SUCCESS } from "./Post.ActionTypes"
 
 const initialState = {
     posts:[],
     isLoading:false,
-    isError:false
+    isError:false,
+    profilePosts:[]
 }
 
 const PostReducer = (state = initialState, {type,payload})=>{
@@ -24,6 +25,28 @@ const PostReducer = (state = initialState, {type,payload})=>{
             }
         }
         case(GET_SINGLE_USER_POSTS_ERROR):{
+            return {
+                ...state,
+                isError:true,
+                isLoading:false
+            }
+        }
+        case(GET_SINGLE_USER_PROFILE_POSTS_REQUEST):{
+            return {
+                ...state,
+                isLoading:true,
+                isError:true
+            }
+        }
+        case(GET_SINGLE_USER_PROFILE_POSTS_SUCCESS):{
+            return{
+                ...state,
+                profilePosts:payload,
+                isLoading:false,
+                isError:false
+            }
+        }
+        case(GET_SINGLE_USER_PROFILE_POSTS_ERROR):{
             return {
                 ...state,
                 isError:true,

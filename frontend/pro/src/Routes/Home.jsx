@@ -5,14 +5,21 @@ import './Styles/Home.css'
 import { useDispatch, useSelector } from "react-redux";
 import { getSingleUserPosts } from "../Redux/Posts/Post.action";
 import Sidebar from "../components/Sidebar";
+import { getSingleUserDetails } from "../Redux/User/User.Actions";
 const Home = () => {
   const dispatch = useDispatch();
   const { posts,isLoading } = useSelector((store) => store.posts);
+  const {email,id} = useSelector(store => store.auth)
   const {token} = useSelector(store=>store.auth);
 
   useEffect(() => {
-    dispatch(getSingleUserPosts(token));
+    
+      dispatch(getSingleUserPosts(id,token));
+    
+    dispatch(getSingleUserDetails(id))
   }, []);
+
+
 
   return (
   <>

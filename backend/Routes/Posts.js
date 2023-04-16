@@ -6,11 +6,12 @@ const PostRouter = express.Router();
 
 
 //for getting all the posts related to a particular user
-PostRouter.get("/",async(req,res)=>{
-    const {email} =  req.body;
+PostRouter.get("/:id",async(req,res)=>{
+    // const {id} =  req.body;
+    const {id} = req.params
     
     try {
-        let allPosts = await UserModel.findOne({email}).populate('user')
+        let allPosts = await PostModel.find({userId:id});
         res.send(allPosts);
     } catch (error) {
         console.log(error);
@@ -34,11 +35,11 @@ PostRouter.post("/",async(req,res)=>{
 
 //get all posts 
 
-PostRouter.get("/all",async(req,res)=>{
-    const {userId} = req.body;
+PostRouter.get("/all/:id",async(req,res)=>{
+    const {id} = req.params;
     try {
-        const allPosts = await PostModel.find({userId});
-        const user = await UserModel.findOne({_id:userId});
+        const allPosts = await PostModel.find({userId:id});
+        const user = await UserModel.findOne({_id:id});
         console.log(user);
         const usersFriendsPosts=  await Promise.all(
             user.friends.map((el)=>PostModel.find({userId:el}))
