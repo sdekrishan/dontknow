@@ -1,12 +1,12 @@
 import { LOGOUT, SIGNIN_ERROR, SIGNIN_REQUEST, SIGNIN_SUCCESS, SIGNUP_ERROR, SIGNUP_REQUEST, SIGNUP_SUCCESS } from "./Auth.ActioTypes"
-
+const session = JSON.parse(sessionStorage.getItem("details"));
 const initialState= {
     token:sessionStorage.getItem("token") || null,
     isAuth:sessionStorage.getItem("token") ? true : false,
     loading:false,
     error:false,
-    email: JSON.parse(sessionStorage.getItem("details")).email || null,
-    id: JSON.parse(sessionStorage.getItem("details")).id || null, 
+    email: session.email || null,
+    id: session.id || null, 
 }
 
 const AuthReducer = (state= initialState,{type,payload})=>{
