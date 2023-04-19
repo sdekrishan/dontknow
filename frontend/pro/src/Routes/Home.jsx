@@ -9,8 +9,7 @@ import { getSingleUserDetails } from "../Redux/User/User.Actions";
 const Home = () => {
   const dispatch = useDispatch();
   const { posts,isLoading } = useSelector((store) => store.posts);
-  const {email,id} = useSelector(store => store.auth)
-  const {token} = useSelector(store=>store.auth);
+  const {token,id} = useSelector(store => store.auth)
 
   useEffect(() => {
     
@@ -19,7 +18,7 @@ const Home = () => {
     dispatch(getSingleUserDetails(id))
   }, []);
 
-
+console.log(id,token,posts);
 
   return (
   <>

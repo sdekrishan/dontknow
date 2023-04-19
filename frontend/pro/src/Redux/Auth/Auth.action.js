@@ -11,7 +11,8 @@ export const signInUser = (form)=>dispatch => {
     dispatch({type:SIGNIN_REQUEST});
     return axios.post(`http://localhost:8080/login`,form)
     .then(res=>{
-        sessionStorage.setItem("details",JSON.stringify(res.data.details))
+        sessionStorage.setItem("email",JSON.stringify(res.data.details.email))
+        sessionStorage.setItem("id",JSON.stringify(res.data.details.id))
        return dispatch({type:SIGNIN_SUCCESS,payload:res.data.token})
     })
     .catch(err => dispatch({type:SIGNIN_ERROR}))

@@ -33,7 +33,7 @@ console.log(data);
     <Text fontSize={'3xl'}>PostBar</Text>
       {data ? (
         <Box>
-        {data && data.map((el,ind)=>(
+        {data.length > 0 && data?.map((el,ind)=>(
           <Flex key={ind}> 
             <Text>{el.content}</Text>
           </Flex>

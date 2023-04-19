@@ -40,7 +40,7 @@ const Sidebar = () => {
   const navigate = useNavigate()
   const handleClick = (el)=>{
     setActive(el.name);
-    navigate(`${el.route}`)
+    navigate(`${el.route}`);
   }
   return (
     <div className="sidebar">

@@ -13,7 +13,7 @@ import { signInUser, signUpUser } from "../Redux/Auth/Auth.action";
 import { useNavigate } from "react-router-dom";
 const Login = () => {
   const [toggleSignOut, setToggleSignOut] = useState(false);
-  const { loading, error,isAuth,signupSuccess } = useSelector((store) => store.auth);
+  const { loading } = useSelector((store) => store.auth);
   const [loginForm, setLoginForm] = useState({
     email: "",
     password: "",
