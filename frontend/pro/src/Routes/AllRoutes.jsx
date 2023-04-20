@@ -12,7 +12,6 @@ import CheckingRoute from '../components/CheckingRoute'
 const AllRoutes = () => {
   return (
     <Routes>
-      {/* <Route path="/" element={<CheckingRoute/>}>GEtting Routes</Route> */}
     <Route path="/home" element={<PrivateRoute><Home/></PrivateRoute>}>Home</Route>
     <Route path="/search" element={<SearchBar/>}>Search</Route>
     <Route path="/friends" element={<Friends/>}>Search</Route>
