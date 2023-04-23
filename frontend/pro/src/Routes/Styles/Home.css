@@ -1,9 +1,7 @@
 .maindiv{
     border:1px solid black;
     display: flex;
-    /* width: 80vw; */
     min-height: 100vh;
-    /* margin-inline:auto; */
     margin-left: 300px;
 }
 
