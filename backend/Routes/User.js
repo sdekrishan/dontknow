@@ -3,7 +3,15 @@ const UserRouter = express.Router();
 const { UserModel } = require("../models/Users.model");
 const bcrypt = require("bcrypt");
 const jwt = require('jsonwebtoken');
+const cloudinary = require('cloudinary').v2;
 
+
+// Configuration 
+cloudinary.config({
+  cloud_name: "dwkrorz1k",
+  api_key: "272165627193615",
+  api_secret: "BROfva11bTlvSZGy1a1eaVGbcbE"
+});
 
 UserRouter.get("/search",  async(req, res) => {
   // res.send("working")
@@ -203,6 +211,33 @@ UserRouter.get("/single/:id",async(req,res)=>{
   } catch (error) {
     res.status(404).send("something went wrong")
     console.log(error);
+  }
+})
+
+//for changing user profile 
+
+UserRouter.get("/profile/:id",async(req,res)=>{
+  const {id} = req.params;
+ const img = req.body.img;
+ console.log(req.body);
+  let imgUrl;
+  try {
+      const user = await UserModel.findById(id);
+      if(user){
+       const resImg =  cloudinary.uploader.upload(req.body.img, {public_id: "olympic_flag"})
+        
+        resImg.then(data => console.log(data.secure_url))
+        .catch(err => console.log(err));
+
+        // await UserModel.findByIdAndUpdate({_id:id},{profile:imgUrl})
+        // res.status(201).send('img uploaded successfully')
+        res.status(201).send({msg:"img uploaded",pic:imgUrl})
+      }else{
+        res.status(404).send('user not found')
+      }
+  } catch (error) {
+   console.log(error); 
+   res.send(error)
   }
 })
 

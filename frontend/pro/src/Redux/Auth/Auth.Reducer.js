@@ -35,12 +35,16 @@ const AuthReducer = (state= initialState,{type,payload})=>{
             }
         }
         case(SIGNIN_SUCCESS):{
-            sessionStorage.setItem("token",payload)
+            sessionStorage.setItem("token",payload.token)
+            sessionStorage.setItem("email",payload.details.email)
+            sessionStorage.setItem("id",payload.details.id)
             return {
                 ...state,
                 loading:false,
                 isAuth:true,
-                token:payload,
+                email:payload.details.email,
+                id:payload.details.id,
+                token:payload.token,
             }
         }
         case(SIGNIN_ERROR):{

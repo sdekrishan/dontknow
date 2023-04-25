@@ -1,10 +1,12 @@
-import { Box, Button, Flex, Text } from '@chakra-ui/react'
+import { Box, Button, Flex, Input, Text } from '@chakra-ui/react'
 import React, { useEffect } from 'react'
 import Sidebar from './Sidebar'
 import { BsPencil } from 'react-icons/bs'
 import { useDispatch, useSelector } from 'react-redux'
 import { getSingleUserDetails } from '../Redux/User/User.Actions'
 import { getSingleUserProfilePosts } from '../Redux/Posts/Post.action'
+import {fill} from "@cloudinary/url-gen/actions/resize";
+import {CloudinaryImage} from '@cloudinary/url-gen';
 
 const Profile = () => {
   const {userData} = useSelector(store => store.user);
@@ -18,7 +20,13 @@ const Profile = () => {
     }
   },[id])
   // console.log(userData,id);
-  console.log(profilePosts);
+  // console.log(profilePosts,id,token);
+  const handleFile = (e)=>{    
+    const pic = e.target.files[0];
+    const myImage = new CloudinaryImage(pic, {cloudName: 'dwkrorz1k'}).resize(fill().width(100).height(150));
+
+    console.log(myImage);
+  }
   return (
     <>
     <Sidebar/>
@@ -29,6 +37,7 @@ const Profile = () => {
 
     </Box>
     <Box mt='1rem'>
+      <Input type="file" onChange={(e)=>handleFile(e)} />
     <Button size='sm'>Change Pic</Button>
     <Button size='sm'>Remove Pic</Button>
     </Box>
