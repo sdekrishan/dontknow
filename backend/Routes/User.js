@@ -3,7 +3,11 @@ const UserRouter = express.Router();
 const { UserModel } = require("../models/Users.model");
 const bcrypt = require("bcrypt");
 const jwt = require('jsonwebtoken');
+const {uploadImage} = require('../middlewears/UploadImg')
 const cloudinary = require('cloudinary').v2;
+
+
+
 
 
 // Configuration 
@@ -216,22 +220,18 @@ UserRouter.get("/single/:id",async(req,res)=>{
 
 //for changing user profile 
 
-UserRouter.get("/profile/:id",async(req,res)=>{
+UserRouter.patch("/profile/:id",async(req,res)=>{
   const {id} = req.params;
- const img = req.body.img;
- console.log(req.body);
+ const img = req.files.img;
+//  console.log(req);
   let imgUrl;
   try {
       const user = await UserModel.findById(id);
       if(user){
-       const resImg =  cloudinary.uploader.upload(req.body.img, {public_id: "olympic_flag"})
-        
-        resImg.then(data => console.log(data.secure_url))
-        .catch(err => console.log(err));
-
-        // await UserModel.findByIdAndUpdate({_id:id},{profile:imgUrl})
-        // res.status(201).send('img uploaded successfully')
-        res.status(201).send({msg:"img uploaded",pic:imgUrl})
+        const mycloud = await cloudinary.uploader.upload(img.tempFilePath)
+      
+        await UserModel.findByIdAndUpdate({_id:id},{profile:mycloud.secure_url})
+        res.status(201).send({msg:"img uploaded",pic:mycloud})
       }else{
         res.status(404).send('user not found')
       }

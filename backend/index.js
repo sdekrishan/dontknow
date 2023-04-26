@@ -7,8 +7,15 @@ const app = express();
 const mongoose = require("mongoose");
 const { PostRouter } = require("./Routes/Posts");
 const { authentication } = require("./middlewears/Authentication.middlewear");
+const fileUpload = require('express-fileupload');
+
+
+
 mongoose.set('strictQuery', false);
 app.use(express.json());
+app.use(fileUpload({
+  useTempFiles:true
+}))
 app.use(cors({ origin: true }));
 
 app.use("/",UserRouter)

@@ -21,11 +21,22 @@ const Profile = () => {
   },[id])
   // console.log(userData,id);
   // console.log(profilePosts,id,token);
-  const handleFile = (e)=>{    
+  const  handleFile = (e)=>{    
     const pic = e.target.files[0];
-    const myImage = new CloudinaryImage(pic, {cloudName: 'dwkrorz1k'}).resize(fill().width(100).height(150));
+    // const myImage = new CloudinaryImage(pic, {cloudName: 'dwkrorz1k'}).resize(fill().width(100).height(150));
+    const formData = new FormData();
+    formData.append('file', pic);
 
-    console.log(myImage);
+    fetch(`http://localhost:8080/profile/${id}`, {
+      method: 'PATCH',
+      body: {
+        img:formData
+      }
+    })
+      .then(response => response.json())
+      .then(data => console.log(data))
+      .catch(error => console.error(error))
+    console.log(formData);
   }
   return (
     <>
@@ -37,7 +48,7 @@ const Profile = () => {
 
     </Box>
     <Box mt='1rem'>
-      <Input type="file" onChange={(e)=>handleFile(e)} />
+      <Input type="file" name="img" onChange={(e)=>handleFile(e)} />
     <Button size='sm'>Change Pic</Button>
     <Button size='sm'>Remove Pic</Button>
     </Box>
