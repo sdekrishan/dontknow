@@ -1,9 +1,10 @@
-import { GET_ALL_USERS_ERROR, GET_ALL_USERS_REQUEST, GET_ALL_USERS_SUCCESS, GET_SINGLE_USER_DATA_ERROR, GET_SINGLE_USER_DATA_REQUEST, GET_SINGLE_USER_DATA_SUCCESS } from "./User.ActionTypes"
+import { CHANGE_DP_ERROR, CHANGE_DP_REQUEST, CHANGE_DP_SUCCESS, GET_ALL_USERS_ERROR, GET_ALL_USERS_REQUEST, GET_ALL_USERS_SUCCESS, GET_SINGLE_USER_DATA_ERROR, GET_SINGLE_USER_DATA_REQUEST, GET_SINGLE_USER_DATA_SUCCESS } from "./User.ActionTypes"
 
 const initialState = {
     searchData : [],
     userData : {},
     isLoading:false,
+    pictureLoading:false,
     isError:false
 }
 
@@ -43,6 +44,25 @@ const UserReducer = (state = initialState, {type,payload})=>{
         }
         case(GET_SINGLE_USER_DATA_ERROR):{
             return {
+                ...state,
+                isError:true
+            }
+        }
+        case(CHANGE_DP_REQUEST):{
+            return{
+                ...state,
+                pictureLoading:true
+            }
+        }
+        case(CHANGE_DP_SUCCESS):{
+            return {
+                ...state,
+                pictureLoading:false,
+                userData:payload
+            }
+        }
+        case(CHANGE_DP_ERROR):{
+            return{
                 ...state,
                 isError:true
             }

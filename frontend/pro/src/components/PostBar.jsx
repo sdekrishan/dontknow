@@ -1,7 +1,9 @@
-import { Box, Flex,  SkeletonCircle, SkeletonText, Text } from "@chakra-ui/react";
+import { Box, Button, Flex,  Image,  SkeletonCircle, SkeletonText, Text } from "@chakra-ui/react";
+import { useSelector } from "react-redux";
 
 const PostBar = ({data,loading}) => {
-
+const {userDetails} = useSelector(store=> store.posts)
+console.log(userDetails);
 if(loading){
   return <>
     <Text fontSize={'3xl'}>PostBar</Text>
@@ -32,11 +34,21 @@ console.log(data);
     <>
     <Text fontSize={'3xl'}>PostBar</Text>
       {data ? (
-        <Box>
+        <Box >
         {data.length > 0 && data?.map((el,ind)=>(
-          <Flex key={ind}> 
-            <Text>{el.content}</Text>
+          <Flex key={ind} w='80%' padding={'1rem'} borderRadius={'1rem'} marginInline={'auto'} h='fit-content' border='1px solid lightgray' direction={'column'}> 
+          <Flex alignItems={'center'} width={'85px'} justifyContent={'space-between'}>
+          <Image boxSize={'40px'} borderRadius={'full'} src={userDetails.profile}/>
+          <Text fontSize={'xl'} textAlign={'left'} fontStyle={'italic'} fontWeight={'bold'}>{userDetails.name}</Text>
           </Flex>
+            <Text textAlign={'left'}>{el.content}</Text>
+            {el.picture ? <Image boxSize={'280px'} src={el.picture} /> : ""}
+            <Flex>
+              <Button colorScheme="red">Like</Button>
+              <Button colorScheme="green">Comment</Button>
+            </Flex>
+          </Flex>
+          
         ))}  
          </Box>
       ) : (

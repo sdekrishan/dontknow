@@ -4,7 +4,8 @@ const initialState = {
     posts:[],
     isLoading:false,
     isError:false,
-    profilePosts:[]
+    profilePosts:[],
+    userDetails:[]
 }
 
 const PostReducer = (state = initialState, {type,payload})=>{
@@ -19,7 +20,8 @@ const PostReducer = (state = initialState, {type,payload})=>{
         case(GET_SINGLE_USER_POSTS_SUCCESS):{
             return{
                 ...state,
-                posts:payload,
+                posts:payload.posts,
+                userDetails:payload.user,
                 isLoading:false,
                 isError:false
             }

@@ -6,10 +6,6 @@ const jwt = require('jsonwebtoken');
 const {uploadImage} = require('../middlewears/UploadImg')
 const cloudinary = require('cloudinary').v2;
 
-
-
-
-
 // Configuration 
 cloudinary.config({
   cloud_name: "dwkrorz1k",
@@ -222,16 +218,17 @@ UserRouter.get("/single/:id",async(req,res)=>{
 
 UserRouter.patch("/profile/:id",async(req,res)=>{
   const {id} = req.params;
- const img = req.files.img;
-//  console.log(req);
-  let imgUrl;
+ const img = req.files.file;
+ console.log(img);
+
   try {
       const user = await UserModel.findById(id);
       if(user){
-        const mycloud = await cloudinary.uploader.upload(img.tempFilePath)
-      
+        const mycloud = await cloudinary.uploader.upload(img.tempFilePath);
         await UserModel.findByIdAndUpdate({_id:id},{profile:mycloud.secure_url})
-        res.status(201).send({msg:"img uploaded",pic:mycloud})
+        let newUser = await UserModel.findById(id);
+
+        res.status(201).send({msg:"img updated",user:newUser})
       }else{
         res.status(404).send('user not found')
       }

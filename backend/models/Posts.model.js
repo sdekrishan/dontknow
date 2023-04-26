@@ -6,6 +6,7 @@ userId:{
 },
 content:String,
 likes:Number,
+picture:String,
 comments:[{
    type:mongoose.Schema.Types.ObjectId,ref:"comment"
 }]
