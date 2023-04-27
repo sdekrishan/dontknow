@@ -26,11 +26,12 @@ const Profile = () => {
     // setPictureLoading(true);
     const formData = new FormData();
     formData.append("file", picture);
+    console.log('profile formdata',formData);
     dispatch(changeDpFun(id, formData));
     // setPictureLoading(false);
   };
   return (
-    <>
+  <>
       <Sidebar />
       <Box ml="300px" border="1px solid black" minH={"100vh"}>
         <Flex border="1px solid red" w={"80%"} m="auto" p={"1rem"}>

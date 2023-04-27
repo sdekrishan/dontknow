@@ -1,6 +1,6 @@
 import { Box, Button, Flex,  Image,  SkeletonCircle, SkeletonText, Text } from "@chakra-ui/react";
 import { useSelector } from "react-redux";
-
+import {AiOutlineHeart } from 'react-icons/ai'
 const PostBar = ({data,loading}) => {
 const {userDetails} = useSelector(store=> store.posts)
 console.log(userDetails);
@@ -44,7 +44,9 @@ console.log(data);
             <Text textAlign={'left'}>{el.content}</Text>
             {el.picture ? <Image boxSize={'280px'} src={el.picture} /> : ""}
             <Flex>
-              <Button colorScheme="red">Like</Button>
+              {/* <Button colorScheme="red">Like</Button>
+               */}
+               <AiOutlineHeart/>
               <Button colorScheme="green">Comment</Button>
             </Flex>
           </Flex>

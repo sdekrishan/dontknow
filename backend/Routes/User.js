@@ -179,20 +179,14 @@ UserRouter.get("/unfollowed/:id",async(req,res)=>{
   try {
   const allUsers = await UserModel.find();
   const friends = await UserModel.findById(id);
-  const unfollowedPeople = [];
-  let allfriendsId = allUsers.map((el)=> el._id)
-  console.log(allfriendsId, allUsers);
-  // if(friends.friends.length > 0){
-  //   for(let i = 0; i <  friends.friends.length ; i++){
-  //     for(let j = 0; j < allUsers.length; j++){
-  //       if(friends.friends(i) !== allUsers[j]._id){
-          
-  //       }
-  //   }
-  // }
-
-  // }
-
+  // const unfollowedPeople = [];
+  let unfollowedPeople = allUsers.filter((person)=> {
+    if(!friends.friends.includes(person._id) && person.email!==friends.email ){
+    return person
+  }
+  
+});
+  
   res.status(200).send({unfollowedPeople})
   } catch (error) {
     console.log(error);
@@ -219,7 +213,6 @@ UserRouter.get("/single/:id",async(req,res)=>{
 UserRouter.patch("/profile/:id",async(req,res)=>{
   const {id} = req.params;
  const img = req.files.file;
- console.log(img);
 
   try {
       const user = await UserModel.findById(id);

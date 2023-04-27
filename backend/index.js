@@ -13,13 +13,13 @@ const fileUpload = require('express-fileupload');
 
 mongoose.set('strictQuery', false);
 app.use(express.json());
+app.use(cors({ origin: true }));
+
 app.use(fileUpload({
   useTempFiles:true
 }))
-app.use(cors({ origin: true }));
-
 app.use("/",UserRouter)
-app.use(authentication)
+// app.use(authentication)
 app.use("/posts",PostRouter)
 
 // const server = app.listen(8000,()=>{

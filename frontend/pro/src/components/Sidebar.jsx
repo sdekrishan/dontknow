@@ -1,4 +1,4 @@
-import { Box, Button, Flex, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Text, Textarea, useDisclosure } from "@chakra-ui/react";
+import { Box, Button, Flex, Input, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Text, Textarea, useDisclosure } from "@chakra-ui/react";
 import React, { useState } from "react";
 import {BsPlusSquare, BsFillChatHeartFill, BsPeople, BsSearch } from "react-icons/bs";
 import { BiHomeAlt, BiMenu } from "react-icons/bi";
@@ -6,6 +6,8 @@ import {GrAttachment} from 'react-icons/gr';
 import { CgProfile } from "react-icons/cg";
 import { useLocation, useNavigate } from "react-router-dom";
 import "./Styles/Sidebar.css"
+import { useDispatch, useSelector } from "react-redux";
+import { createNewPost } from "../Redux/Posts/Post.action";
 const linkbar = [
   {
     name: "Home",
@@ -38,7 +40,11 @@ const Sidebar = () => {
   const location = useLocation();
   const { isOpen, onOpen, onClose } = useDisclosure()
   const [active, setActive] = useState(location.pathname);
-  const navigate = useNavigate()
+  const {id} = useSelector(store => store.auth)
+  const [content, setContent] = useState("");
+  const [postImg, setPostImg] = useState("")
+  const navigate = useNavigate();
+  const dispatch = useDispatch()
   const handleClick = (el)=>{
     setActive(el.name);
     navigate(`${el.route}`);
@@ -47,6 +53,21 @@ const Sidebar = () => {
     setActive('Create Post')
     onOpen()
   }
+  const handleContent = (e) =>{
+    setContent(e.target.value)
+  }
+const handleImage = (e) =>{
+   setPostImg(e.target.files[0]);
+}
+  const handleSubmitPost = () =>{
+    console.log('content',content);
+    const formData = new FormData();
+    formData.append("img",postImg)
+    formData.append("content",content)
+    formData.append("id",id)
+    dispatch(createNewPost(id,formData))    
+  }
+
   return (
     <div className="sidebar">
       <Flex alignItems={"center"} justifyContent={"flex-start"} >
@@ -87,8 +108,10 @@ const Sidebar = () => {
          bg={ active === 'Create Post' ? "black" : 'white'}
          color={active === 'Create Post' ? "white" : 'black'} 
          >
-              <Box mr='1rem' ><BsPlusSquare/></Box>
-              <Text fontSize={'lg'}>Create Post</Text>
+          <Box mr='1rem' >
+            <BsPlusSquare/>
+          </Box>
+          <Text fontSize={'lg'}>Create Post</Text>
         </Box>
       </Flex>
       <Modal isOpen={isOpen} onClose={onClose}>
@@ -98,9 +121,10 @@ const Sidebar = () => {
           <ModalCloseButton />
           <ModalBody>
             
-            <Textarea placeholder={'Write Something about your post'}/>
+            <Textarea placeholder={'Write Something about your post'} onChange = {handleContent}/>
             <Box border='1px solid lightgray' padding={'10px'} w='fit-content' borderRadius={'5px'}> 
-        <GrAttachment/>
+            <Input type="file" name='img' onChange={(e)=> handleImage(e)}/>
+
             </Box>
           </ModalBody>
 
@@ -108,7 +132,7 @@ const Sidebar = () => {
             <Button colorScheme='blue' mr={3} onClick={onClose}>
               Close
             </Button>
-            <Button colorScheme="whatsapp">Create</Button>
+            <Button colorScheme="whatsapp" onClick={handleSubmitPost}>Create</Button>
           </ModalFooter>
         </ModalContent>
       </Modal>
