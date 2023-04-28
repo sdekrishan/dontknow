@@ -2,6 +2,7 @@ import { Box, Button, Flex,  Image,  SkeletonCircle, SkeletonText, Text } from "
 import { useSelector } from "react-redux";
 import {AiOutlineHeart } from 'react-icons/ai'
 const PostBar = ({data,loading}) => {
+  
 const {userDetails} = useSelector(store=> store.posts)
 console.log(userDetails);
 if(loading){

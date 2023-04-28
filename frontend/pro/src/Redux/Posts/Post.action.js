@@ -26,9 +26,13 @@ export const getSingleUserProfilePosts = (id,token) => dispatch =>{
 }
 
 
-export const createNewPost = (id,details) => dispatch => {
+export const createNewPost = (id,details,token) => dispatch => {
     dispatch({type:CREATE_POST_REQUEST});
-    return axios.post(`http://localhost:8080/posts/create/${id}`,details)
+    return axios.post(`http://localhost:8080/posts/create/${id}`,details,{
+        headers:{
+            'authorization':token
+        }
+    })
     .then(res => dispatch({type:CREATE_POST_SUCCESS,payload:res.data.post}))
     .catch(err => dispatch({type:CREATE_POST_ERROR}))
 }

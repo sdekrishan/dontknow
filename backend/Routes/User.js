@@ -111,17 +111,16 @@ UserRouter.get("/:id",async(req,res)=>{
 
 
 //for sending friend Requests
-
 UserRouter.patch("/follow/:id",async(req,res)=>{
   const {id} = req.params
   const {followId} = req.body;
 
   try {
-  const user = await UserModel.findOne({_id:id})  ;
-  console.log(user);
-  let allFriends = user.friends;
-  const newUser = await UserModel.findByIdAndUpdate({_id:id},{friends:[...allFriends,followId]});
-  res.status(200).send("followed")
+  const user = await UserModel.findOne({_id:id});
+  await UserModel.findByIdAndUpdate({_id:id},{friends:[...user.friends,followId]});
+  let newUser  = await UserModel.findById(id)
+  res.status(200).send({msg:'follwing the people',users:newUser})
+  
   } catch (error) {
     res.status(500).send("something went wrong")
   }
@@ -179,7 +178,6 @@ UserRouter.get("/unfollowed/:id",async(req,res)=>{
   try {
   const allUsers = await UserModel.find();
   const friends = await UserModel.findById(id);
-  // const unfollowedPeople = [];
   let unfollowedPeople = allUsers.filter((person)=> {
     if(!friends.friends.includes(person._id) && person.email!==friends.email ){
     return person

@@ -40,7 +40,7 @@ const Sidebar = () => {
   const location = useLocation();
   const { isOpen, onOpen, onClose } = useDisclosure()
   const [active, setActive] = useState(location.pathname);
-  const {id} = useSelector(store => store.auth)
+  const {id,token} = useSelector(store => store.auth)
   const [content, setContent] = useState("");
   const [postImg, setPostImg] = useState("")
   const navigate = useNavigate();
@@ -65,7 +65,7 @@ const handleImage = (e) =>{
     formData.append("img",postImg)
     formData.append("content",content)
     formData.append("id",id)
-    dispatch(createNewPost(id,formData))    
+    dispatch(createNewPost(id,formData,token))    
   }
 
   return (

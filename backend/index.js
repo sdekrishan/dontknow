@@ -19,7 +19,7 @@ app.use(fileUpload({
   useTempFiles:true
 }))
 app.use("/",UserRouter)
-// app.use(authentication)
+app.use(authentication)
 app.use("/posts",PostRouter)
 
 // const server = app.listen(8000,()=>{
