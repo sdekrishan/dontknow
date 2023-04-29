@@ -43,7 +43,7 @@ PostRouter.post("/create/:id",async(req,res)=>{
          const user = await UserModel.findById(id);
          if(user){
            const mycloud = req.files === null ? "" : await cloudinary.uploader.upload(img.tempFilePath);
-        let newPost = new PostModel({userId:postId,picture:mycloud === "" ? mycloud : mycloud.secure_url,content}) 
+        let newPost = new PostModel({userId:postId,userDetails:postId,picture:mycloud === "" ? mycloud : mycloud.secure_url,content}) 
         await newPost.save()
            res.status(201).send({msg:"post has been created",post:newPost})
          }else{
@@ -60,12 +60,17 @@ PostRouter.post("/create/:id",async(req,res)=>{
 
 PostRouter.get("/all/:id",async(req,res)=>{
     const {id} = req.params;
+    console.log('working');
+    console.log('id',id);
     try {
-        const allPosts = await PostModel.find({userId:id});
+        const allPosts = await PostModel.find({userId:id}).populate('userDetails');
         const user = await UserModel.findOne({_id:id});
         const usersFriendsPosts=  await Promise.all(
-            user.friends.map((el)=>PostModel.find({userId:el}))
+            user.friends.map((el)=>PostModel.find({userId:el}).populate('userDetails'))
         )
+        console.log('user',user);
+        console.log('allPosts',allPosts);
+        console.log(usersFriendsPosts);
         res.status(201).send({posts:allPosts.concat(usersFriendsPosts.flat(1)),user:user});
     } catch (error) {
         res.send(error);

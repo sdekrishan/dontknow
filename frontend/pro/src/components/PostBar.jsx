@@ -4,7 +4,7 @@ import {AiOutlineHeart } from 'react-icons/ai'
 const PostBar = ({data,loading}) => {
   
 const {userDetails} = useSelector(store=> store.posts)
-console.log(userDetails);
+console.log('data',data);
 if(loading){
   return <>
     <Text fontSize={'3xl'}>PostBar</Text>
@@ -30,7 +30,7 @@ if(loading){
 </Box>
   </>
 }
-console.log(data);
+console.log('data',data);
   return (
     <>
     <Text fontSize={'3xl'}>PostBar</Text>
@@ -39,8 +39,8 @@ console.log(data);
         {data.length > 0 && data?.map((el,ind)=>(
           <Flex key={ind} w='80%' padding={'1rem'} borderRadius={'1rem'} marginInline={'auto'} h='fit-content' border='1px solid lightgray' direction={'column'}> 
           <Flex alignItems={'center'} width={'85px'} justifyContent={'space-between'}>
-          <Image boxSize={'40px'} borderRadius={'full'} src={userDetails.profile}/>
-          <Text fontSize={'xl'} textAlign={'left'} fontStyle={'italic'} fontWeight={'bold'}>{userDetails.name}</Text>
+          <Image boxSize={'40px'} borderRadius={'full'} src={el.userDetails.profile}/>
+          <Text fontSize={'xl'} textAlign={'left'} fontStyle={'italic'} fontWeight={'bold'}>{el.userDetails.name}</Text>
           </Flex>
             <Text textAlign={'left'}>{el.content}</Text>
             {el.picture ? <Image boxSize={'280px'} src={el.picture} /> : ""}
