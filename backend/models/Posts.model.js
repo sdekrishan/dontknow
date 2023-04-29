@@ -9,10 +9,17 @@ userDetails:{
     ref:"user"
 },
 content:String,
-likes:Number,
+likes:{
+    type:Array,
+},
 picture:String,
+commentDetails:{
+    type:mongoose.Schema.Types.ObjectId,
+    ref:"user"
+},
 comments:[{
-   type:mongoose.Schema.Types.ObjectId,ref:"comment"
+   userId:String,
+   comment:String,
 }]
 
 });

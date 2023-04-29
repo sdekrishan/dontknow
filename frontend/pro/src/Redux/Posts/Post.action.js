@@ -1,4 +1,4 @@
-import { CREATE_POST_ERROR, CREATE_POST_REQUEST, CREATE_POST_SUCCESS, GET_SINGLE_USER_POSTS_ERROR, GET_SINGLE_USER_POSTS_REQUEST, GET_SINGLE_USER_POSTS_SUCCESS, GET_SINGLE_USER_PROFILE_POSTS_ERROR, GET_SINGLE_USER_PROFILE_POSTS_REQUEST, GET_SINGLE_USER_PROFILE_POSTS_SUCCESS } from "./Post.ActionTypes"
+import { ADD_COMMENT_ERROR, ADD_COMMENT_REQUEST, ADD_COMMENT_SUCCESS, CREATE_POST_ERROR, CREATE_POST_REQUEST, CREATE_POST_SUCCESS, GET_SINGLE_USER_POSTS_ERROR, GET_SINGLE_USER_POSTS_REQUEST, GET_SINGLE_USER_POSTS_SUCCESS, GET_SINGLE_USER_PROFILE_POSTS_ERROR, GET_SINGLE_USER_PROFILE_POSTS_REQUEST, GET_SINGLE_USER_PROFILE_POSTS_SUCCESS, LIKE_ERROR, LIKE_REQUEST, LIKE_SUCCESS } from "./Post.ActionTypes"
 import axios from 'axios';
 //for getting single user posts user+friends post
 export const getSingleUserPosts = (id,token) => dispatch =>{
@@ -35,4 +35,26 @@ export const createNewPost = (id,details,token) => dispatch => {
     })
     .then(res => dispatch({type:CREATE_POST_SUCCESS,payload:res.data.post}))
     .catch(err => dispatch({type:CREATE_POST_ERROR}))
+}
+
+export const likeFunction = (id,postId,token) => dispatch => {
+    dispatch({type:LIKE_REQUEST});
+    return axios.patch(`http://localhost:8080/posts/like/${postId}`,id,{
+        headers:{
+            'authorization':token
+        }
+    })
+    .then(res => dispatch({type:LIKE_SUCCESS,payload:res.data.posts}))
+    .catch(err => dispatch({type:LIKE_ERROR}))
+} 
+
+export const addCommentFun = (id,comment,token) => dispatch => {
+    dispatch({type:ADD_COMMENT_REQUEST});
+    return axios.patch(`http://localhost:8080/posts/comment/${id}`,comment,{
+        headers:{
+            'authorization':token
+        }
+    })
+    .then(res => dispatch({type:ADD_COMMENT_SUCCESS,payload:res.data.posts}))
+    .catch(err => dispatch({type:ADD_COMMENT_ERROR}))
 }

@@ -60,17 +60,12 @@ PostRouter.post("/create/:id",async(req,res)=>{
 
 PostRouter.get("/all/:id",async(req,res)=>{
     const {id} = req.params;
-    console.log('working');
-    console.log('id',id);
     try {
         const allPosts = await PostModel.find({userId:id}).populate('userDetails');
         const user = await UserModel.findOne({_id:id});
         const usersFriendsPosts=  await Promise.all(
             user.friends.map((el)=>PostModel.find({userId:el}).populate('userDetails'))
         )
-        console.log('user',user);
-        console.log('allPosts',allPosts);
-        console.log(usersFriendsPosts);
         res.status(201).send({posts:allPosts.concat(usersFriendsPosts.flat(1)),user:user});
     } catch (error) {
         res.send(error);
@@ -78,5 +73,51 @@ PostRouter.get("/all/:id",async(req,res)=>{
     }
 })
 
+//for liking a post
+
+PostRouter.patch("/like/:id",async(req,res)=>{
+    const {id} = req.params;
+    const {userId} = req.body
+    try {
+        const post = await PostModel.findById(id);
+        const allLikes = post.likes;
+        if(allLikes.includes(userId)){
+            allLikes.splice(allLikes.indexOf(userId),1)
+            await PostModel.findByIdAndUpdate({_id:id},{likes:[...allLikes]})
+
+        }else{
+            await PostModel.findByIdAndUpdate({_id:id},{likes:[...allLikes,userId]})
+        }
+        const allPosts = await PostModel.find({userId:userId}).populate('userDetails');
+        const user = await UserModel.findOne({_id:userId});
+        const usersFriendsPosts=  await Promise.all(
+            user.friends.map((el)=>PostModel.find({userId:el}).populate('userDetails'))
+        )
+        res.status(201).send({posts:allPosts.concat(usersFriendsPosts.flat(1)),user:user});
+        // res.status(201).send("post has been liked")
+    } catch (error) {
+        console.log(error);
+        res.status(400).send(error)
+    }
+})
+
+
+//for commenting 
+
+PostRouter.patch("/comment/:id",async(req,res)=>{
+    const {id} = req.params;
+    const {comment, userId} = req.body
+    try {
+    const post = await PostModel.findById(id);
+    const allComments = post.comments
+        await PostModel.findByIdAndUpdate({_id:id},{comments:[...allComments,{comment,userId}],commentDetails:userId});
+        const allPosts = await PostModel.find().populate("commentDetails")
+        console.log(allPosts);
+        res.status(201).send({msg:'comment has been added to post',posts : allPosts})
+    } catch (error) {
+        console.log(error);
+        res.status(404).send(error)
+    }
+})
 module.exports = {PostRouter}
 
