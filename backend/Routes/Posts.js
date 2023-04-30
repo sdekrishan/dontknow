@@ -64,7 +64,7 @@ PostRouter.get("/all/:id",async(req,res)=>{
         const allPosts = await PostModel.find({userId:id}).populate('userDetails');
         const user = await UserModel.findOne({_id:id});
         const usersFriendsPosts=  await Promise.all(
-            user.friends.map((el)=>PostModel.find({userId:el}).populate('userDetails'))
+            user.friends.map((el)=>PostModel.find({userId:el}).populate('userDetails').populate('commentDetails').exec())
         )
         res.status(201).send({posts:allPosts.concat(usersFriendsPosts.flat(1)),user:user});
     } catch (error) {

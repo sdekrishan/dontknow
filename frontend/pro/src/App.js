@@ -18,12 +18,7 @@ function App() {
 // },[])
   return (
     <div className="App">
-       {/* <div className="sidebar">
-      <Sidebar/>
-    </div> */}
-     <AllRoutes/>
-     {/* <Login/> */}
-     {/* <CheckingRoute/> */}
+     <AllRoutes/> 
     </div>
   );
 }
