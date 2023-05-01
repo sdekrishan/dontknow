@@ -198,7 +198,8 @@ UserRouter.get("/single/:id",async(req,res)=>{
   const {id} = req.params;
 
   try {
-  const user = await UserModel.findOne({_id:id});
+  const user = await UserModel.findOne({_id:id}).populate("friends").populate("requests");
+  console.log(user);
     res.status(200).send(user)
   } catch (error) {
     res.status(404).send("something went wrong")
@@ -229,5 +230,62 @@ UserRouter.patch("/profile/:id",async(req,res)=>{
   }
 })
 
+// for sending friend requests
+
+UserRouter.patch("/request/:senderId",async(req,res)=>{
+  const {senderId} = req.params;
+  const {followId} = req.body
+  try {
+    const user = await UserModel.findByIdAndUpdate(followId,{$push:{requests:senderId}});
+    res.status(200).send("friend request has been sent")
+
+  } catch (error) {
+    console.log(error);
+    res.status(404).send(error)
+  }
+})
+
+// for cancelling the sending friend request
+
+UserRouter.patch("/unrequest/:senderId",async(req,res)=>{
+  const {senderId} = req.params;
+  const {followId} = req.body
+  try {
+    const user = await UserModel.findByIdAndUpdate(followId,{$pull:{requests:senderId}});
+    res.status(200).send("friend request has been unsent")
+
+  } catch (error) {
+    console.log(error);
+    res.status(404).send(error)
+  }
+})
+
+// for accepting friend request
+
+UserRouter.patch("/accept/:id",async(req,res)=>{
+  const {id} =req.params;
+  const {followId} = req.body;
+  try {
+    const user = await UserModel.findByIdAndUpdate(id,{$pull:{requests:followId},$push:{friends:followId}})
+    res.status(201).send(`${followId} has been approved`)
+  } catch (error) {
+    console.log(error);
+    res.status(404).send(error)
+  }
+})
+
+//for cancelling friend request i mean rejecting just like your crush rejects you
+
+UserRouter.patch("/reject/:id",async(req,res)=>{
+  const {id} = req.params;
+  const {followId} = req.body;
+  try {
+    const user = await UserModel.findByIdAndUpdate(id, {$pull:{requests:followId}});
+    res.status(201).send(`${followId} rejected successfully`)
+  } catch (error) {
+    console.log(error);
+    res.status(404).send(error)
+  }
+})
 
 module.exports = {UserRouter}

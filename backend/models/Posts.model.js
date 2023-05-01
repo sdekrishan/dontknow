@@ -13,10 +13,10 @@ likes:{
     type:Array,
 },
 picture:String,
-commentDetails:{
+commentDetails:[{
     type:mongoose.Schema.Types.ObjectId,
     ref:"user"
-},
+}],
 comments:[{
    userId:String,
    comment:String,

@@ -55,6 +55,6 @@ export const addCommentFun = (id,comment,token) => dispatch => {
             'authorization':token
         }
     })
-    .then(res => dispatch({type:ADD_COMMENT_SUCCESS,payload:res.data.posts}))
+    .then(res => dispatch({type:ADD_COMMENT_SUCCESS}))
     .catch(err => dispatch({type:ADD_COMMENT_ERROR}))
 }

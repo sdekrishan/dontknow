@@ -45,6 +45,7 @@ PostRouter.post("/create/:id",async(req,res)=>{
            const mycloud = req.files === null ? "" : await cloudinary.uploader.upload(img.tempFilePath);
         let newPost = new PostModel({userId:postId,userDetails:postId,picture:mycloud === "" ? mycloud : mycloud.secure_url,content}) 
         await newPost.save()
+        
            res.status(201).send({msg:"post has been created",post:newPost})
          }else{
            res.status(404).send('user not found')
@@ -61,11 +62,12 @@ PostRouter.post("/create/:id",async(req,res)=>{
 PostRouter.get("/all/:id",async(req,res)=>{
     const {id} = req.params;
     try {
-        const allPosts = await PostModel.find({userId:id}).populate('userDetails');
+        const allPosts = await PostModel.find({userId:id}).populate('userDetails').populate("commentDetails");
         const user = await UserModel.findOne({_id:id});
         const usersFriendsPosts=  await Promise.all(
-            user.friends.map((el)=>PostModel.find({userId:el}).populate('userDetails').populate('commentDetails').exec())
+            user.friends.map((el)=>PostModel.find({userId:el}).populate("userDetails").populate("commentDetails"))
         )
+        console.log(allPosts.concat(usersFriendsPosts.flat(1)));
         res.status(201).send({posts:allPosts.concat(usersFriendsPosts.flat(1)),user:user});
     } catch (error) {
         res.send(error);
@@ -110,10 +112,11 @@ PostRouter.patch("/comment/:id",async(req,res)=>{
     try {
     const post = await PostModel.findById(id);
     const allComments = post.comments
-        await PostModel.findByIdAndUpdate({_id:id},{comments:[...allComments,{comment,userId}],commentDetails:userId});
-        const allPosts = await PostModel.find().populate("commentDetails")
-        console.log(allPosts);
-        res.status(201).send({msg:'comment has been added to post',posts : allPosts})
+    const allCommentDetails = post.commentDetails
+        await PostModel.findByIdAndUpdate({_id:id},{comments:[...allComments,{comment,userId}],commentDetails:[...allCommentDetails,userId]});
+        // const allPosts = await PostModel.find().populate("commentDetails").populate("userDetails")
+        // console.log(allPosts);
+        res.status(201).send({msg:'comment has been added to post'})
     } catch (error) {
         console.log(error);
         res.status(404).send(error)

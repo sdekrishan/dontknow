@@ -101,11 +101,11 @@ const PostReducer = (state = initialState, {type,payload})=>{
             }
         }
         case(ADD_COMMENT_SUCCESS):{
-            console.log(payload);
+            // console.log(payload);
             return {
                 ...state,
                 isLoading:false,
-                posts:payload
+                // posts:payload
             }
         }
         case(ADD_COMMENT_ERROR):{

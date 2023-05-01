@@ -7,7 +7,7 @@ import { CgProfile } from "react-icons/cg";
 import { useLocation, useNavigate } from "react-router-dom";
 import "./Styles/Sidebar.css"
 import { useDispatch, useSelector } from "react-redux";
-import { createNewPost } from "../Redux/Posts/Post.action";
+import { createNewPost, getSingleUserPosts } from "../Redux/Posts/Post.action";
 const linkbar = [
   {
     name: "Home",
@@ -65,7 +65,12 @@ const handleImage = (e) =>{
     formData.append("img",postImg)
     formData.append("content",content)
     formData.append("id",id)
-    dispatch(createNewPost(id,formData,token))    
+    dispatch(createNewPost(id,formData,token)).then(res => {
+      if(res.type === 'CREATE_POST_SUCCESS'){
+        dispatch(getSingleUserPosts(id,token))
+      }
+    })
+    .catch(err=> console.log(err))    
   }
 
   return (

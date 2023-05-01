@@ -1,58 +1,8 @@
-import {
-  Box,
-  Flex,
-  Image,
-  Input,
-  Modal,
-  ModalBody,
-  ModalCloseButton,
-  ModalContent,
-  ModalHeader,
-  ModalOverlay,
-  SkeletonCircle,
-  SkeletonText,
-  Text,
-  useDisclosure,
-} from "@chakra-ui/react";
-import {
-  BsChatDots,
-  BsFillEmojiFrownFill,
-  BsFillEmojiSmileFill,
-} from "react-icons/bs";
-import { useDispatch, useSelector } from "react-redux";
-import { addCommentFun, likeFunction } from "../Redux/Posts/Post.action";
-import { AiOutlineSend } from "react-icons/ai";
-import { useEffect, useState } from "react";
+import { Box, SkeletonCircle, SkeletonText, Text } from "@chakra-ui/react";
+
+import SinglePost from "./SinglePost";
 
 const PostBar = ({ data, loading }) => {
-  const { isOpen, onOpen, onClose } = useDisclosure();
-  const { userData } = useSelector((store) => store.user);
-  // const [commentLoading, setCommentLoading] = useState(false);
-  // console.log('userData',userData)
-  const [comment, setComment] = useState("");
-  const [currentPost, setCurrentPost] = useState({});
-  const { id, token } = useSelector((store) => store.auth);
-  const {isLoading, posts } = useSelector((store) => store.posts);
-  const dispatch = useDispatch();
-  const handleLikeButton = (postId) => {
-    dispatch(likeFunction(id, postId, token));
-  };
-  // console.log('current Post',currentPost);
-  //for setting the comment
-  const handleComment = (e) => {
-    setComment(e.target.value);
-  };
-  // useEffect(()=>{
-  //   setCurrentPost(posts)
-  // },[posts])
-  const handleSendComment = (post) => {
-    const commentData = { comment, userId: id };
-    // setCommentLoading(true);
-    dispatch(addCommentFun(post._id, commentData, token));
-    setCurrentPost(post)
-    // setCommentLoading(false);
-  };
-
   // console.log('checking',userData._id === currentPost.comments.userId);
   // if(loading){
   //   return <>
@@ -79,75 +29,77 @@ const PostBar = ({ data, loading }) => {
   // </Box>
   //   </>
   // }
-  console.log("posts", posts);
+  console.log('data',data);
   return (
     <>
       <Text fontSize={"3xl"}>PostBar</Text>
       {data ? (
         <Box>
-          {posts.length > 0 &&
-            posts?.map((el, ind) => (
-              <Flex
-                key={ind}
-                w="80%"
-                padding={"1rem"}
-                borderRadius={"1rem"}
-                marginInline={"auto"}
-                h="fit-content"
-                border="1px solid lightgray"
-                direction={"column"}
-              >
-                <Flex
-                  alignItems={"center"}
-                  width={"85px"}
-                  justifyContent={"space-between"}
-                >
-                  <Image
-                    boxSize={"40px"}
-                    borderRadius={"full"}
-                    src={el.userDetails.profile}
-                  />
-                  <Text
-                    fontSize={"xl"}
-                    textAlign={"left"}
-                    fontStyle={"italic"}
-                    fontWeight={"bold"}
-                  >
-                    {el.userDetails.name}
-                  </Text>
-                </Flex>
-                <Text textAlign={"left"}>{el.content}</Text>
-                {el.picture ? <Image boxSize={"280px"} src={el.picture} /> : ""}
-                <Flex
-                  p="1rem"
-                  w="120px"
-                  justifyContent={"space-between"}
-                  alignItems={"center"}
-                  border="1px solid black"
-                >
-                  {/* <BsBalloonHeart size={'2rem'} onClick={()=>handleLikeButton(el._id)} color={el.likes.includes(id)? "red":"black"} /> */}
-                  {el.likes.includes(id) ? (
-                    <BsFillEmojiSmileFill
-                      size={"1.7rem"}
-                      onClick={() => handleLikeButton(el._id)}
-                      color="red"
-                    />
-                  ) : (
-                    <BsFillEmojiFrownFill
-                      size={"1.7rem"}
-                      onClick={() => handleLikeButton(el._id)}
-                      color="green"
-                    />
-                  )}
-                  <BsChatDots
-                    size="1.8rem"
-                    onClick={() => {
-                      setCurrentPost(el);
-                      onOpen();
-                    }}
-                  />
-                </Flex>
-              </Flex>
+          {data.length > 0 &&
+            data?.map((el, ind) => (
+              // <Flex
+              //   key={ind}
+              //   w="80%"
+              //   padding={"1rem"}
+              //   borderRadius={"1rem"}
+              //   marginInline={"auto"}
+              //   h="fit-content"
+              //   border="1px solid lightgray"
+              //   direction={"column"}
+              // >
+              //   <Flex
+              //     alignItems={"center"}
+              //     width={"85px"}
+              //     justifyContent={"space-between"}
+              //   >
+              //     <Image
+              //       boxSize={"40px"}
+              //       borderRadius={"full"}
+              //       src={el.userDetails.profile}
+              //     />
+              //     <Text
+              //       fontSize={"xl"}
+              //       textAlign={"left"}
+              //       fontStyle={"italic"}
+              //       fontWeight={"bold"}
+              //     >
+              //       {el.userDetails.name}
+              //     </Text>
+              //   </Flex>
+              //   <Text textAlign={"left"}>{el.content}</Text>
+              //   {el.picture ? <Image boxSize={"280px"} src={el.picture} /> : ""}
+              //   <Flex
+              //     p="1rem"
+              //     w="120px"
+              //     justifyContent={"space-between"}
+              //     alignItems={"center"}
+              //     border="1px solid black"
+              //   >
+              //     {/* <BsBalloonHeart size={'2rem'} onClick={()=>handleLikeButton(el._id)} color={el.likes.includes(id)? "red":"black"} /> */}
+              //     {el.likes.includes(id) ? (
+              //       <BsFillEmojiSmileFill
+              //         size={"1.7rem"}
+              //         onClick={() => handleLikeButton(el._id)}
+              //         color="red"
+              //       />
+              //     ) : (
+              //       <BsFillEmojiFrownFill
+              //         size={"1.7rem"}
+              //         onClick={() => handleLikeButton(el._id)}
+              //         color="green"
+              //       />
+              //     )}{el.likes.length}
+              //     <BsChatDots
+              //       size="1.8rem"
+              //       onClick={() => {
+              //         setCurrentPost(el);
+              //         onOpen();
+              //       }}
+              //     />
+              //   </Flex>
+
+              // </Flex>
+              <SinglePost postData={el} key={ind} />
             ))}
         </Box>
       ) : (
@@ -156,7 +108,7 @@ const PostBar = ({ data, loading }) => {
           <SkeletonText mt="4" noOfLines={4} spacing="4" skeletonHeight="2" />
         </Box>
       )}
-      <Modal isOpen={isOpen} onClose={onClose} size={"md"}>
+      {/* <Modal isOpen={isOpen} onClose={onClose} size={"md"}>
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>Comments</ModalHeader>
@@ -223,7 +175,7 @@ const PostBar = ({ data, loading }) => {
             
           </ModalBody>
         </ModalContent>
-      </Modal>
+      </Modal>      */}
     </>
   );
 };

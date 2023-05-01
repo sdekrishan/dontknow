@@ -18,7 +18,6 @@ const Home = () => {
     dispatch(getSingleUserDetails(id))
   }, []);
 
-console.log(id,token,posts);
 
   return (
   <>
