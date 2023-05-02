@@ -1,17 +1,22 @@
-import { Box, Button, Flex, Input, Text } from "@chakra-ui/react";
+import { Box, Button, Flex, Grid, Input, Text } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import Sidebar from "./Sidebar";
 import { BsPencil } from "react-icons/bs";
 import { useDispatch, useSelector } from "react-redux";
 import { changeDpFun, getSingleUserDetails } from "../Redux/User/User.Actions";
 import { getSingleUserProfilePosts } from "../Redux/Posts/Post.action";
+import "./Styles/Profile.css"
+import { AiOutlineDelete } from "react-icons/ai";
 
 const Profile = () => {
   const [picture, setPicture] = useState(null);
   const { userData,pictureLoading } = useSelector((store) => store.user);
+  const [hoverBtn, setHoverBtn] = useState("none")
   const dispatch = useDispatch();
   const { id, token } = useSelector((store) => store.auth);
   const { profilePosts } = useSelector((store) => store.posts);
+
+  console.log('profileposts',profilePosts);
   useEffect(() => {
     dispatch(getSingleUserProfilePosts(id, token));
     if (userData) {
@@ -30,6 +35,9 @@ const Profile = () => {
     dispatch(changeDpFun(id, formData));
     // setPictureLoading(false);
   };
+  const bstyle = {
+
+  }
   return (
   <>
       <Sidebar />
@@ -91,19 +99,26 @@ const Profile = () => {
         </Flex>
         <Flex direction="column" border="1px solid black">
           <Text as="h2">All Posts</Text>
+          <Grid templateColumns={'repeat(3,1fr)'} p='1rem' gap='1rem'>
           {profilePosts &&
             profilePosts.map((post, ind) => (
               <Box
-                key={ind}
-                border="1px solid black"
-                padding={"1rem"}
-                borderRadius={"1rem"}
-                w="fit-content"
-                m="1rem auto"
+              key={ind}
+              border="1px solid black"
+              padding={"1rem"}
+              borderRadius={"1rem"}
+              w="full"
+              m="1rem auto"
+              bgImage={`url(${post.picture})`}
+              height={'200px'}
+              className="post-card"              
               >
-                {post.content}
+                <Box display={hoverBtn} bgColor={'white'} p='1rem' borderRadius={'50%'} w='fit-content' className="del_btn">
+                  <AiOutlineDelete/>
+                </Box>
               </Box>
             ))}
+            </Grid>
         </Flex>
       </Box>
     </>

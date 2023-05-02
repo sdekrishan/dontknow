@@ -1,0 +1,8 @@
+.post-card{
+    transition: all 5s ease-in-out;
+    cursor: pointer;
+}
+.post-card:hover .del_btn{
+    display: block;
+    transition: all 2s ease-in-out;
+}

@@ -1,4 +1,5 @@
-import { ADD_COMMENT_ERROR, ADD_COMMENT_REQUEST, ADD_COMMENT_SUCCESS, CREATE_POST_ERROR, CREATE_POST_REQUEST, CREATE_POST_SUCCESS, GET_SINGLE_USER_POSTS_ERROR, GET_SINGLE_USER_POSTS_REQUEST, GET_SINGLE_USER_POSTS_SUCCESS, GET_SINGLE_USER_PROFILE_POSTS_ERROR, GET_SINGLE_USER_PROFILE_POSTS_REQUEST, GET_SINGLE_USER_PROFILE_POSTS_SUCCESS, LIKE_ERROR, LIKE_REQUEST, LIKE_SUCCESS } from "./Post.ActionTypes"
+import { GET_FRIENDS_PROFILE_ERROR, GET_FRIENDS_PROFILE_REQUEST, GET_FRIENDS_PROFILE_SUCCESS } from "../User/User.ActionTypes";
+import { ADD_COMMENT_ERROR, ADD_COMMENT_REQUEST, ADD_COMMENT_SUCCESS, CREATE_POST_ERROR, CREATE_POST_REQUEST, CREATE_POST_SUCCESS, GET_FRIEND_POSTS_ERROR, GET_FRIEND_POSTS_REQUEST, GET_FRIEND_POSTS_SUCCESS, GET_SINGLE_USER_POSTS_ERROR, GET_SINGLE_USER_POSTS_REQUEST, GET_SINGLE_USER_POSTS_SUCCESS, GET_SINGLE_USER_PROFILE_POSTS_ERROR, GET_SINGLE_USER_PROFILE_POSTS_REQUEST, GET_SINGLE_USER_PROFILE_POSTS_SUCCESS, LIKE_ERROR, LIKE_REQUEST, LIKE_SUCCESS } from "./Post.ActionTypes"
 import axios from 'axios';
 //for getting single user posts user+friends post
 export const getSingleUserPosts = (id,token) => dispatch =>{
@@ -11,6 +12,22 @@ export const getSingleUserPosts = (id,token) => dispatch =>{
     })    
     .then(res => dispatch({type:GET_SINGLE_USER_POSTS_SUCCESS,payload:res.data}))
     .catch(err => dispatch({type:GET_SINGLE_USER_POSTS_ERROR}))
+}
+
+//for getting a particular user's posts
+
+export const getFriendPosts = (id,token) => dispatch =>{
+    dispatch({type:GET_FRIEND_POSTS_REQUEST});
+    return axios.get(`http://localhost:8080/posts/${id}`,{
+        headers:{
+            "Content-type":"aplication/json",
+            "authorization":token
+        }
+    })    
+    .then(res => {
+        console.log(res);
+        dispatch({type:GET_FRIEND_POSTS_SUCCESS,payload:res.data})})
+    .catch(err => dispatch({type:GET_FRIEND_POSTS_ERROR}))
 }
 
 export const getSingleUserProfilePosts = (id,token) => dispatch =>{

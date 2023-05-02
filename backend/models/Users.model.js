@@ -26,6 +26,12 @@ friends:[
         ref:"user"
     }
 ],
+sendedRequests:[
+    {
+        type:mongoose.Schema.Types.ObjectId,
+        ref:"user"
+    }
+],
 profile:{
     type:String,
     default:'https://img.freepik.com/free-icon/user_318-563642.jpg'

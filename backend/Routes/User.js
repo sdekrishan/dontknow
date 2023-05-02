@@ -13,11 +13,12 @@ cloudinary.config({
   api_secret: "BROfva11bTlvSZGy1a1eaVGbcbE"
 });
 
-UserRouter.get("/search",  async(req, res) => {
-  // res.send("working")
+UserRouter.get("/search/:id",  async(req, res) => {
+  const {id} = req.params
   try {
     let allusers = await UserModel.find();
-    res.send(allusers);
+    let finalUser = allusers.filter((el) => el._id.toString()!==id)
+    res.send(finalUser);
   } catch (error) {
     console.log(error);
     res.send(error);
@@ -174,17 +175,16 @@ UserRouter.patch("/:id",async(req,res)=>{
 //for getting all unfollowed people
 
 UserRouter.get("/unfollowed/:id",async(req,res)=>{
-  const {id} = req.params
+  const {id} = req.params;
   try {
   const allUsers = await UserModel.find();
   const friends = await UserModel.findById(id);
   let unfollowedPeople = allUsers.filter((person)=> {
-    if(!friends.friends.includes(person._id) && person.email!==friends.email ){
+    if(!friends.friends.includes(person._id) && person.email!==friends.email && !friends.sendedRequests.includes(person._id) ){
     return person
   }
   
 });
-  
   res.status(200).send({unfollowedPeople})
   } catch (error) {
     console.log(error);
@@ -196,14 +196,13 @@ UserRouter.get("/unfollowed/:id",async(req,res)=>{
 
 UserRouter.get("/single/:id",async(req,res)=>{
   const {id} = req.params;
-
   try {
-  const user = await UserModel.findOne({_id:id}).populate("friends").populate("requests");
-  console.log(user);
+    const user = await UserModel.findOne({_id:id}).populate("friends").populate("requests").populate("sendedRequests");
+    console.log('user ',user)
     res.status(200).send(user)
   } catch (error) {
-    res.status(404).send("something went wrong")
     console.log(error);
+    res.status(404).send("something went wrong")
   }
 })
 
@@ -232,13 +231,21 @@ UserRouter.patch("/profile/:id",async(req,res)=>{
 
 // for sending friend requests
 
-UserRouter.patch("/request/:senderId",async(req,res)=>{
-  const {senderId} = req.params;
-  const {followId} = req.body
-  try {
-    const user = await UserModel.findByIdAndUpdate(followId,{$push:{requests:senderId}});
-    res.status(200).send("friend request has been sent")
+UserRouter.patch("/request/:id",async(req,res)=>{
+  const {id} = req.params;
+  const {followId} = req.body;
 
+  try {
+    // sender - when we sending the request we push the id in sendedRequests array
+    await UserModel.findByIdAndUpdate(id,{$push:{sendedRequests:followId}});
+
+    // receiver - the id send by sender should be shown in the requests array
+    await UserModel.findByIdAndUpdate(followId,{$push:{requests:id}});
+
+    // we update the user here so that both the sender and receiver have certain id's.
+    let updatedUser = await UserModel.findById(id)
+
+    res.status(201).send({msg:"friend request has been sent",user:updatedUser})
   } catch (error) {
     console.log(error);
     res.status(404).send(error)
@@ -266,7 +273,11 @@ UserRouter.patch("/accept/:id",async(req,res)=>{
   const {id} =req.params;
   const {followId} = req.body;
   try {
-    const user = await UserModel.findByIdAndUpdate(id,{$pull:{requests:followId},$push:{friends:followId}})
+    // for the accepting user - when we accept a friend request we pull the id from the requests array and push the same in friends array
+    await UserModel.findByIdAndUpdate(id,{$pull:{requests:followId},$push:{friends:followId}})
+
+    // for the sender - when we accept a friend request we should remove the id from the sended Requests array also
+    await UserModel.findByIdAndUpdate(followId,{$push:{friends:id},$pull:{sendedRequests:id}})
     res.status(201).send(`${followId} has been approved`)
   } catch (error) {
     console.log(error);

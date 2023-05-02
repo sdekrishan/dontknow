@@ -9,8 +9,6 @@ const { PostRouter } = require("./Routes/Posts");
 const { authentication } = require("./middlewears/Authentication.middlewear");
 const fileUpload = require('express-fileupload');
 
-
-
 mongoose.set('strictQuery', false);
 app.use(express.json());
 app.use(cors({ origin: true }));
