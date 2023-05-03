@@ -64,6 +64,8 @@ UserRouter.post("/register", async (req, res) => {
   }
 });
 
+//for login 
+
 UserRouter.post("/login",async(req,res)=>{
   const {email,password} = req.body;
   try {
@@ -112,6 +114,7 @@ UserRouter.get("/:id",async(req,res)=>{
 
 
 //for sending friend Requests
+
 UserRouter.patch("/follow/:id",async(req,res)=>{
   const {id} = req.params
   const {followId} = req.body;
@@ -162,10 +165,11 @@ UserRouter.patch("/clear/:id",async(req,res)=>{
 
 UserRouter.patch("/:id",async(req,res)=>{
   const {id} = req.params
-  const {name,gender} = req.body
+  const {name,gender,bio} = req.body
   try {
-    await UserModel.findByIdAndUpdate({_id:id},{name,gender})
-    res.send("user has been updated")
+    await UserModel.findByIdAndUpdate(id,{name,gender,bio})
+    let newUser = await UserModel.findById(id)
+    res.status(201).send({msg:'user has been updated',user:newUser})
   } catch (error) {
     console.log(error);
     res.send(error)

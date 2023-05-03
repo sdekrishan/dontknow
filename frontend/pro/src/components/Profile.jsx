@@ -1,22 +1,53 @@
-import { Box, Button, Flex, Grid, Input, Text } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Flex,
+  FormControl,
+  FormHelperText,
+  FormLabel,
+  Grid,
+  HStack,
+  Input,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
+  Radio,
+  RadioGroup,
+  Text,
+  Textarea,
+  useDisclosure,
+} from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import Sidebar from "./Sidebar";
 import { BsPencil } from "react-icons/bs";
 import { useDispatch, useSelector } from "react-redux";
-import { changeDpFun, getSingleUserDetails } from "../Redux/User/User.Actions";
-import { getSingleUserProfilePosts } from "../Redux/Posts/Post.action";
-import "./Styles/Profile.css"
+import { changeDpFun, getSingleUserDetails, updateUserFun } from "../Redux/User/User.Actions";
+import {
+  deletePost,
+  getSingleUserProfilePosts,
+} from "../Redux/Posts/Post.action";
+import "./Styles/Profile.css";
 import { AiOutlineDelete } from "react-icons/ai";
 
 const Profile = () => {
   const [picture, setPicture] = useState(null);
-  const { userData,pictureLoading } = useSelector((store) => store.user);
-  const [hoverBtn, setHoverBtn] = useState("none")
+  const { userData, pictureLoading } = useSelector((store) => store.user);
+  const [hoverBtn, setHoverBtn] = useState("none");
   const dispatch = useDispatch();
+  const { isOpen, onOpen, onClose } = useDisclosure();
   const { id, token } = useSelector((store) => store.auth);
   const { profilePosts } = useSelector((store) => store.posts);
+  const [form, setForm] = useState({
+    name:`${userData && userData.name !== undefined ? userData.name : ''}`,
+    bio:`${userData && userData.bio !== undefined ? userData.bio : ''}`,
+    gender:`${userData && userData.gender !== undefined ? userData.gender : 'male'}`
+  })
 
-  console.log('profileposts',profilePosts);
+  console.log("profileposts", profilePosts);
   useEffect(() => {
     dispatch(getSingleUserProfilePosts(id, token));
     if (userData) {
@@ -31,15 +62,37 @@ const Profile = () => {
     // setPictureLoading(true);
     const formData = new FormData();
     formData.append("file", picture);
-    console.log('profile formdata',formData);
+    console.log("profile formdata", formData);
     dispatch(changeDpFun(id, formData));
     // setPictureLoading(false);
   };
-  const bstyle = {
+  const deletePostFun = (postId) => {
+    dispatch(deletePost(postId, token)).then((res) => {
+      if (res.type === "DELETE_POST_SUCCESS") {
+        dispatch(getSingleUserProfilePosts(id, token));
+      }
+    });
+  };
 
+
+  // using this method only for radio thing because event.target and name is not working with radio input
+  const handleRadio = (event)=>{
+    setForm({...form,gender:event})
   }
+
+  const handleFormChange = (event) => {
+    const {value,name} = event.target;
+    console.log(event);
+    setForm({...form ,[name]:value})
+  }
+  const handleSubmitForm = (e)=>{
+    e.preventDefault();
+    dispatch(updateUserFun(id,form))
+    console.log('form',form);
+  }
+  console.log("userData", userData);
   return (
-  <>
+    <>
       <Sidebar />
       <Box ml="300px" border="1px solid black" minH={"100vh"}>
         <Flex border="1px solid red" w={"80%"} m="auto" p={"1rem"}>
@@ -75,50 +128,91 @@ const Profile = () => {
             h="max-content"
             ml="2rem"
             w="60%"
+            p="1rem"
             direction={"column"}
             justifyContent={"flex-start"}
             alignItems={"flex-start"}
+            position="relative"
           >
-            <Flex
-              alignItems={"center"}
-              justifyContent={"space-between"}
-              w="full"
+            <Text>{userData ? userData.name : "Name"}</Text>
+            <Text>{userData ? userData.gender : "Not sufficient data"}</Text>
+            <Text>
+              {userData.bio ? userData.bio : "Say something about yourself"}
+            </Text>
+            <Box
+              pos={"absolute"}
+              top="1rem"
+              right={"1rem"}
+              border="1px solid black"
+              onClick={onOpen}
+              padding={".5rem"}
+              borderRadius={"50%"}
             >
-              <Text>{userData ? userData.name : "Name"}</Text>
-              <Button rightIcon={<BsPencil />}>Change Name</Button>
-            </Flex>
-            <Flex
-              alignItems={"center"}
-              justifyContent={"space-between"}
-              w="full"
-            >
-              <Text>{userData ? userData.gender : "Not sufficient data"}</Text>
-              <Button rightIcon={<BsPencil />}>Change Bio</Button>
-            </Flex>
+              <BsPencil size={"1.2rem"} />
+            </Box>
           </Flex>
         </Flex>
+        <Modal isOpen={isOpen} onClose={onClose}>
+          <ModalOverlay />
+          <ModalContent>
+            <ModalHeader>Change Profile</ModalHeader>
+            <ModalCloseButton />
+            <ModalBody>
+              <FormControl >
+                <FormLabel>Name</FormLabel>
+                <Input type="text" defaultValue={userData.name} name='name' onChange={handleFormChange} />
+                <FormLabel>Gender</FormLabel>
+                <RadioGroup defaultValue={`${userData.gender}`} name="gender" onChange={handleRadio}>
+                  <HStack spacing="24px">
+                    <Radio value="male">Men</Radio>
+                    <Radio value="female">Women</Radio>
+                    <Radio value="prefer not to say">Prefer Not to Say</Radio>
+                  </HStack>
+                </RadioGroup>
+                <FormLabel>Bio</FormLabel>
+                <Textarea defaultValue={userData.bio} type="text" name='bio' onChange={handleFormChange} />
+                <FormHelperText>Be Creative !</FormHelperText>
+              
+              
+              {/* <Input type='submit' value='update it !'  colorScheme="facebook"/> */}
+              </FormControl>
+            </ModalBody>
+
+            <ModalFooter>
+              <Button variant="ghost" onClick={handleSubmitForm}>Update It !</Button>
+            </ModalFooter>
+          </ModalContent>
+        </Modal>
         <Flex direction="column" border="1px solid black">
           <Text as="h2">All Posts</Text>
-          <Grid templateColumns={'repeat(3,1fr)'} p='1rem' gap='1rem'>
-          {profilePosts &&
-            profilePosts.map((post, ind) => (
-              <Box
-              key={ind}
-              border="1px solid black"
-              padding={"1rem"}
-              borderRadius={"1rem"}
-              w="full"
-              m="1rem auto"
-              bgImage={`url(${post.picture})`}
-              height={'200px'}
-              className="post-card"              
-              >
-                <Box display={hoverBtn} bgColor={'white'} p='1rem' borderRadius={'50%'} w='fit-content' className="del_btn">
-                  <AiOutlineDelete/>
+          <Grid templateColumns={"repeat(3,1fr)"} p="1rem" gap="1rem">
+            {profilePosts &&
+              profilePosts.map((post, ind) => (
+                <Box
+                  key={ind}
+                  border="1px solid black"
+                  padding={"1rem"}
+                  borderRadius={"1rem"}
+                  w="full"
+                  m="1rem auto"
+                  bgImage={`url(${post.picture})`}
+                  height={"200px"}
+                  className="post-card"
+                >
+                  <Box
+                    display={hoverBtn}
+                    onClick={() => deletePostFun(post._id)}
+                    bgColor={"white"}
+                    p="1rem"
+                    borderRadius={"50%"}
+                    w="fit-content"
+                    className="del_btn"
+                  >
+                    <AiOutlineDelete />
+                  </Box>
                 </Box>
-              </Box>
-            ))}
-            </Grid>
+              ))}
+          </Grid>
         </Flex>
       </Box>
     </>

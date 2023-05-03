@@ -56,6 +56,18 @@ PostRouter.post("/create/:id",async(req,res)=>{
      }
 });
 
+// for deleting a post
+
+PostRouter.delete("/delete/:id",async(req,res)=>{
+    const {id} = req.params;
+    try {
+        await PostModel.findByIdAndDelete(id);
+        res.status(200).send('post has been deleted')
+    } catch (error) {
+        console.log(error);
+        res.status(500).send(error)
+    }
+})
 
 //get all posts 
 

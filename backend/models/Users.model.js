@@ -11,6 +11,9 @@ gender:{
     enum:['male','female','prefer not to say'],
     reqired:true
 },
+bio:{
+type:String
+},
 email:{
     type:String,
     unique:true,

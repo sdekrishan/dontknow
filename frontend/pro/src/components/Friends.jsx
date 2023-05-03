@@ -3,7 +3,6 @@ import React, { useEffect } from 'react'
 import Sidebar from './Sidebar'
 import { useDispatch, useSelector } from 'react-redux'
 import { acceptFriendRequest, getAllUnfollowedFriends, getSingleUserDetails, sendFriendRequest} from '../Redux/User/User.Actions'
-import axios from 'axios'
 
 const Friends = () => {
   const {unfollowedPeople,userData} = useSelector(store=>store.user);
@@ -35,6 +34,7 @@ const Friends = () => {
     dispatch(acceptFriendRequest(id,followId)).then(res => {
       if(res.type ==='FRIEND_REQUEST_SUCCESS'){
         dispatch(getSingleUserDetails(id))
+        dispatch(getAllUnfollowedFriends(id))
       }
     })
 

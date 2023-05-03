@@ -31,18 +31,22 @@ const SinglePost = ({ postData }) => {
   const { userData } = useSelector((store) => store.user);
   const [comment, setComment] = useState("");
   const [currentPost, setCurrentPost] = useState({});
-  const [isLike, setIsLike] = useState(false);
-  const [likesArr , setLikesArr] = useState(postData.likes)
-  const [likes, setLikes] = useState(postData.likes.length)
+  const [likesArr, setLikesArr] = useState(
+    postData.likes !== undefined ? postData.likes : []
+  );
+  const [likes, setLikes] = useState(postData.likes.length);
   const { id, token } = useSelector((store) => store.auth);
   const { isLoading } = useSelector((store) => store.posts);
   const dispatch = useDispatch();
 
-  console.log("userData",userData,"postData",postData);
   const handleLikeButton = (postId) => {
-    setIsLike(!isLike)
-    setLikes(isLike ? likes+1 : likes - 1)
-    setLikesArr(postData.includes(id) ? likesArr.splice(likesArr.indexOf(id),1) : postData.push(id))
+    
+    setLikesArr(
+      likesArr.includes(id)
+        ? likesArr.filter((el) => el !== id)
+        : [...likesArr,id]
+    );
+    
     dispatch(likeFunction(id, postId, token));
   };
 
@@ -122,14 +126,14 @@ const SinglePost = ({ postData }) => {
               color="green"
             />
           )}
-          {likes}
+          {likesArr.length}
           <BsChatDots
             size="1.8rem"
             onClick={() => {
               setCurrentPost(postData);
               onOpen();
             }}
-          />
+          />{postData.comments.length}
         </Flex>
       </Flex>
       <Modal isOpen={isOpen} onClose={onClose} size={"md"}>
@@ -160,7 +164,7 @@ const SinglePost = ({ postData }) => {
             ) : (
               <Box>
                 {currentPost._id &&
-                  currentPost.comments.map((comment,index) => {
+                  currentPost.comments.map((comment, index) => {
                     return (
                       <Box
                         key={comment._id}

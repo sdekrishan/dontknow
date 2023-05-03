@@ -1,5 +1,5 @@
 import { BiStreetView } from "react-icons/bi"
-import { ADD_COMMENT_ERROR, ADD_COMMENT_REQUEST, ADD_COMMENT_SUCCESS, CREATE_POST_ERROR, CREATE_POST_REQUEST, CREATE_POST_SUCCESS, GET_FRIEND_POSTS_ERROR, GET_FRIEND_POSTS_REQUEST, GET_FRIEND_POSTS_SUCCESS, GET_SINGLE_USER_POSTS_ERROR, GET_SINGLE_USER_POSTS_REQUEST, GET_SINGLE_USER_POSTS_SUCCESS, GET_SINGLE_USER_PROFILE_POSTS_ERROR, GET_SINGLE_USER_PROFILE_POSTS_REQUEST, GET_SINGLE_USER_PROFILE_POSTS_SUCCESS, LIKE_ERROR, LIKE_REQUEST, LIKE_SUCCESS } from "./Post.ActionTypes"
+import { ADD_COMMENT_ERROR, ADD_COMMENT_REQUEST, ADD_COMMENT_SUCCESS, CREATE_POST_ERROR, CREATE_POST_REQUEST, CREATE_POST_SUCCESS, DELETE_POST_ERROR, DELETE_POST_REQUEST, DELETE_POST_SUCCESS, GET_FRIEND_POSTS_ERROR, GET_FRIEND_POSTS_REQUEST, GET_FRIEND_POSTS_SUCCESS, GET_SINGLE_USER_POSTS_ERROR, GET_SINGLE_USER_POSTS_REQUEST, GET_SINGLE_USER_POSTS_SUCCESS, GET_SINGLE_USER_PROFILE_POSTS_ERROR, GET_SINGLE_USER_PROFILE_POSTS_REQUEST, GET_SINGLE_USER_PROFILE_POSTS_SUCCESS, LIKE_ERROR, LIKE_REQUEST, LIKE_SUCCESS } from "./Post.ActionTypes"
 
 const initialState = {
     posts:[],
@@ -132,6 +132,24 @@ const PostReducer = (state = initialState, {type,payload})=>{
             return {
                 ...state,
                 isLoading:false,
+                isError:true
+            }
+        }
+        case(DELETE_POST_REQUEST):{
+            return{
+                ...state,
+                isLoading:true
+            }
+        }
+        case(DELETE_POST_SUCCESS):{
+            return {
+                ...state,
+                isLoading:false
+            }
+        }
+        case(DELETE_POST_ERROR):{
+            return{
+                ...state,
                 isError:true
             }
         }
