@@ -20,6 +20,7 @@ import {
   BsFillChatHeartFill,
   BsPeople,
   BsSearch,
+  BsChat,
 } from "react-icons/bs";
 import { BiHomeAlt, BiMenu } from "react-icons/bi";
 import { GrAttachment } from "react-icons/gr";
@@ -32,6 +33,7 @@ import {
   getSingleUserPosts,
   getSingleUserProfilePosts,
 } from "../Redux/Posts/Post.action";
+import ProfileIcon from "../Assets/ProfileIcon";
 const linkbar = [
   {
     name: "Home",
@@ -49,9 +51,14 @@ const linkbar = [
     icon: <BsPeople />,
   },
   {
+    name:"Chats",
+    route:"/chat",
+    icon:<BsChat/>
+  },
+  {
     name: "Profile",
     route: "/profile",
-    icon: <CgProfile />,
+    icon: <ProfileIcon />,
   },
   {
     name: "More",

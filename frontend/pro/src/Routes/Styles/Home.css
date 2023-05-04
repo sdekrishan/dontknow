@@ -1,7 +1,8 @@
 .maindiv{
     /* border:3px solid brown; */
     display: flex;
-    width: calc(100%-30vw);
+    /* width: calc(100%-30vw); */
+    width:75vw;
     min-height: 100vh;
     margin-left: 25vw;
 }

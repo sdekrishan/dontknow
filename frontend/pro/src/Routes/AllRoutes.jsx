@@ -10,6 +10,7 @@ import Profile from '../components/Profile'
 import Friends from '../components/Friends'
 import CheckingRoute from '../components/CheckingRoute'
 import ViewProfile from '../components/ViewProfile'
+import Chats from '../components/Chats'
 const AllRoutes = () => {
   return (
     <Routes>
@@ -21,6 +22,8 @@ const AllRoutes = () => {
     <Route path="/more" element={<More/>}>Search</Route>
     <Route path="/about" element={<About/>}>About</Route>
     <Route path="/" element={<Login/>}>Login</Route>
+    <Route path='/chat/:id' element={<Chats/>}></Route>
+    <Route path='/chat' element={<Chats/>}></Route>
     {/* <Route path="*" element={}/> */}
 </Routes>
   )
