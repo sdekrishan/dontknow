@@ -8,6 +8,8 @@ const mongoose = require("mongoose");
 const { PostRouter } = require("./Routes/Posts");
 const { authentication } = require("./middlewears/Authentication.middlewear");
 const fileUpload = require('express-fileupload');
+const { MessageRoute } = require("./Routes/Message");
+const { ChatRoute } = require("./Routes/Chat");
 
 mongoose.set('strictQuery', false);
 app.use(express.json());
@@ -16,8 +18,11 @@ app.use(cors({ origin: true }));
 app.use(fileUpload({
   useTempFiles:true
 }))
+
 app.use("/",UserRouter)
-app.use(authentication)
+app.use("/message",MessageRoute)
+app.use("/chat",ChatRoute)
+app.use(authentication) // authorization middlewear
 app.use("/posts",PostRouter)
 
 const server = app.listen(8000,()=>{
