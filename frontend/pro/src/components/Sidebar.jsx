@@ -70,7 +70,7 @@ const Sidebar = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const handleClick = (el) => {
-    setActive(el.name);
+    setActive(el.route);
     navigate(`${el.route}`);
   };
   const handleCreatePost = () => {
@@ -83,6 +83,7 @@ const Sidebar = () => {
   const handleImage = (e) => {
     setPostImg(e.target.files[0]);
   };
+  console.log('active',active);
   const handleSubmitPost = () => {
     const formData = new FormData();
     formData.append("img", postImg);

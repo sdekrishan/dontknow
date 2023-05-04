@@ -33,7 +33,7 @@ const SearchBar = () => {
   return (
     <>
     <Sidebar/>
-    <Box ml='300px'>
+    <Box ml='25vw'>
     <Input placeholder='Enter People Name' w='60%' marginInline={'auto'} value={query} onChange={(e)=>handleChange(e)}/>
     {/* <Button></Button> */}
     

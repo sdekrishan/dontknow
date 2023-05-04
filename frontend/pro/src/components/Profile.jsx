@@ -94,7 +94,7 @@ const Profile = () => {
   return (
     <>
       <Sidebar />
-      <Box ml="300px" border="1px solid black" minH={"100vh"}>
+      <Box ml="25vw" border="1px solid black" minH={"100vh"}>
         <Flex border="1px solid red" w={"80%"} m="auto" p={"1rem"}>
           <Box border="1px solid green" w="40%" padding={"1rem"}>
             <Box

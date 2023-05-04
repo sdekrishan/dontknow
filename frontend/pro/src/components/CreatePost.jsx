@@ -6,7 +6,7 @@ const CreatePost = () => {
     return (
         <>
         <Sidebar/>
-        <Box ml='300px'>
+        <Box ml='25vw'>
         CreatePost
         </Box>
         </>

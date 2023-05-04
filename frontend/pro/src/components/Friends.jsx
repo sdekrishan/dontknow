@@ -10,10 +10,7 @@ const Friends = () => {
   const dispatch = useDispatch();
 
   useEffect(()=>{
-    if(!userData.name){
-      console.log("inside useEffect is working")
-      dispatch(getSingleUserDetails(id))
-    }
+    dispatch(getSingleUserDetails(id))
     dispatch(getAllUnfollowedFriends(id))
   },[])
 
@@ -44,7 +41,7 @@ const Friends = () => {
   return (
     <>
     <Sidebar/>
-    <Grid  ml='300px' templateColumns={'repeat(2,1fr)'} gap='1rem'>
+    <Grid  ml='25vw' templateColumns={'repeat(2,1fr)'} gap='1rem'>
       <Box border={'1px solid black'} className='requests'>
         <Text align='center'>Friend's Requests</Text>
         {

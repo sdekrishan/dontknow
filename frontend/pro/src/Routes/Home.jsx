@@ -6,7 +6,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { getSingleUserPosts } from "../Redux/Posts/Post.action";
 import Sidebar from "../components/Sidebar";
 import {
-  getFriendProfile,
   getSingleUserDetails,
 } from "../Redux/User/User.Actions";
 const Home = () => {

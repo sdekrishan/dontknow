@@ -6,7 +6,7 @@ const More = () => {
   return (
     <>
     <Sidebar/>
-    <Box ml='300px'>More</Box>
+    <Box ml='25vw'>More</Box>
     </>
   )
 }

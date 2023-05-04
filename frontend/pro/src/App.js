@@ -1,21 +1,22 @@
 import { useEffect, useState } from 'react';
 import './App.css';
 import AllRoutes from './Routes/AllRoutes';
-import Home from './Routes/Home';
 import {io} from 'socket.io-client'
-import Sidebar from './components/Sidebar';
-import CheckingRoute from './components/CheckingRoute';
-const link = 'http://localhost:5000';
+const link = 'http://localhost:8000';
 function App() {
   const [messages, setMessages] = useState([]);
 
-// useEffect(()=>{
-//   let socket = io(link);
-//   socket.emit('setup','ramkrishan')
-//   socket.on("connection",()=>{
-//     console.log(socket.id)
-//   })
-// },[])
+useEffect(()=>{
+  let socket = io(link);
+  socket.emit('setup','ramkrishan')
+  socket.on("connect",()=>{
+    console.log(socket.id)
+    console.log('connected');
+  })
+  // socket.on("connection",()=>{
+  //   console.log('connected');
+  // })
+},[])
   return (
     <div className="App">
      <AllRoutes/> 

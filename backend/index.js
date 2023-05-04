@@ -20,9 +20,11 @@ app.use("/",UserRouter)
 app.use(authentication)
 app.use("/posts",PostRouter)
 
-// const server = app.listen(8000,()=>{
-//   console.log('server has been started')
-// });
+const server = app.listen(8000,()=>{
+  console.log('server has been started')
+});
+
+
 app.listen(process.env.port,()=>{
   mongoose.connect(
     process.env.MONGO,
@@ -30,16 +32,20 @@ app.listen(process.env.port,()=>{
   .then(()=>console.log(`server has been connected on ${process.env.port}`))
   .catch(e=>console.log(e));
 })
-// const io = require("socket.io")(server,{
-//   pingTimeout:60000,
-//     cors:{
-//       origin:"http://localhost:3000"
-//     }
-//  });
-// io.on("connection",(socket)=>{
-//   console.log('connected to socket');
-//   socket.on('setup',(userdata)=>{
-//     socket.join(userdata);
-//     socket.emit('connected')
-//   })
-// })
+
+const io = require("socket.io")(server,{
+  pingTimeout:60000,
+    cors:{
+      origin:"http://localhost:3000"
+    }
+ });
+
+ 
+io.on("connection",(socket)=>{
+  console.log('connected to socket');
+  socket.on('setup',(userdata)=>{
+    // socket.join(userdata);
+    console.log('socket',socket);
+    // socket.emit('connected')
+  })
+})
