@@ -18,11 +18,26 @@ ChatRoute.post("/",async(req,res)=>{
 
 //get a new Chat
 
-ChatRoute.get("/:id",async(req,res)=>{
+ChatRoute.get("/single/:id",async(req,res)=>{
     const {id} = req.params;
+    console.log(req.params);
     try {
         const sendChat = await ChatModel.find({members:{$in:[id]}});
         res.status(200).send(sendChat)
+    } catch (error) {
+        console.log(error);
+        res.status(500).send(error)
+    }
+})
+
+// getting a chat related to both user
+
+ChatRoute.get("/getchat/:id/?:senderId",async(req,res)=>{
+    const {senderId} = req.query
+    console.log("req.body",req.params.senderId);
+    try {
+        const userChat = await ChatModel.find({$and:[{members:{$in:[req.params.senderId]}},{members:{$in:[senderId]}}]})
+        res.status(200).send({userChat,already:userChat.length>0 ? true : false})
     } catch (error) {
         console.log(error);
         res.status(500).send(error)

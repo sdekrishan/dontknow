@@ -1,13 +1,17 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Sidebar from "./Sidebar";
 import { Box, Button, Flex, Image, Input, Text } from "@chakra-ui/react";
 import { useDispatch, useSelector } from "react-redux";
 import { getFriendProfile } from "../Redux/User/User.Actions";
 import { BiSend } from "react-icons/bi";
+import axios from "axios";
 
 const Chats = () => {
   const { userData, friendProfile } = useSelector((store) => store.user);
   const dispatch = useDispatch();
+  const [conversation, setConversation] = useState([]);
+  const [messages , setMessages ] = useState([]);
+
   const [friendsData, setFriendsData] = useState(
     friendProfile._id ? friendProfile : {}
   );
@@ -15,7 +19,22 @@ const Chats = () => {
     dispatch(getFriendProfile(friendId)).then((res) =>
       setFriendsData(res.payload)
     );
+    console.log('getchat',userData._id,friendId);
+    const serverPayload = {
+      senderId:userData._id,
+      receiverId:friendId
+    }
+    console.log('serverPayload',serverPayload);
+    axios.get(`http://localhost:8080/chat/getchat/${userData._id}?senderId=${friendId}`)
+    .then(res => console.log("res",res))
+    .catch(err => console.log("err",err))
   };
+
+  //for checking if we have earlier chats or not
+
+  // useEffect(()=>{
+  //   axios.get("/chat/all",{})
+  // },[])
   return (
     <>
       <Sidebar />
