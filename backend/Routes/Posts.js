@@ -79,7 +79,6 @@ PostRouter.get("/all/:id",async(req,res)=>{
         const usersFriendsPosts=  await Promise.all(
             user.friends.map((el)=>PostModel.find({userId:el}).populate("userDetails").populate("commentDetails"))
         )
-        console.log(allPosts.concat(usersFriendsPosts.flat(1)));
         res.status(201).send({posts:allPosts.concat(usersFriendsPosts.flat(1)),user:user});
     } catch (error) {
         res.send(error);

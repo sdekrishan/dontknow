@@ -27,10 +27,8 @@ UserRouter.get("/search/:id",  async(req, res) => {
 
 UserRouter.post("/register", async (req, res) => {
   let { email, name, password, gender } = req.body;
-  console.log(email,name,password);
   try {
     let checkUser =await UserModel.find({email})
-    console.log(checkUser);
     if(checkUser.length===0){
       let regexpression = "[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+[.]+[a-z]{2,3}$";
       let response = email.match(regexpression);
@@ -138,7 +136,6 @@ UserRouter.patch("/unfollow/:id",async(req,res)=>{
   try {
     const user = await UserModel.findById(id);
     const newFriends = user.friends.filter((el)=> el!== followId )
-    console.log("newFriends list ",newFriends);
     await UserModel.findByIdAndUpdate({_id:id},{friends:newFriends});
 
     res.send(`unfollowed successfully`)
@@ -202,7 +199,6 @@ UserRouter.get("/single/:id",async(req,res)=>{
   const {id} = req.params;
   try {
     const user = await UserModel.findOne({_id:id}).populate("friends").populate("requests").populate("sendedRequests");
-    console.log('user ',user)
     res.status(200).send(user)
   } catch (error) {
     console.log(error);

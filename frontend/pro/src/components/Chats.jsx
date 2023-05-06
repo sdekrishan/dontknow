@@ -1,40 +1,69 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Sidebar from "./Sidebar";
 import { Box, Button, Flex, Image, Input, Text } from "@chakra-ui/react";
 import { useDispatch, useSelector } from "react-redux";
 import { getFriendProfile } from "../Redux/User/User.Actions";
 import { BiSend } from "react-icons/bi";
 import axios from "axios";
+import { getMessagesOfChat, sendMessageToFriend } from "../Redux/Chat/Chat.Actions";
+import Message from "./SubComponents/Message";
 
 const Chats = () => {
   const { userData, friendProfile } = useSelector((store) => store.user);
   const dispatch = useDispatch();
-  const [conversation, setConversation] = useState([]);
-  const [messages , setMessages ] = useState([]);
+  const [conversation, setConversation] = useState(null);
+  const {messages} = useSelector(store => store.chat);
+  const [messageInput, setMessageInput] = useState("");
+  const chatBoxRef = useRef(null);
 
   const [friendsData, setFriendsData] = useState(
     friendProfile._id ? friendProfile : {}
   );
+
+  const handleMessageChange = (event) =>{
+    setMessageInput(event.target.value)
+  }
+
   const handleChat = (friendId) => {
     dispatch(getFriendProfile(friendId)).then((res) =>
       setFriendsData(res.payload)
     );
-    console.log('getchat',userData._id,friendId);
-    const serverPayload = {
-      senderId:userData._id,
-      receiverId:friendId
-    }
-    console.log('serverPayload',serverPayload);
-    axios.get(`http://localhost:8080/chat/getchat/${userData._id}?senderId=${friendId}`)
-    .then(res => console.log("res",res))
+    axios.get(`http://localhost:8080/chat/getchat/${userData._id}/${friendId}`)
+    .then(res => {
+      if(res.data.already){
+        console.log('res',res);
+        setConversation(res.data.userChat[0]._id)
+      }else{
+        axios.post("http://localhost:8080/chat",{senderId:userData._id,receiverId:friendId})
+        .then(res => {
+          setConversation(res.data._id)
+        })
+        .catch(err => console.log(err))
+      }
+    })
     .catch(err => console.log("err",err))
+    dispatch(getMessagesOfChat(conversation))
   };
 
-  //for checking if we have earlier chats or not
+  useEffect(()=>{
+    dispatch(getMessagesOfChat(conversation))
+  },[conversation]);
 
-  // useEffect(()=>{
-  //   axios.get("/chat/all",{})
-  // },[])
+  useEffect(()=>{
+    console.log('chatBoxRef.current',chatBoxRef);
+    chatBoxRef?.current?.scrollIntoView({behavior:'smooth'})
+
+  },[messages])
+
+  const handleEnterKey =(event)=>{
+    if(event.key === 'Enter'){
+      dispatch(sendMessageToFriend(conversation,userData?._id,messageInput))
+      setMessageInput('')
+    }
+  }
+console.log('messages',messages);
+console.log('userData',userData);
+
   return (
     <>
       <Sidebar />
@@ -80,9 +109,19 @@ const Chats = () => {
                   />
                   <Text>{friendsData.name}</Text>
                 </Flex>
-                <Box h='81%' className="chat-box"  border='2px solid brown'></Box>
+
+
+                <Box h='81%' className="chat-box" overflowY={'scroll'}  border='2px solid brown' paddingInline={'5px'}>
+                  {messages && messages.map((message)=>{
+                    return <Box key={message._id} ref={chatBoxRef}>
+                      <Message  check={message.senderId === userData._id ? true : false} userMsg={message.text}/>
+                    </Box>
+                  })}
+                </Box>
+
+
                 <Flex h='9%' className="msg-sender" border='1px solid red' position='absolute' bottom='0' left='0' alignItems={'center'} justifyContent={'space-between'} w='full'>
-                    <Input type='text' placeholder="Send Message" />
+                    <Input value={messageInput} onKeyDown={handleEnterKey} onChange={handleMessageChange} type='text' placeholder="Send Message" />
                     <Box p='.5rem' borderRadius={'25%'} border='1px solid black'>
                     <BiSend size='1.3rem' />
                     </Box>

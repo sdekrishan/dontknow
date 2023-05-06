@@ -50,7 +50,6 @@ io.on("connection",(socket)=>{
   console.log('connected to socket');
   socket.on('setup',(userdata)=>{
     // socket.join(userdata);
-    console.log('socket',socket);
     // socket.emit('connected')
   })
 })

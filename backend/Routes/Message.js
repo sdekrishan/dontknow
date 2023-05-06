@@ -4,8 +4,9 @@ const {MessageModel} = require("../models/Message.model")
 
 // for posting a message
 
-MessageRoute.post("/",async(req,res)=>{
-    const {senderId, conversationId, text} = req.body
+MessageRoute.post("/:conversationId",async(req,res)=>{
+    const {conversationId } = req.params
+    const {senderId, text} = req.body
     try {
         const newMessage = new MessageModel({senderId,conversationId,text});
         await newMessage.save();
@@ -18,10 +19,10 @@ MessageRoute.post("/",async(req,res)=>{
 
 // for getting all messages related to a particular user
 
-MessageRoute.get("/:id",async(req,res)=>{
-    const {id} = req.params;
+MessageRoute.get("/:conversationId",async(req,res)=>{
+    const {conversationId} = req.params;
     try {
-        const messages = await MessageModel.find({conversationId:id});
+        const messages = await MessageModel.find({conversationId});
         res.status(201).send(messages)
     } catch (error) {
         console.log(error);
