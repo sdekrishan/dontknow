@@ -18,7 +18,7 @@ import {
   addCommentFun,
   getSingleUserPosts,
   likeFunction,
-} from "../Redux/Posts/Post.action";
+} from "../../Redux/Posts/Post.action";
 import {
   BsChatDots,
   BsFillEmojiFrownFill,
@@ -40,13 +40,12 @@ const SinglePost = ({ postData }) => {
   const dispatch = useDispatch();
 
   const handleLikeButton = (postId) => {
-    
     setLikesArr(
       likesArr.includes(id)
         ? likesArr.filter((el) => el !== id)
-        : [...likesArr,id]
+        : [...likesArr, id]
     );
-    
+
     dispatch(likeFunction(id, postId, token));
   };
 
@@ -133,7 +132,8 @@ const SinglePost = ({ postData }) => {
               setCurrentPost(postData);
               onOpen();
             }}
-          />{postData.comments.length}
+          />
+          {postData.comments.length}
         </Flex>
       </Flex>
       <Modal isOpen={isOpen} onClose={onClose} size={"md"}>

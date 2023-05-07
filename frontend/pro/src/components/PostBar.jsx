@@ -1,6 +1,6 @@
 import { Box, SkeletonCircle, SkeletonText } from "@chakra-ui/react";
 import "./Styles/Postbar.scss";
-import SinglePost from "./SinglePost";
+import SinglePost from "./SubComponents/SinglePost";
 
 const PostBar = ({ data, loading }) => {
   // if(loading){
@@ -33,9 +33,7 @@ const PostBar = ({ data, loading }) => {
       {data ? (
         <div className="postbar_container">
           {data.length > 0 &&
-            data?.map((el, ind) => (
-              <SinglePost postData={el} key={ind} />
-            ))}
+            data?.map((el, ind) => <SinglePost postData={el} key={ind} />)}
         </div>
       ) : (
         <Box padding="6" boxShadow="lg" bg="white">

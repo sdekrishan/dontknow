@@ -1,6 +1,6 @@
 .main_container{
-    max-width: calc(100vw-300px);
+    width: 75vw;
     border:1px solid blue;
-    margin-left: 300px;
+    margin-left: 25vw;
     min-height: 100vh;
 }

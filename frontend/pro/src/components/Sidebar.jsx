@@ -185,7 +185,7 @@ const Sidebar = () => {
 
       {/* for small medium and small screen  */}
 
-      <Flex className="sidebar_linkbar2">
+      <div className="sidebar_linkbar2">
         {smallLinkBar.map((el, ind) => {
           return (
             <Box
@@ -217,7 +217,7 @@ const Sidebar = () => {
             <BsPlusSquare />
           </Box>
         </Box>
-      </Flex>
+      </div>
 
 
       <Modal isOpen={isOpen} onClose={onClose}>

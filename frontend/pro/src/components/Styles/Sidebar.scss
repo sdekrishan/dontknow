@@ -14,11 +14,11 @@
     display: flex;
     justify-content: flex-start;
     align-items: center;
-    border:1px solid black;
     
     @media screen and (max-width:768px) {
       width:100%;
       padding: .5rem;
+      border-bottom: 1px solid lightgrey;
       justify-content: center;
       position: fixed;
       z-index: 10;
@@ -46,22 +46,18 @@
 
  .sidebar_linkbar2{
   display: none;
-
   @media screen and (max-width:768px) {
     display: flex;
-    width: 95%;
+    width: 100%;
     height: fit-content;
     position: fixed;
     padding: .3rem;
-    border-radius: 1rem;
-    border: 1px solid black;
+    border-top: 1px solid lightgray;
     justify-content: space-around;
     align-items: center;
-    margin-inline: auto;  
     z-index: 10;
     background-color: white;
-    top:85%;
-    left:10;
-    // transform: translate(-90%,-50%);
+    bottom: 0;
+    left:0
   }
  }

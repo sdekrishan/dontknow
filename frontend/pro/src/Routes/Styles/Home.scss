@@ -1,24 +1,23 @@
 .maindiv{
     display: flex;
-    width:75vw;
+    max-width:75vw;
     min-height: 100vh;
     margin-left: 25vw;
+    padding:0;
     @media screen and (max-width:768px) {
-        width: 100%;
         width: 100vw;
-        margin-left: 0;
+        margin-inline:auto;
     }
 }
 
 .postdiv{
     width: 60%;
     @media screen and (max-width:768px) {
-        width: 100%;
+        width: 100vw;
     }
 }
 .chatdiv{
     width: 40%;
-    border: 1px solid red;
     @media screen and (max-width:768px) {
         display: none;
     }
