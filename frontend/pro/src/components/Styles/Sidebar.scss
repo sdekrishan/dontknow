@@ -1,16 +1,32 @@
-.sidebar{
+.sidebar_container{
     width: 25vw;
     height: 100vh;
     padding:2rem 1rem;
     border-right: 1px solid lightgray;
     position: fixed;
+    @media screen and (max-width:768px) {
+      display: hidden;
+      border: none;
+    }
   }
-
- .sidebar_mainhead{
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  border:1px solid black
+  
+  .sidebar_mainhead{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    border:1px solid black;
+    
+    @media screen and (max-width:768px) {
+      width:100%;
+      padding: .5rem;
+      justify-content: center;
+      position: fixed;
+      z-index: 10;
+      background-color: white;
+      top:0;
+      left:0;
+      
+    }
  }
 
  .sidebar_mainhead_text{
@@ -29,8 +45,23 @@
  }
 
  .sidebar_linkbar2{
-  display: flex;
-  width: 95%;
-  position: fixed;
-  border: 1px solid black;
+  display: none;
+
+  @media screen and (max-width:768px) {
+    display: flex;
+    width: 95%;
+    height: fit-content;
+    position: fixed;
+    padding: .3rem;
+    border-radius: 1rem;
+    border: 1px solid black;
+    justify-content: space-around;
+    align-items: center;
+    margin-inline: auto;  
+    z-index: 10;
+    background-color: white;
+    top:85%;
+    left:10;
+    // transform: translate(-90%,-50%);
+  }
  }

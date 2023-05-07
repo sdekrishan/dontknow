@@ -14,8 +14,9 @@ const Home = () => {
   const { token, id } = useSelector((store) => store.auth);
 
   useEffect(() => {
-    dispatch(getSingleUserPosts(id, token));
-
+    if(posts){
+      dispatch(getSingleUserPosts(id, token));
+    }
     dispatch(getSingleUserDetails(id));
   }, []);
 

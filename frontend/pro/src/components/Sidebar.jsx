@@ -139,9 +139,7 @@ const Sidebar = () => {
   return (
     <div className="sidebar_container" >
       <div className="sidebar_mainhead" >
-        <p
-        className="sidebar_mainhead_text"
-        >
+        <p className="sidebar_mainhead_text">
           Les'alk
         </p>
         <BsFillChatHeartFill size={"25px"} color="red" />
@@ -190,39 +188,34 @@ const Sidebar = () => {
       <Flex className="sidebar_linkbar2">
         {smallLinkBar.map((el, ind) => {
           return (
-            <Flex
-            className="small_link_bar"
+            <Box
               key={ind}
               onClick={() => handleClick(el)}
-              justifyContent={"flex-start"}
+              justifyContent={"space-around"}
               alignItems="center"
-              mb={"1rem"}
               cursor="pointer"
-              p=".5rem 1rem"
+              p="1rem"
               borderRadius={"1rem"}
               bg={active === el.route ? "black" : "none"}
               color={active === el.route ? "white" : "black"}
             >
-              <Box mr="1rem">{el.icon}</Box>
-            </Flex>
+              <Box >{el.icon}</Box>
+            </Box>
           );
         })}
         <Box
           display={"flex"}
           justifyContent={"flex-start"}
           alignItems="center"
-          mb={"1rem"}
           cursor="pointer"
-          p=".5rem 1rem"
           borderRadius={"1rem"}
           onClick={handleCreatePost}
           bg={active === "Create Post" ? "black" : "white"}
           color={active === "Create Post" ? "white" : "black"}
         >
-          <Box mr="1rem">
+          <Box>
             <BsPlusSquare />
           </Box>
-          <Text fontSize={"lg"}>Create Post</Text>
         </Box>
       </Flex>
 

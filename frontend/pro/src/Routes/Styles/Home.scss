@@ -3,6 +3,11 @@
     width:75vw;
     min-height: 100vh;
     margin-left: 25vw;
+    @media screen and (max-width:768px) {
+        width: 100%;
+        width: 100vw;
+        margin-left: 0;
+    }
 }
 
 .postdiv{
