@@ -22,8 +22,9 @@ import {
 import {
   BsChatDots,
   BsFillEmojiFrownFill,
-  BsFillEmojiSmileFill,
+  BsFillEmojiHeartEyesFill,
 } from "react-icons/bs";
+import "./Styles/SinglePost.scss"
 import { AiOutlineSend } from "react-icons/ai";
 
 const SinglePost = ({ postData }) => {
@@ -70,23 +71,19 @@ const SinglePost = ({ postData }) => {
 
   return (
     <>
-      <Flex
-        w="80%"
-        padding={"1rem"}
-        borderRadius={"1rem"}
-        marginInline={"auto"}
-        h="fit-content"
-        border="1px solid lightgray"
-        direction={"column"}
+      <div
+        className="singlepost_container"
       >
         <Flex
           alignItems={"center"}
-          width={"85px"}
+          width={"max-content"}
+          marginBlock='.7rem'
           justifyContent={"space-between"}
         >
           <Image
             boxSize={"40px"}
             borderRadius={"full"}
+            mr={'.7rem'}
             src={postData.userDetails.profile}
           />
           <Text
@@ -98,44 +95,55 @@ const SinglePost = ({ postData }) => {
             {postData.userDetails.name}
           </Text>
         </Flex>
-        <Text textAlign={"left"}>{postData.content}</Text>
+        <Box w='full'>
         {postData.picture ? (
-          <Image boxSize={"280px"} src={postData.picture} />
+          <Image width={"468px"} borderRadius={'.5rem'} h='auto' src={postData.picture} />
         ) : (
           ""
         )}
+        </Box>
         <Flex
-          p="1rem"
+          paddingInline="1rem"
           w="120px"
           justifyContent={"space-between"}
           alignItems={"center"}
-          border="1px solid black"
+          marginBlock={'.5rem'}
         >
-          {/* <BsBalloonHeart size={'2rem'} onClick={()=>handleLikeButton(el._id)} color={el.likes.includes(id)? "red":"black"} /> */}
           {likesArr.includes(id) ? (
-            <BsFillEmojiSmileFill
-              size={"1.7rem"}
-              onClick={() => handleLikeButton(postData._id)}
-              color="red"
-            />
-          ) : (
-            <BsFillEmojiFrownFill
-              size={"1.7rem"}
-              onClick={() => handleLikeButton(postData._id)}
-              color="green"
-            />
-          )}
+            <Box w={{base:'1.2rem',sm:"1.5rem",md:"1.7rem",lg:"1.7rem"}}>
+              <BsFillEmojiHeartEyesFill
+              size={'100%'}
+                onClick={() => handleLikeButton(postData._id)}
+                color="red"
+              />
           {likesArr.length}
+            </Box>
+          ) : (
+            <Box w={{base:'1.2rem',sm:"1.5rem",md:"1.7rem",lg:"1.7rem"}}>
+              <BsFillEmojiFrownFill
+              size={'100%'}
+                onClick={() => handleLikeButton(postData._id)}
+                color="black"
+              />
+          {likesArr.length}
+            </Box>
+          )}
+          <Box w={{base:'1.2rem',sm:"1.5rem",md:"1.7rem",lg:"1.7rem"}}>
           <BsChatDots
-            size="1.8rem"
+            size="100%"
             onClick={() => {
               setCurrentPost(postData);
               onOpen();
             }}
           />
           {postData.comments.length}
+          </Box>
         </Flex>
-      </Flex>
+        <Flex marginBlock={'.5rem'}> 
+        <Text fontWeight={'bold'} textAlign={"left"}>{userData.name}</Text>
+        <Text ml='1rem' textAlign={"left"}>{postData.content}</Text>
+        </Flex>
+      </div>
       <Modal isOpen={isOpen} onClose={onClose} size={"md"}>
         <ModalOverlay />
         <ModalContent>

@@ -4,13 +4,11 @@ import { useDispatch, useSelector } from 'react-redux'
 import { getAllUnfollowedFriends, getSingleUserDetails, sendFriendRequest } from '../Redux/User/User.Actions';
 import './Styles/Chatbar.scss';
 const Chatbar = () => {
-  const {userData,unfollowedPeople} = useSelector(store => store.user);
+  const {unfollowedPeople} = useSelector(store => store.user);
   const { id } = useSelector(store => store.auth)
   const dispatch = useDispatch()
-  console.log('userData',userData);
   
   const sendFriendRequestFun = (followId) =>{
-    console.log(id,followId);
     dispatch(sendFriendRequest(id,followId)).then(res => {
       if(res.type === 'FRIEND_REQUEST_SUCCESS'){
         dispatch(getAllUnfollowedFriends(id));
@@ -20,6 +18,8 @@ const Chatbar = () => {
       }
     }).catch(err=>console.log('inside error catch',err))
   }
+
+
   return (
     <>
     <div className='chatbar_container'>
@@ -32,7 +32,7 @@ const Chatbar = () => {
               <button onClick={()=>sendFriendRequestFun(el._id)}>Follow</button>
             </div>
           ))
-          : <h1>No people left to follow</h1>
+          : <h1 className='bighead'>No people left to follow</h1>
         }
       </div>
     </>

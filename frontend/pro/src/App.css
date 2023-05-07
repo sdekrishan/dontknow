@@ -8,3 +8,9 @@
 .App-link {
   color: white;
 }
+
+.bighead{
+  font-size: 1.7rem;
+  color:rgba(64,64,64,.4);
+  font-weight: 700;
+}
