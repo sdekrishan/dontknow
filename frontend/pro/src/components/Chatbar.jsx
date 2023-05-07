@@ -2,7 +2,7 @@ import { Box, Button, Flex, Image, Text, useDisclosure } from '@chakra-ui/react'
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { getAllUnfollowedFriends, getSingleUserDetails, sendFriendRequest } from '../Redux/User/User.Actions';
-
+import './Styles/Chatbar.scss';
 const Chatbar = () => {
   const {userData,unfollowedPeople} = useSelector(store => store.user);
   const { id } = useSelector(store => store.auth)
@@ -22,20 +22,19 @@ const Chatbar = () => {
   }
   return (
     <>
-    <Text as={'h1'}>ChatBar</Text>
-    <Box border={'1px solid black'} className='not_in_your_list'>
-      <Text align='center'>People you may know</Text>
+    <div className='chatbar_container'>
+      <h1 className='chatbar_head'>People you may know</h1>
 
         {
           unfollowedPeople.length > 0 ? unfollowedPeople.map((el,ind)=>(
-            <Flex padding={'.4rem'} key={ind} justifyContent={'space-between'} alignItems={'center'} border='1px solid black'>
-              <Text>{el.name}</Text>
-              <Button colorScheme='blue' onClick={()=>sendFriendRequestFun(el._id)}>Follow</Button>
-            </Flex>
+            <div className='chatbar_friend_box' key={ind}>
+              <h3>{el.name}</h3>
+              <button onClick={()=>sendFriendRequestFun(el._id)}>Follow</button>
+            </div>
           ))
           : <h1>No people left to follow</h1>
         }
-      </Box>
+      </div>
     </>
   )
 }

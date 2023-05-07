@@ -8,9 +8,10 @@ const ProfileIcon = () => {
     const {userData } = useSelector(store => store.user);
     const dispatch = useDispatch()
     useEffect(()=>{
+      if(!userData._id){
         dispatch(getSingleUserDetails(id))
+      }
     },[])
-    console.log(userData,'userData');
   return (
     <Image src={`${userData.profile}`} w={'25px'} h={'25px'} borderRadius={'50%'}/>
   )

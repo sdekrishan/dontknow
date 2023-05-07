@@ -1,0 +1,15 @@
+.chatbar_container{
+    border:1px solid black;
+}
+
+.chatbar_head{
+    text-align: center;
+}
+
+.chatbar_friend_box{
+    display: flex;
+    padding: .4rem;
+    justify-content: space-between;
+    align-items: center;
+    border:1px solid black
+}

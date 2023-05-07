@@ -1,0 +1,20 @@
+.maindiv{
+    display: flex;
+    width:75vw;
+    min-height: 100vh;
+    margin-left: 25vw;
+}
+
+.postdiv{
+    width: 60%;
+    @media screen and (max-width:768px) {
+        width: 100%;
+    }
+}
+.chatdiv{
+    width: 40%;
+    border: 1px solid red;
+    @media screen and (max-width:768px) {
+        display: none;
+    }
+}

@@ -1,0 +1,36 @@
+.sidebar{
+    width: 25vw;
+    height: 100vh;
+    padding:2rem 1rem;
+    border-right: 1px solid lightgray;
+    position: fixed;
+  }
+
+ .sidebar_mainhead{
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  border:1px solid black
+ }
+
+ .sidebar_mainhead_text{
+  margin-inline: 1rem;
+  font-size: larger;
+  font-style: italic;
+  text-align: left;
+ }
+
+ .sidebar_linkdiv{
+  padding: 1rem;
+
+  @media screen and (max-width:768px) {
+    display: none;
+  }
+ }
+
+ .sidebar_linkbar2{
+  display: flex;
+  width: 95%;
+  position: fixed;
+  border: 1px solid black;
+ }

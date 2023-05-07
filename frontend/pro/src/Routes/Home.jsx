@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import Chatbar from "../components/Chatbar";
 import PostBar from "../components/PostBar";
-import "./Styles/Home.css";
+import "./Styles/Home.scss";
 import { useDispatch, useSelector } from "react-redux";
 import { getSingleUserPosts } from "../Redux/Posts/Post.action";
 import Sidebar from "../components/Sidebar";
