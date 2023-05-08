@@ -8,6 +8,7 @@ import axios from "axios";
 import { getMessagesOfChat, sendMessageToFriend } from "../Redux/Chat/Chat.Actions";
 import Message from "./SubComponents/Message";
 import {io} from 'socket.io-client';
+import { BsFillCircleFill } from "react-icons/bs";
 const link = 'http://localhost:8000'
 
 const Chats = () => {
@@ -23,9 +24,9 @@ const Chats = () => {
     friendProfile._id ? friendProfile : {}
   );
   const chatBoxRef = useRef(null);
-  const socket = useRef(null)
+  const socket = useRef(null);
+  const chatBoxRefBig = useRef(null)
 
-    console.log('messagesSTate', messageState);
   useEffect(()=>{
     socket.current = io(link);
     socket.current.on("getmsg",(data)=>{
@@ -35,27 +36,25 @@ const Chats = () => {
         text:data.text,
         createdAt:Date.now()
       })
-      console.log('upcom',upcomingMessages);
     })
   },[])
   
+  
   useEffect(()=>{
-    if(!userData.id){
+    upcomingMessages && setMessageState([...messageState,upcomingMessages]);
+    // upcomingMessages && conversation.current?.members.includes(upcomingMessages.senderId) && setMessageState(prev=> [...prev,upcomingMessages])
+  },[upcomingMessages])
+  
+  useEffect(()=>{
+    if(!userData._id){
       console.log('userData inside useEffect',userData);
       dispatch(getSingleUserDetails(id))
     }
   },[])
-  
-  useEffect(()=>{
-    setMessageState([...messageState,upcomingMessages]);
-    // upcomingMessages && conversation.current?.members.includes(upcomingMessages.senderId) && setMessageState(prev=> [...prev,upcomingMessages])
-  },[upcomingMessages,conversation.current])
-
 
   useEffect(()=>{
     socket.current?.emit("adduser",userData._id)
     socket.current?.on("getuser",(users)=>{
-      console.log('getuser chat ',users);
      userData.friends && setOnlineFriends(userData.friends.filter(user => users.some((person)=> person.userId === user._id)))
   })
 },[userData])
@@ -96,6 +95,7 @@ useEffect(()=>{
 
   useEffect(()=>{
     chatBoxRef?.current?.scrollIntoView({behavior:'smooth'})
+    chatBoxRefBig?.current?.scrollIntoView({behavior:'smooth'})
   },[messageState])
 
 
@@ -103,9 +103,6 @@ useEffect(()=>{
     if(event.key === 'Enter'){
       const receiverId = conversation.current?.members.find(member => member!== userData._id)
       socket.current.emit("sendMessage",({senderId:userData._id,receiverId,text:messageInput}))
-      // axios.post(`http://localhost:8080/message/${conversation.current?._id}`,{senderId:userData._id,text:messageInput})
-      // .then(res => setMessageState([...messageState,res.payload]))
-      // .catch(err => console.log(err))
       dispatch(sendMessageToFriend(conversation.current._id,userData?._id,messageInput)).then(res => setMessageState([...messageState,res.payload]))
       setMessageInput('')
     }
@@ -115,9 +112,6 @@ useEffect(()=>{
     const receiverId = conversation.current.members.find(member => member!== userData._id)
     socket.current.emit("sendMessage",({senderId:userData._id,receiverId,text:messageInput}))  
     dispatch(sendMessageToFriend(conversation.current._id,userData?._id,messageInput))
-    // axios.post(`http://localhost:8080/message/${conversation.current?._id}`,{senderId:userData._id,text:messageInput})
-    //   .then(res => setMessageState([...messageState,res.payload]))
-    //   .catch(err => console.log(err))
     setMessageInput("")
   }
  
@@ -125,17 +119,30 @@ useEffect(()=>{
   return (
     <>
       <Sidebar />
-      <Box ml="25vw" border="1px solid black" p="1rem" minH={"100vh"}>
-        <Flex border="1px solid red" h="90vh">
-          <Box border={"1px solid green"} w="35%">
-            {userData.friends &&
-              userData.friends.map((friend) => (
+      <Box ml="25vw" p="1rem" minH={"100vh"} display={{base:'none',sm:"none",md:"block"}}>
+        <Flex h="90vh" borderRadius={'.5rem'} border='1px solid lightgrey'>
+          <Box w="35%" overflowY={'scroll'} p='.5rem'>
+            
+            <Flex gap='.5rem' alignItems={'center'} borderBottom='1px solid lightgrey' p='.3rem'>
+              <Image src={userData.name && userData.profile} w='40px' h='40px' borderRadius={'50%'}/>
+              <Text fontSize={'1.2rem'} fontWeight={'semibold'} fontStyle={"oblique"} >{userData.name && userData.name}</Text>
+            </Flex>
+            
+            <Flex alignItems={'center'} gap='.3rem' mt='.5rem'>
+            <Text className="text">Online Friends </Text>
+            <Box><BsFillCircleFill color="#05B714" size={'10px'} /></Box>
+            </Flex>
+            <Box marginBlock={'1rem'} pb='1rem'>
+            {onlineFriends &&
+              onlineFriends.map((friend) => (
                 <Flex
                   key={friend._id}
-                  p="1rem"
-                  border="1px solid black"
-                  w="fit-content"
+                  p=".6rem"
+                  w="full"
+                  borderBottom={'1px solid lightgrey'}
+                  alignItems={'center'}
                   onClick={() => handleChat(friend._id)}
+                  gap='1rem'
                 >
                   <Image
                     src={friend.profile}
@@ -143,20 +150,49 @@ useEffect(()=>{
                     h="30px"
                     borderRadius={"50%"}
                   />
-                  <Text>{friend.name}</Text>
+                 <Flex alignItems={'center'} gap='.3rem'>
+            <Text className="text">{friend.name}</Text>
+            <Box><BsFillCircleFill color="#05B714" size={'10px'} /></Box>
+            </Flex>
                 </Flex>
               ))}
           </Box>
+
+          <Box marginBlock={'1rem'} pb='1rem'>
+            <Text className="text" textAlign={'left'}>All Friends</Text>
+            {userData.friends &&
+              userData.friends.map((friend) => (
+                <Flex
+                  key={friend._id}
+                  p=".5rem"
+                  borderBottom="1px solid lightgrey"
+                  alignItems={'center'}
+                  gap='1rem'
+                  onClick={() => handleChat(friend._id)}
+                >
+                  <Image
+                    src={friend.profile}
+                    w="40px"
+                    h="40px"
+                    borderRadius={"50%"}
+                  />
+                  <Text className="text">{friend.name}</Text>
+                </Flex>
+              ))}
+          </Box>
+
+          </Box>
+          <Box position={'relative'} border='1px solid black' w='65%'>
             {friendsData._id ? (
-          <Box border="1px solid brown" w="65%" position={'relative'} >
-                
+                <>
                 <Flex 
                 p=".7rem"
                 postition='absolute'
                 top={'0'}
                 left='0'
-                border='1px solid black'
+                borderBottom={'1px solid lightgrey'}
                 h='10%'
+                gap='.5rem'
                 alignItems={'center'}
                 >
                   <Image
@@ -169,7 +205,79 @@ useEffect(()=>{
                 </Flex>
 
 
-                <Box h='81%' className="chat-box" overflowY={'scroll'}  border='2px solid brown' paddingInline={'5px'}>
+                <Box h='81%' className="chat-box" overflowY={'scroll'} paddingInline={'5px'}>
+                  {!messageState.includes(null)  && messageState.map((message,index)=>{
+                    return <Box key={index} ref={chatBoxRefBig}>
+                      <Message  check={message.senderId === userData._id ? true : false} userMsg={message.text}/>
+                    </Box>
+                  })}
+                </Box>
+
+
+                <Flex h='9%' className="msg-sender" borderTop='1px solid lightgrey'  position='absolute' bottom='0' left='0' alignItems={'center'} justifyContent={'space-between'} w='full'>
+                    <Input value={messageInput} onKeyDown={handleEnterKey} onChange={handleMessageChange} type='text' placeholder="Send Message" />
+                    <Box p='.5rem' borderRadius={'25%'} >
+                    <BiSend size='1.3rem' onClick={handleSendMessage} />
+                    </Box>
+                </Flex>
+                </>
+            ) : (
+              <Text p='1rem' position={'absolute'} top='50%' left='50%' border='1px solid black'  transform={`translate(-50%,-50%)`} display={'block'} w='full' color='#c1c1c1' fontSize={'2rem'} fontWeight={'bold'} textAlign={'justify'}>Open conversation to Start a Chat 🤩</Text>
+            )}
+            </Box>
+        </Flex>
+      </Box>
+
+
+
+      <Box w='full' h={"80vh"} display={{base:'block',sm:"block",md:"none"}} position={'fixed'} top='3.5rem' left='0' border='1px solid green'> 
+          <Flex overflowX={'scroll'} gap='.5rem' p='.5rem' border='1px solid black' h='12%'>
+      
+            {onlineFriends && userData.friends && onlineFriends.concat(userData.friends).map((friend,index) => (
+                <Flex
+                  key={index}
+                  p="1rem"
+                  mr='.5rem'
+                  w="max-content"
+                  alignItems={'center'}
+                  onClick={() => handleChat(friend._id)}
+                  gap='1rem'
+                >
+                  <Image
+                    src={friend.profile}
+                    w="30px"
+                    h="30px"
+                    borderRadius={"50%"}
+                  />
+                 <Flex alignItems={'center'} gap='.3rem'  p='.3rem'>
+            <Text className="text">{friend.name}</Text>
+            <Box>{onlineFriends.find((userId)=>userId._id === friend._id)?<BsFillCircleFill color="#05B714" size={'10px'} />:<BsFillCircleFill color="black" size={'10px'} />}</Box>
+            </Flex>
+                </Flex>
+              ))}
+
+          </Flex> 
+          <Box border='1px solid blue' w='100%' h='88%'>
+            {friendsData._id ? (
+                <>
+                <Flex 
+                p=".7rem"
+                h='12%'
+                gap='.5rem'
+                mr='.5rem'
+                alignItems={'center'}
+                >
+                  <Image
+                    src={friendsData?.profile}
+                    w="30px"
+                    h="30px"
+                    borderRadius={"50%"}
+                  />
+                  <Text>{friendsData?.name}</Text>
+                </Flex>
+
+
+                <Box h='76%' className="chat-box" overflowY={'scroll'} paddingInline={'5px'}>
                   {!messageState.includes(null)  && messageState.map((message,index)=>{
                     return <Box key={index} ref={chatBoxRef}>
                       <Message  check={message.senderId === userData._id ? true : false} userMsg={message.text}/>
@@ -178,18 +286,19 @@ useEffect(()=>{
                 </Box>
 
 
-                <Flex h='9%' className="msg-sender" border='1px solid red' position='absolute' bottom='0' left='0' alignItems={'center'} justifyContent={'space-between'} w='full'>
+                <Flex h='12%' className="msg-sender" borderTop='1px solid lightgrey' alignItems={'center'} justifyContent={'space-between'} w='full'>
                     <Input value={messageInput} onKeyDown={handleEnterKey} onChange={handleMessageChange} type='text' placeholder="Send Message" />
-                    <Box p='.5rem' borderRadius={'25%'} border='1px solid black'>
+                    <Box p='.5rem' borderRadius={'25%'} >
                     <BiSend size='1.3rem' onClick={handleSendMessage} />
                     </Box>
                 </Flex>
-          </Box>
+                </>
             ) : (
-              <Text>Start a Chat 🤩</Text>
+              <Text p='1rem' position={'absolute'} top='50%' left='50%' border='1px solid black'  transform={`translate(-50%,-50%)`} display={'block'} w='full' color='#c1c1c1' fontSize={'2rem'} fontWeight={'bold'} textAlign={'justify'}>Open conversation to Start a Chat 🤩</Text>
             )}
-        </Flex>
-      </Box>
+            </Box>
+            </Box>
+
     </>
   );
 };

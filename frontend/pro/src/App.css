@@ -1,9 +1,27 @@
+html,body{
+  scroll-behavior: smooth;
+}
+::-webkit-scrollbar {
+  width: 10px;
+}
+/* Track */
+::-webkit-scrollbar-track {
+  background-color: black;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #eaebea;
+  border-radius: 5px;
+  margin-block:auto;
+}
 .App {
   text-align: center;
   /* min-height: 100vh; */
   /* width: 100vw; */
   /* border:1px solid black; */
 }
+
 
 .App-link {
   color: white;
@@ -13,4 +31,40 @@
   font-size: 1.7rem;
   color:rgba(64,64,64,.4);
   font-weight: 700;
+  margin-block:.5rem ;
+
+}
+
+.heading{
+  font-size: 1.2rem;
+  color:black;
+  font-weight: 400;
+  font-style: italic;
+  text-align: left;
+}
+
+.text{
+  font-size: 1rem;
+  color:black;
+  font-weight: 500;
+  font-style: oblique;
+}
+
+@media screen and (max-width:768px) {
+ 
+.heading{
+  font-size: .9rem;
+  color:black;
+  font-weight: 400;
+  font-style: italic;
+  text-align: left; 
+}
+
+.bighead{
+  font-size: 1.2rem;
+  color:rgba(64,64,64,.4);
+  font-weight: 700;
+  margin-block:.5rem ;
+}
+
 }

@@ -8,5 +8,19 @@
     padding: .4rem;
     justify-content: space-between;
     align-items: center;
-    border:1px solid black
+    border-bottom:1px solid lightgrey;
+    margin:.5rem auto;
+    
+}
+.chatbar_friend_subbox{
+    display: flex;
+    height: 40px;
+    align-items: center;
+    gap:1rem;
+}
+.chatbar_friend_button{
+    background-color: #3182CE;
+    padding: .4rem .8rem;
+    border-radius: .4rem;
+    color:white;
 }

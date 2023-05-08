@@ -134,9 +134,8 @@ UserRouter.patch("/unfollow/:id",async(req,res)=>{
   const {id} = req.params;
   const {followId} = req.body
   try {
-    const user = await UserModel.findById(id);
-    const newFriends = user.friends.filter((el)=> el!== followId )
-    await UserModel.findByIdAndUpdate({_id:id},{friends:newFriends});
+    await UserModel.findByIdAndUpdate(id,{$pull:{friends:followId}});
+    await UserModel.findByIdAndUpdate(followId,{$pull:{friends:id}})
 
     res.send(`unfollowed successfully`)
   } catch (error) {
@@ -181,7 +180,7 @@ UserRouter.get("/unfollowed/:id",async(req,res)=>{
   const allUsers = await UserModel.find();
   const friends = await UserModel.findById(id);
   let unfollowedPeople = allUsers.filter((person)=> {
-    if(!friends.friends.includes(person._id) && person.email!==friends.email && !friends.sendedRequests.includes(person._id) ){
+    if(!friends.friends.includes(person._id) && person.email!==friends.email && !friends.sendedRequests.includes(person._id) && !friends.requests.includes(person._id) ){
     return person
   }
   
@@ -258,7 +257,8 @@ UserRouter.patch("/unrequest/:senderId",async(req,res)=>{
   const {senderId} = req.params;
   const {followId} = req.body
   try {
-    const user = await UserModel.findByIdAndUpdate(followId,{$pull:{requests:senderId}});
+    await UserModel.findByIdAndUpdate(followId,{$pull:{requests:senderId}});
+    await UserModel.findByIdAndUpdate(senderId,{$pull:{sendedRequests:followId}})
     res.status(200).send("friend request has been unsent")
 
   } catch (error) {
@@ -291,7 +291,8 @@ UserRouter.patch("/reject/:id",async(req,res)=>{
   const {id} = req.params;
   const {followId} = req.body;
   try {
-    const user = await UserModel.findByIdAndUpdate(id, {$pull:{requests:followId}});
+    await UserModel.findByIdAndUpdate(id, {$pull:{requests:followId}});
+    await UserModel.findByIdAndUpdate(followId,{$pull:{sendedRequests:{id}}})
     res.status(201).send(`${followId} rejected successfully`)
   } catch (error) {
     console.log(error);

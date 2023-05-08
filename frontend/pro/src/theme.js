@@ -11,7 +11,7 @@ const config = {
 
 const breakpoints = {
   sm: '468px',
-  md: '768px',
+  md: '769px',
   lg: '62em',
   xl: '80em',
   '2xl': '96em',

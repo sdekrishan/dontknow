@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { getAllUsers } from '../Redux/User/User.Actions';
-import { Box, Button, Flex, Input, Text } from '@chakra-ui/react';
+import { Box, Button, Flex, Image, Input, Text } from '@chakra-ui/react';
 import Sidebar from './Sidebar';
 import { useNavigate } from 'react-router-dom';
 import { getFriendPosts } from '../Redux/Posts/Post.action';
@@ -13,7 +13,8 @@ const SearchBar = () => {
     const [searchResult, setSearchResult] = useState([])
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const {token } = useSelector(store => store.auth)
+    const {token } = useSelector(store => store.auth);
+    const inputRef = useRef(null)
     useEffect(()=>{
         dispatch(getAllUsers(id));
     },[]);
@@ -33,16 +34,20 @@ const SearchBar = () => {
   return (
     <>
     <Sidebar/>
-    <Box ml='25vw'>
-    <Input placeholder='Enter People Name' w='60%' marginInline={'auto'} value={query} onChange={(e)=>handleChange(e)}/>
-    {/* <Button></Button> */}
+    <Box ml={{base:"0",sm:"0",md:"25vw"}} pt={{base:"4rem",sm:"4rem",md:"2rem"}}>
+        <Box  w={{base:"90%",sm:"90%",md:"60%"}} marginInline={'auto'} >
+    <Input placeholder='Enter People Name' value={query} onChange={(e)=>handleChange(e)}/>
+        </Box>
     
-    <Flex direction={'column'} >
+    <Flex direction={'column'} marginInline='auto' w={{base:"90%",sm:"90%",md:"60%"}}  mt='1rem' alignItems={'center'}>
         {searchResult && searchResult.map((el,ind)=>{
-            return <Flex key={ind} border='1px solid black' padding={'1rem'} borderRadius={"1rem"} w='full' justifyContent={'space-around'}>
-                <Text>
+            return <Flex key={ind} borderBottom='3px solid lightgrey' w='full'  padding={'1rem'} borderRadius={"1rem"} marginInline={'auto'} justifyContent={'space-between'} >
+                <Flex alignItems={'center'} justifyContent={'space-between'} gap='1rem'>
+                    <Image src={el.profile} w='40px'/>
+                <Text className='text'>
                 {el.name}
                 </Text>
+                </Flex>
                 <Button colorScheme='orange' onClick={()=> handleView(el._id)}>View</Button>
             </Flex>
         })}

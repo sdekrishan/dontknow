@@ -22,6 +22,7 @@ import {
   BsSearch,
   BsChat,
 } from "react-icons/bs";
+import {MdPersonSearch} from 'react-icons/md'
 import { BiHomeAlt, BiMenu } from "react-icons/bi";
 import { useLocation, useNavigate } from "react-router-dom";
 import "./Styles/Sidebar.scss";
@@ -65,6 +66,7 @@ const linkbar = [
     route: "/more",
     icon: <BiMenu />,
   },
+  
 ];
 
 //links for small screen
@@ -89,7 +91,7 @@ const smallLinkBar = [
     route: "/profile",
     icon: <ProfileIcon />,//custom icon made for profile 
   },
-  
+
 ]
 
 const Sidebar = () => {
@@ -120,6 +122,10 @@ const Sidebar = () => {
     setPostImg(e.target.files[0]);
   };
 
+  const handleSearchBar = ()=>{
+    navigate("/search")
+  }
+
   const handleSubmitPost = () => {
     const formData = new FormData();
     formData.append("img", postImg);
@@ -143,6 +149,9 @@ const Sidebar = () => {
           Les'alk
         </p>
         <BsFillChatHeartFill size={"25px"} color="red" />
+        <div className="sidebar_search_div" onClick={handleSearchBar}>
+        <MdPersonSearch size={'100%'}/>
+        </div>
       </div>
       <div className="sidebar_linkdiv">
         {linkbar.map((el, ind) => {
@@ -179,7 +188,7 @@ const Sidebar = () => {
           <Box mr="1rem">
             <BsPlusSquare />
           </Box>
-          <Text fontSize={"lg"}>Create Post</Text>
+          <Text fontSize={"lg"}>Create</Text>
         </Box>
       </div>
 
@@ -195,6 +204,7 @@ const Sidebar = () => {
               alignItems="center"
               cursor="pointer"
               p="1rem"
+              
               borderRadius={"1rem"}
               bg={active === el.route ? "black" : "none"}
               color={active === el.route ? "white" : "black"}
@@ -208,12 +218,13 @@ const Sidebar = () => {
           justifyContent={"flex-start"}
           alignItems="center"
           cursor="pointer"
+          zIndex={'100'}
           borderRadius={"1rem"}
           onClick={handleCreatePost}
           bg={active === "Create Post" ? "black" : "white"}
           color={active === "Create Post" ? "white" : "black"}
         >
-          <Box>
+          <Box >
             <BsPlusSquare />
           </Box>
         </Box>

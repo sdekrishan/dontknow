@@ -9,12 +9,25 @@
       border: none;
     }
   }
+
+  .sidebar_search_div{
+    display: none;
+    @media screen and (max-width:768px) {
+      display: block;
+      cursor: pointer;
+      height: 50%;
+      position: absolute;
+      right: 10px;
+    }
+  }
+
+ 
   
   .sidebar_mainhead{
     display: flex;
     justify-content: flex-start;
     align-items: center;
-    
+    position: relative;
     @media screen and (max-width:768px) {
       width:100%;
       padding: .5rem;
@@ -25,7 +38,6 @@
       background-color: white;
       top:0;
       left:0;
-      
     }
  }
 
@@ -56,7 +68,7 @@
     border-top: 1px solid lightgray;
     justify-content: space-around;
     align-items: center;
-    z-index: 10;
+    z-index: 1000;
     background-color: white;
     bottom: 0;
     left:0

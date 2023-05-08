@@ -43,9 +43,14 @@ export const followPeopleFun = (id,followId) => dispatch => {
     .catch(err => dispatch({type:ADD_FRIEND_ERROR}))
 }
 
+export const unfollowFriend = (senderId, followId) => dispatch =>{
+    dispatch({type:FRIEND_REQUEST_REQUEST});
+    return axios.patch(`http://localhost:8080/unfollow/${senderId}`,{followId})
+    .then(res => dispatch({type:FRIEND_REQUEST_SUCCESS}))
+    .catch(err => dispatch({type:FRIEND_REQUEST_ERROR}))
+}
+
 export const sendFriendRequest = (senderId,followId) => dispatch => {
-    console.log('senderId',senderId);
-    console.log('followId',followId);
     dispatch({type:FRIEND_REQUEST_REQUEST});
     return axios.patch(`http://localhost:8080/request/${senderId}`,{followId})
     .then(res => dispatch({type:FRIEND_REQUEST_SUCCESS}))
@@ -55,6 +60,13 @@ export const sendFriendRequest = (senderId,followId) => dispatch => {
 export const cancelSendFriendRequest = (id,followId) => dispatch => {
     dispatch({type:FRIEND_REQUEST_REQUEST});
     return axios.patch(`http://localhost:8080/unrequest/${id}`,{followId})
+    .then(res => dispatch({type:FRIEND_REQUEST_SUCCESS}))
+    .catch(err => dispatch({type:FRIEND_REQUEST_ERROR}))
+}
+
+export const cancelArrivingRequest = (id,followId) => dispatch =>{
+    dispatch({type:FRIEND_REQUEST_REQUEST});
+    return axios.patch(`http://localhost:8080/reject/${id}`,{followId})
     .then(res => dispatch({type:FRIEND_REQUEST_SUCCESS}))
     .catch(err => dispatch({type:FRIEND_REQUEST_ERROR}))
 }
