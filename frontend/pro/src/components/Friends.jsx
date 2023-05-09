@@ -1,6 +1,7 @@
 import { Box, Button, Flex, Grid, Image, Text } from "@chakra-ui/react";
 import React, { useEffect } from "react";
 import Sidebar from "./Sidebar";
+import "./Styles/Friends.scss";
 import { useDispatch, useSelector } from "react-redux";
 import {
   acceptFriendRequest,
@@ -83,180 +84,150 @@ const Friends = () => {
   return (
     <>
       <Sidebar />
-      <Flex
-        ml={{ sm: "0", md: "25vw" }}
-        direction={"column"}
-        mt={{ base: "3rem", sm: "3rem", md: "0" }}
-        mb={{ base: "4.5rem", sm: "4.5rem" }}
-        gap={"1rem"}
-        p="2rem 1rem"
-      >
-        <Box borderBottom={"1px solid black"} className="requests">
-          <Text className="heading">Friend's Requests</Text>
+      <div className="friends__container">
+        <div style={{borderbottom:"1px solid lightgrey"}} className="requests">
+          <h1 className="heading">Friend's Requests</h1>
           {userData?.requests !== undefined && userData.requests.length > 0 ? (
             userData.requests.map((el, ind) => {
               return (
-                <Flex
-                  padding={".4rem"}
+                <div
+                  className="friends__container_post"
                   key={ind}
-                  justifyContent={"space-between"}
-                  alignItems={"center"}
-                  borderBottom="1px solid lightgrey"
-                  cursor={"pointer"}
                 >
-                  <Flex w="fit-content">
-                    <Image
+                  <div style={{display:'flex',width:"fit-content"}}>
+                    <img
+                      alt={el.name}
                       src={el.profile}
-                      w="30px"
-                      h="30px"
-                      mr=".7rem"
-                      borderRadius={"50%"}
+                      className="friends__container_post_img"
                     />
-                    <Text>{el.name}</Text>
-                  </Flex>
-                  <Flex gap={".5rem"}>
-                    <Button
-                      colorScheme="blue"
+                    <h1 className="text">{el.name}</h1>
+                  </div>
+                  <div style={{display:"flex",gap:".5rem"}}>
+                    <button
+                      className="friends__container_post_btn"
                       onClick={() => acceptFriendRequestFun(el._id)}
                     >
                       Follow Back
-                    </Button>
-                    <Button
-                      colorScheme="blue"
+                    </button>
+                    <button
+                    className="friends__container_post_btn"
                       onClick={() => cancelArrivingRequestFun(el._id)}
                     >
                       Cancel
-                    </Button>
-                  </Flex>
-                </Flex>
+                    </button>
+                  </div>
+                </div>
               );
             })
           ) : (
             <h1 className="bighead">No requests now</h1>
           )}
-        </Box>
-        <Box borderBottom={"1px solid black"} className="not_in_your_list">
-          <Text className="heading">People you may know</Text>
+        </div>
+        <div style={{borderbottom:"1px solid lightgrey"}} className="not_in_your_list">
+          <h1 className="heading">People you may know</h1>
 
           {unfollowedPeople.length > 0 ? (
             unfollowedPeople.map((el, ind) => (
-              <Flex
-                padding={".4rem"}
-                key={ind}
-                justifyContent={"space-between"}
-                alignItems={"center"}
-                borderBottom="1px solid lightgrey"
-                cursor={"pointer"}
+              <div
+              className="friends__container_post"
+              key={ind}
               >
-                <Flex w="fit-content">
-                  <Image
-                    src={el.profile}
-                    w="30px"
-                    h="30px"
-                    mr=".7rem"
-                    borderRadius={"50%"}
+                <div style={{display:'flex',width:"fit-content"}}>
+                  <img
+                      alt={el.name}
+                      src={el.profile}
+                      className="friends__container_post_img"
                   />
-                  <Text>{el.name}</Text>
-                </Flex>
-                <Button
-                  colorScheme="blue"
+                  <h1>{el.name}</h1>
+                </div>
+                <button
+                  className="friends__container_post_btn"
                   onClick={() => sendFriendRequestFun(el._id)}
                 >
                   Follow
-                </Button>
-              </Flex>
+                </button>
+              </div>
             ))
           ) : (
             <h1 className="bighead">No people left to follow</h1>
           )}
-        </Box>
-        <Box borderBottom={"1px solid black"} className="friends" >
-          <Text className="heading">Your Friends</Text>
+        </div>
+        <div style={{borderbottom:"1px solid lightgrey"}} className="friends" >
+          <h1 className="heading">Your Friends</h1>
 
           {userData?.friends !== undefined && userData.friends.length > 0 ? (
             userData.friends.map((el, ind) => {
               return (
-                <Flex
-                  padding={".4rem"}
-                  key={ind}
-                  justifyContent={"space-between"}
-                  alignItems={"center"}
-                  borderBottom="1px solid lightgrey"
-                  cursor={"pointer"}
+                <div
+                className="friends__container_post"
+                key={ind}
                 >
-                  <Flex w="fit-content">
-                    <Image
+                  <div style={{display:'flex',width:"fit-content"}}>
+                    <img
+                      alt={el.name}
                       src={el.profile}
-                      w="30px"
-                      h="30px"
-                      mr=".7rem"
-                      borderRadius={"50%"}
+                      className="friends__container_post_img"
                     />
-                    <Text>{el.name}</Text>
-                  </Flex >
-                  <Flex gap='.5rem'>
+                    <h1>{el.name}</h1>
+                  </div >
+                  <div style={{display:"flex",gap:".5rem"}}>
 
-                  <Button
-                    colorScheme="blue"
+                  <button
+                  className="friends__container_post_btn"
                     onClick={() => handleFriend(el._id)}
                     >
                     View
-                  </Button>
-                  <Button colorScheme="blue" onClick={()=>unfollowFriendFun(el._id)}>Unfollow</Button>
-                    </Flex>
-                </Flex>
+                  </button>
+                  <button
+                  className="friends__container_post_btn" onClick={()=>unfollowFriendFun(el._id)}>Unfollow</button>
+                    </div>
+                </div>
               );
             })
           ) : (
             <h1 className="bighead">😥 you have no friends mate</h1>
           )}
-        </Box>
-        <Box borderBottom={"1px solid black"}>
-          <Text className="heading">Requests that you send</Text>
+        </div>
+        <div style={{borderbottom:"1px solid lightgrey"}}>
+          <h1 className="heading">Requests that you send</h1>
           {userData?.sendedRequests !== undefined &&
           userData.sendedRequests.length > 0 ? (
             userData.sendedRequests.map((el, ind) => {
               return (
-                <Flex
-                  padding={".4rem"}
-                  key={ind}
-                  justifyContent={"space-between"}
-                  alignItems={"center"}
-                  borderBottom="1px solid lightgrey"
-                  cursor={"pointer"}
+                <div
+                className="friends__container_post"
+                key={ind}
                 >
-                  <Flex w="fit-content">
-                    <Image
+                  <div style={{display:'flex',width:"fit-content"}}>
+                    <img
+                      alt={el.name}
                       src={el.profile}
-                      w="30px"
-                      h="30px"
-                      mr=".7rem"
-                      borderRadius={"50%"}
+                      className="friends__container_post_img"
                     />
-                    <Text>{el.name}</Text>
-                  </Flex>
-                  <Flex gap=".5rem">
-                    <Button
-                      colorScheme="blue"
+                    <h1>{el.name}</h1>
+                  </div>
+                  <div style={{display:"flex",gap:".5rem"}}>
+                    <button
+                  className="friends__container_post_btn"
                       onClick={() => handleFriend(el._id)}
                     >
                       View
-                    </Button>
-                    <Button
-                      colorScheme="blue"
+                    </button>
+                    <button
+                  className="friends__container_post_btn"
                       onClick={() => cancelSendedRequestFun(el._id)}
                     >
                       Cancel
-                    </Button>
-                  </Flex>
-                </Flex>
+                    </button>
+                  </div>
+                </div>
               );
             })
           ) : (
             <h1 className="bighead"> No Requests sended by you</h1>
           )}
-        </Box>
-      </Flex>
+        </div>
+      </div>
     </>
   );
 };

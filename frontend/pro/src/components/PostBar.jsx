@@ -38,8 +38,7 @@ const PostBar = () => {
 
   useEffect(()=>{
       dispatch(getSingleUserPosts(id,token))
-    
-  },[])
+  },[posts])
   console.log('posts',posts);
   return (
     <>

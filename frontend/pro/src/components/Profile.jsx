@@ -3,10 +3,11 @@ import {
   Button,
   Flex,
   Grid,
+  Image,
   Input,
-  
   Text,
 } from "@chakra-ui/react";
+import "./Styles/Profile.scss";
 import React, { useEffect, useState } from "react";
 import Sidebar from "./Sidebar";
 import { BsPencil } from "react-icons/bs";
@@ -17,7 +18,7 @@ import {
   getSingleUserProfilePosts,
 } from "../Redux/Posts/Post.action";
 import "./Styles/Profile.css";
-import { AiOutlineDelete } from "react-icons/ai";
+import { AiFillEye, AiOutlineDelete } from "react-icons/ai";
 import ProfilePostModal from "./SubComponents/ProfilePostModal";
 import ProfileRenameModal from "./SubComponents/ProfileRenameModal";
 const Profile = () => {
@@ -70,100 +71,85 @@ const Profile = () => {
   return (
     <>
       <Sidebar />
-      <Box ml="25vw" border="1px solid black" minH={"100vh"}>
-        <Flex border="1px solid red" w={"80%"} m="auto" p={"1rem"}>
-          <Box border="1px solid green" w="40%" padding={"1rem"}>
+      <div className="profile_container">
+      {/* borderBottom={'1px solid lightgrey'} w={{base:"100%",sm:"100%",md:"90%"}} m="auto" p={"1rem"} justifyContent={'space-between'} */}
+        <div className="">
+          <Box justifyContent={'space-around'} w='35%' >
             <Box
               className="profile-div"
-              w="200px"
-              m="auto"
-              backgroundPosition={"center"}
-              backgroundRepeat={"no-repeat"}
-              backgroundSize={"cover"}
-              backgroundImage={`url(${userData.profile})`}
-              h="200px"
-              borderRadius={"50%"}
-              objectFit={"fill"}
-              border="1px solid lightgray"
-            ></Box>
-            <Box mt="1rem">
+            >
+              <Image src={userData.profile} borderRadius={'.5rem'} />
+            <Box h='fit-content'>
               <Input type="file" name="img" onChange={(e) => handleFile(e)} />
               <Button
                 isLoading={pictureLoading}
                 colorScheme="red"
+                size={'sm'}
+                borderRadius={'25%'}
                 onClick={updatePicture}
-                size="sm"
               >
-                Change Pic
+                Edit
               </Button>
-              <Button size="sm">Remove Pic</Button>
+            </Box>
             </Box>
           </Box>
           <Flex
-            border="1px solid black"
             h="max-content"
-            ml="2rem"
             w="60%"
-            p="1rem"
             direction={"column"}
             justifyContent={"flex-start"}
             alignItems={"flex-start"}
             position="relative"
+            
           >
-            <Text>{userData ? userData.name : "Name"}</Text>
-            <Text>{userData ? userData.gender : "Not sufficient data"}</Text>
-            <Text>
+            <Text fontSize={{base:".9rem",sm:"1rem",md:"1.2rem"}} fontWeight={'500'} fontStyle={"oblique"} textAlign={'left'}>{userData ? userData.name : "Name"}, {userData ? userData.gender : "Not sufficient data"}</Text>
+            <Text fontSize={{base:".8rem",sm:".9rem",md:"1.1rem"}} fontStyle={"oblique"} textAlign={'left'} fontWeight={'400'}>
               {userData.bio ? userData.bio : "Say something about yourself"}
             </Text>
             <Box
               pos={"absolute"}
-              top="1rem"
-              right={"1rem"}
+              top="0"
+              right={"0"}
               border="1px solid black"
               onClick={handleRenameModalOpen}
               padding={".5rem"}
               borderRadius={"50%"}
             >
-              <BsPencil size={"1.2rem"} />
+              <BsPencil/>
             </Box>
           </Flex>
-        </Flex>
+        </div>
         
         <ProfileRenameModal userData={userData} isOpen={renameModal} onClose={handleRenameModalClose}/>
-        <Flex direction="column" border="1px solid black">
-          <Text as="h2">All Posts</Text>
-          <Grid templateColumns={"repeat(3,1fr)"} p="1rem" gap="1rem">
+        <Flex direction="column" >
+          <Text className="bighead">Posts</Text>
+          <div className="profile_post_container" >
             {profilePosts &&
               profilePosts.map((post, ind) => (
-                <Box
+                <div
                   key={ind}
-                  border="1px solid black"
-                  padding={"1rem"}
-                  borderRadius={"1rem"}
-                  w="full"
-                  m="1rem auto"
-                  bgImage={`url(${post.picture})`}
-                  height={"200px"}
-                  className="post-card"
-                  onClick={()=>handleViewPost(post)}
+                  className="profile_post_container_box"
+                  style={{backgroundImage:`url(${post.picture})`}}
                 >
-                  <Box
-                    display={hoverBtn}
+                  <div
+                    className="container_box_subdiv"
                     onClick={() => deletePostFun(post._id)}
-                    bgColor={"white"}
-                    p="1rem"
-                    borderRadius={"50%"}
-                    w="fit-content"
-                    className="del_btn"
                   >
-                    <AiOutlineDelete />
-                  </Box>
-                </Box>
+                    <AiOutlineDelete  />
+                  </div>
+                  <div
+                    onClick={()=>handleViewPost(post)}
+                   className="container_box_subdiv2"
+                  >
+                    <AiFillEye />
+                  </div>
+
+                </div>
               ))}
               <ProfilePostModal data={singlePostData} isOpen={postOpen} onClose={handleClose} />
-          </Grid>
+          </div>
         </Flex>
-      </Box>
+      </div>
     </>
   );
 };

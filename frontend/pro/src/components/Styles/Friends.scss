@@ -1,0 +1,35 @@
+.friends__container{
+    margin-left: 25vw;
+    display: flex;
+    flex-direction: column;
+    gap:1rem;
+    padding: 2rem 1rem;
+    @media screen and (max-width:768px) {
+        margin-left: 0;
+        margin-bottom: 4.5rem;    
+        margin-top: 3rem;
+    }
+}
+
+.friends__container_post{
+    padding: .4rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid lightgrey;
+    cursor:pointer
+}
+
+.friends__container_post_img{
+    width: 30px;
+    height: 30px;
+    margin-right: .7rem;
+    border-radius: 50%;
+}
+
+.friends__container_post_btn{
+    background-color: #3182CE;
+    padding: .4rem .8rem;
+    border-radius: .4rem;
+    color:white;
+}

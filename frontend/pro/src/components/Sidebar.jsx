@@ -196,7 +196,7 @@ const Sidebar = () => {
 
       {/* for small medium and small screen  */}
 
-      <div className="sidebar_linkbar2">
+      <div className="sidebar_linkbar2" style={{zIndex:"100"}}>
         {smallLinkBar.map((el, ind) => {
           return (
             <Box
@@ -206,7 +206,7 @@ const Sidebar = () => {
               alignItems="center"
               cursor="pointer"
               p="1rem"
-              
+              zIndex={'100'}
               borderRadius={"1rem"}
               bg={active === el.route ? "black" : "none"}
               color={active === el.route ? "white" : "black"}
