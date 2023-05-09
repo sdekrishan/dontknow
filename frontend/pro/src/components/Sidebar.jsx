@@ -99,6 +99,7 @@ const Sidebar = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [active, setActive] = useState(location.pathname);
   const { id, token } = useSelector((store) => store.auth);
+  const [loading ,setLoading] = useState(false)
   const [content, setContent] = useState("");
   const [postImg, setPostImg] = useState("");
   const navigate = useNavigate();
@@ -128,6 +129,7 @@ const Sidebar = () => {
 
   const handleSubmitPost = () => {
     const formData = new FormData();
+    setLoading(true)
     formData.append("img", postImg);
     formData.append("content", content);
     formData.append("id", id);
@@ -136,10 +138,10 @@ const Sidebar = () => {
         if (res.type === "CREATE_POST_SUCCESS") {
           onClose();
           dispatch(getSingleUserPosts(id, token));
-          dispatch(getSingleUserProfilePosts(id, token));
         }
       })
       .catch((err) => console.log(err));
+      setLoading(false)
   };
 
   return (
@@ -255,7 +257,7 @@ const Sidebar = () => {
             <Button colorScheme="blue" mr={3} onClick={onClose}>
               Close
             </Button>
-            <Button colorScheme="whatsapp" onClick={handleSubmitPost}>
+            <Button colorScheme="whatsapp" isLoading={loading} onClick={handleSubmitPost}>
               Create
             </Button>
           </ModalFooter>

@@ -9,23 +9,13 @@ import {
   getSingleUserDetails,
 } from "../Redux/User/User.Actions";
 const Home = () => {
-  const dispatch = useDispatch();
-  const { posts, isLoading } = useSelector((store) => store.posts);
-  const { token, id } = useSelector((store) => store.auth);
-
-  useEffect(() => {
-    if(posts){
-      dispatch(getSingleUserPosts(id, token));
-    }
-    dispatch(getSingleUserDetails(id));
-  }, []);
 
   return (
     <>
       <Sidebar />
       <div className="maindiv">
         <div className="postdiv">
-          <PostBar data={posts} loading={isLoading} />
+          <PostBar />
         </div>
         <div className="chatdiv">
           <Chatbar />

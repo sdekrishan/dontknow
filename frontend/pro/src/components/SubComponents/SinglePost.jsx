@@ -27,6 +27,7 @@ import {
 import "./Styles/SinglePost.scss"
 import { AiOutlineSend } from "react-icons/ai";
 
+
 const SinglePost = ({ postData }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { userData } = useSelector((store) => store.user);
@@ -35,7 +36,6 @@ const SinglePost = ({ postData }) => {
   const [likesArr, setLikesArr] = useState(
     postData.likes !== undefined ? postData.likes : []
   );
-  const [likes, setLikes] = useState(postData.likes.length);
   const { id, token } = useSelector((store) => store.auth);
   const { isLoading } = useSelector((store) => store.posts);
   const dispatch = useDispatch();
@@ -68,7 +68,6 @@ const SinglePost = ({ postData }) => {
       })
       .catch((err) => console.log(err));
   };
-
   return (
     <>
       <div
@@ -140,7 +139,7 @@ const SinglePost = ({ postData }) => {
           </Box>
         </Flex>
         <Flex marginBlock={'.5rem'}> 
-        <Text fontWeight={'bold'} textAlign={"left"}>{userData.name}</Text>
+        <Text fontWeight={'bold'} textAlign={"left"}>{postData.userDetails.name}</Text>
         <Text ml='1rem' textAlign={"left"}>{postData.content}</Text>
         </Flex>
       </div>

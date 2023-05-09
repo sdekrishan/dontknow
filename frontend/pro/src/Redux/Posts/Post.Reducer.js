@@ -10,6 +10,14 @@ const initialState = {
     friendPosts:[]
 }
 
+const shuffleArray = (arr) => {
+    for (let i = arr.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [arr[i], arr[j]] = [arr[j], arr[i]];
+    }
+    return arr;
+  }
+
 const PostReducer = (state = initialState, {type,payload})=>{
     switch(type){
         case(GET_SINGLE_USER_POSTS_REQUEST):{
@@ -20,9 +28,10 @@ const PostReducer = (state = initialState, {type,payload})=>{
             }
         }
         case(GET_SINGLE_USER_POSTS_SUCCESS):{
+            const shuffledArray = shuffleArray(payload.posts)
             return{
                 ...state,
-                posts:payload.posts,
+                posts:shuffledArray,
                 userDetails:payload.user,
                 isLoading:false,
                 isError:false
@@ -83,9 +92,10 @@ const PostReducer = (state = initialState, {type,payload})=>{
             }
         }
         case(LIKE_SUCCESS):{
+            const shuffledArray = shuffleArray(payload)
             return {
                 ...state,
-                posts:payload,
+                posts:shuffledArray,
                 isLoading:false
             }
         }

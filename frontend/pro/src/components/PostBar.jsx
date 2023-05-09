@@ -1,8 +1,11 @@
-import { Box, SkeletonCircle, SkeletonText } from "@chakra-ui/react";
+import { Box, SkeletonCircle, SkeletonText, useDisclosure } from "@chakra-ui/react";
 import "./Styles/Postbar.scss";
 import SinglePost from "./SubComponents/SinglePost";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
+import { getSingleUserPosts } from "../Redux/Posts/Post.action";
 
-const PostBar = ({ data, loading }) => {
+const PostBar = () => {
   // if(loading){
   //   return <>
   //     <Text fontSize={'3xl'}>PostBar</Text>
@@ -28,12 +31,22 @@ const PostBar = ({ data, loading }) => {
   // </Box>
   //   </>
   // }
+  
+  const {posts } = useSelector(store => store.posts)
+  const {id,token} = useSelector(store => store.auth)
+  const dispatch = useDispatch();
+
+  useEffect(()=>{
+      dispatch(getSingleUserPosts(id,token))
+    
+  },[])
+  console.log('posts',posts);
   return (
     <>
-      {data ? (
+      {posts ? (
         <div className="postbar_container">
-          {data.length > 0 &&
-            data?.map((el, ind) => <SinglePost postData={el} key={ind} />)}
+          {posts.length > 0 &&
+            posts?.map((el, ind) => <SinglePost postData={el} key={ind} />)}
         </div>
       ) : (
         <Box padding="6" boxShadow="lg" bg="white">

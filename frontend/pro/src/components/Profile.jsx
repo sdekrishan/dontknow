@@ -2,52 +2,41 @@ import {
   Box,
   Button,
   Flex,
-  FormControl,
-  FormHelperText,
-  FormLabel,
   Grid,
-  HStack,
   Input,
-  Modal,
-  ModalBody,
-  ModalCloseButton,
-  ModalContent,
-  ModalFooter,
-  ModalHeader,
-  ModalOverlay,
-  Radio,
-  RadioGroup,
+  
   Text,
-  Textarea,
-  useDisclosure,
 } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import Sidebar from "./Sidebar";
 import { BsPencil } from "react-icons/bs";
 import { useDispatch, useSelector } from "react-redux";
-import { changeDpFun, getSingleUserDetails, updateUserFun } from "../Redux/User/User.Actions";
+import { changeDpFun, getSingleUserDetails } from "../Redux/User/User.Actions";
 import {
   deletePost,
   getSingleUserProfilePosts,
 } from "../Redux/Posts/Post.action";
 import "./Styles/Profile.css";
 import { AiOutlineDelete } from "react-icons/ai";
-
+import ProfilePostModal from "./SubComponents/ProfilePostModal";
+import ProfileRenameModal from "./SubComponents/ProfileRenameModal";
 const Profile = () => {
   const [picture, setPicture] = useState(null);
   const { userData, pictureLoading } = useSelector((store) => store.user);
+  const [postOpen, setPostOpen] = useState(false);
+  const [renameModal, setRenameModal] = useState(false)
   const [hoverBtn, setHoverBtn] = useState("none");
+  const [singlePostData, setSinglePostData] = useState(null)
   const dispatch = useDispatch();
-  const { isOpen, onOpen, onClose } = useDisclosure();
   const { id, token } = useSelector((store) => store.auth);
   const { profilePosts } = useSelector((store) => store.posts);
-  const [form, setForm] = useState({
-    name:`${userData && userData.name !== undefined ? userData.name : ''}`,
-    bio:`${userData && userData.bio !== undefined ? userData.bio : ''}`,
-    gender:`${userData && userData.gender !== undefined ? userData.gender : 'male'}`
-  })
 
-  console.log("profileposts", profilePosts);
+  const handleOpen = () => setPostOpen(true);
+  const handleClose = () => setPostOpen(false);
+  const handleRenameModalOpen = () => setRenameModal(true);
+  const handleRenameModalClose = () => setRenameModal(false);
+
+
   useEffect(() => {
     dispatch(getSingleUserProfilePosts(id, token));
     if (userData) {
@@ -59,12 +48,10 @@ const Profile = () => {
     setPicture(e.target.files[0]);
   };
   const updatePicture = () => {
-    // setPictureLoading(true);
     const formData = new FormData();
     formData.append("file", picture);
     console.log("profile formdata", formData);
     dispatch(changeDpFun(id, formData));
-    // setPictureLoading(false);
   };
   const deletePostFun = (postId) => {
     dispatch(deletePost(postId, token)).then((res) => {
@@ -74,23 +61,12 @@ const Profile = () => {
     });
   };
 
-
-  // using this method only for radio thing because event.target and name is not working with radio input
-  const handleRadio = (event)=>{
-    setForm({...form,gender:event})
+  const handleViewPost = (post)=>{
+    handleOpen();
+    setSinglePostData(post)
   }
 
-  const handleFormChange = (event) => {
-    const {value,name} = event.target;
-    console.log(event);
-    setForm({...form ,[name]:value})
-  }
-  const handleSubmitForm = (e)=>{
-    e.preventDefault();
-    dispatch(updateUserFun(id,form))
-    console.log('form',form);
-  }
-  console.log("userData", userData);
+  
   return (
     <>
       <Sidebar />
@@ -144,7 +120,7 @@ const Profile = () => {
               top="1rem"
               right={"1rem"}
               border="1px solid black"
-              onClick={onOpen}
+              onClick={handleRenameModalOpen}
               padding={".5rem"}
               borderRadius={"50%"}
             >
@@ -152,37 +128,8 @@ const Profile = () => {
             </Box>
           </Flex>
         </Flex>
-        <Modal isOpen={isOpen} onClose={onClose}>
-          <ModalOverlay />
-          <ModalContent>
-            <ModalHeader>Change Profile</ModalHeader>
-            <ModalCloseButton />
-            <ModalBody>
-              <FormControl >
-                <FormLabel>Name</FormLabel>
-                <Input type="text" defaultValue={userData.name} name='name' onChange={handleFormChange} />
-                <FormLabel>Gender</FormLabel>
-                <RadioGroup defaultValue={`${userData.gender}`} name="gender" onChange={handleRadio}>
-                  <HStack spacing="24px">
-                    <Radio value="male">Men</Radio>
-                    <Radio value="female">Women</Radio>
-                    <Radio value="prefer not to say">Prefer Not to Say</Radio>
-                  </HStack>
-                </RadioGroup>
-                <FormLabel>Bio</FormLabel>
-                <Textarea defaultValue={userData.bio} type="text" name='bio' onChange={handleFormChange} />
-                <FormHelperText>Be Creative !</FormHelperText>
-              
-              
-              {/* <Input type='submit' value='update it !'  colorScheme="facebook"/> */}
-              </FormControl>
-            </ModalBody>
-
-            <ModalFooter>
-              <Button variant="ghost" onClick={handleSubmitForm}>Update It !</Button>
-            </ModalFooter>
-          </ModalContent>
-        </Modal>
+        
+        <ProfileRenameModal userData={userData} isOpen={renameModal} onClose={handleRenameModalClose}/>
         <Flex direction="column" border="1px solid black">
           <Text as="h2">All Posts</Text>
           <Grid templateColumns={"repeat(3,1fr)"} p="1rem" gap="1rem">
@@ -198,6 +145,7 @@ const Profile = () => {
                   bgImage={`url(${post.picture})`}
                   height={"200px"}
                   className="post-card"
+                  onClick={()=>handleViewPost(post)}
                 >
                   <Box
                     display={hoverBtn}
@@ -212,6 +160,7 @@ const Profile = () => {
                   </Box>
                 </Box>
               ))}
+              <ProfilePostModal data={singlePostData} isOpen={postOpen} onClose={handleClose} />
           </Grid>
         </Flex>
       </Box>
