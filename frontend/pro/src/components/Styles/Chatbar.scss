@@ -1,4 +1,9 @@
-
+.chatbar_container{
+    border-left: 1px solid lightgrey;
+    min-height: 100vh;
+    padding-left: 1rem;
+    position: fixed;
+}
 .chatbar_head{
     text-align: center;
 }

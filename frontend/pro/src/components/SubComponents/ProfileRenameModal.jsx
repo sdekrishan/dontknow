@@ -27,7 +27,7 @@ const [form,setForm] = useState({
       }
     
   return (
-    <Modal isOpen={isOpen} onClose={onClose}>
+    <Modal isOpen={isOpen} onClose={onClose} size={{base:'sm',sm:"sm",md:"lg"}}>
           <ModalOverlay />
           <ModalContent>
             <ModalHeader>Change Profile</ModalHeader>

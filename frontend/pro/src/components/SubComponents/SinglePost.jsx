@@ -26,6 +26,7 @@ import {
 } from "react-icons/bs";
 import "./Styles/SinglePost.scss"
 import { AiOutlineSend } from "react-icons/ai";
+import CommentLoader from "./CommentLoader";
 
 
 const SinglePost = ({ postData }) => {
@@ -150,7 +151,6 @@ const SinglePost = ({ postData }) => {
           <ModalCloseButton />
           <ModalBody overflowY={"scroll"} maxH={"400px"}>
             <Flex
-              border="1px solid black"
               justifyContent={"space-between"}
               alignItems={"center"}
             >
@@ -167,7 +167,7 @@ const SinglePost = ({ postData }) => {
             </Flex>
 
             {isLoading ? (
-              <h1>Loading...</h1>
+              <CommentLoader/>
             ) : (
               <Box>
                 {currentPost._id &&
@@ -175,14 +175,16 @@ const SinglePost = ({ postData }) => {
                     return (
                       <Box
                         key={comment._id}
-                        border="1px solid black"
+                        borderBottom="1px solid lightgrey"
                         mb=".5rem"
                         p=".5rem"
                       >
                         <Flex
                           padding={".5rem"}
                           w="fit-content"
-                          border="1px solid black"
+                          alignItems={'center'}
+                          borderBottom="1px solid lightgrey"
+                          gap='.5rem'
                         >
                           <Image
                             src={

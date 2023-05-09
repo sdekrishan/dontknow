@@ -182,7 +182,7 @@ useEffect(()=>{
           </Box>
 
           </Box>
-          <Box position={'relative'} border='1px solid black' w='65%'>
+          <Box position={'relative'}  w='65%'>
             {friendsData._id ? (
                 <>
                 <Flex 
@@ -208,7 +208,7 @@ useEffect(()=>{
                 <Box h='81%' className="chat-box" overflowY={'scroll'} paddingInline={'5px'}>
                   {!messageState.includes(null)  && messageState.map((message,index)=>{
                     return <Box key={index} ref={chatBoxRefBig}>
-                      <Message  check={message.senderId === userData._id ? true : false} userMsg={message.text}/>
+                      <Message check={message.senderId === userData._id ? true : false} userMsg={message.text}/>
                     </Box>
                   })}
                 </Box>
@@ -222,7 +222,7 @@ useEffect(()=>{
                 </Flex>
                 </>
             ) : (
-              <Text p='1rem' position={'absolute'} top='50%' left='50%' border='1px solid black'  transform={`translate(-50%,-50%)`} display={'block'} w='full' color='#c1c1c1' fontSize={'2rem'} fontWeight={'bold'} textAlign={'justify'}>Open conversation to Start a Chat 🤩</Text>
+              <Text p='1rem' position={'absolute'} top='50%' left='50%'  transform={`translate(-50%,-50%)`} display={'block'} w='full' color='#c1c1c1' fontSize={'2rem'} fontWeight={'bold'} textAlign={'justify'}>Open conversation to Start a Chat 🤩</Text>
             )}
             </Box>
         </Flex>
@@ -230,10 +230,10 @@ useEffect(()=>{
 
 
 
-      <Box w='full' h={"80vh"} display={{base:'block',sm:"block",md:"none"}} position={'fixed'} top='3.5rem' left='0' border='1px solid green'> 
-          <Flex overflowX={'scroll'} gap='.5rem' p='.5rem' border='1px solid black' h='12%'>
+      <Box w='full' h={"80vh"} display={{base:'block',sm:"block",md:"none"}} position={'fixed'} top='3.5rem' left='0'> 
+          <Flex overflowX={'scroll'} gap='.5rem' p='.5rem' h='12%'>
       
-            {onlineFriends && userData.friends && onlineFriends.concat(userData.friends).map((friend,index) => (
+            {onlineFriends.length > 0 ?  onlineFriends.map((friend,index) => (
                 <Flex
                   key={index}
                   p="1rem"
@@ -254,10 +254,13 @@ useEffect(()=>{
             <Box>{onlineFriends.find((userId)=>userId._id === friend._id)?<BsFillCircleFill color="#05B714" size={'10px'} />:<BsFillCircleFill color="black" size={'10px'} />}</Box>
             </Flex>
                 </Flex>
-              ))}
+                
+
+              )) :
+              <Text className="bighead" textAlign={'center'}> No Friend is Online</Text>}
 
           </Flex> 
-          <Box border='1px solid blue' w='100%' h='88%'>
+          <Box  w='100%' h='88%'>
             {friendsData._id ? (
                 <>
                 <Flex 
@@ -294,7 +297,7 @@ useEffect(()=>{
                 </Flex>
                 </>
             ) : (
-              <Text p='1rem' position={'absolute'} top='50%' left='50%' border='1px solid black'  transform={`translate(-50%,-50%)`} display={'block'} w='full' color='#c1c1c1' fontSize={'2rem'} fontWeight={'bold'} textAlign={'justify'}>Open conversation to Start a Chat 🤩</Text>
+              <Text p='1rem' position={'absolute'} top='50%' left='50%' transform={`translate(-50%,-50%)`} display={'block'} w='full' color='#c1c1c1' fontSize={'2rem'} fontWeight={'bold'} textAlign={'justify'}>Open conversation to Start a Chat 🤩</Text>
             )}
             </Box>
             </Box>

@@ -176,7 +176,6 @@ const Login = () => {
               </div>
 
               <input type="submit" className="btn" value={"Sign Up"}  />
-              <p className="social-text">Or Sign up with social platforms</p>
             </form>
           </div>
         </div>

@@ -21,8 +21,6 @@
     }
   }
 
- 
-  
   .sidebar_mainhead{
     display: flex;
     justify-content: flex-start;
@@ -34,8 +32,8 @@
       border-bottom: 1px solid lightgrey;
       justify-content: center;
       position: fixed;
-      z-index: 10;
       background-color: white;
+      z-index: 1000;
       top:0;
       left:0;
     }
