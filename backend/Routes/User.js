@@ -99,14 +99,13 @@ UserRouter.get("/:id",async(req,res)=>{
   const data = await Promise.all(user.friends.map(el=>UserModel.findById(el)))
   // res.send(user)
   if(user){
-    res.status(200).send(data)
+    return res.status(200).send(data)
 
   }else{
-    res.status(404).send("User not found")
+    return res.status(404).send("User not found")
   }
   } catch (error) {
-    res.status(404).send("something went wrong")
-    console.log(error);
+    return res.status(404).send("something went wrong")
   }
 })
 
