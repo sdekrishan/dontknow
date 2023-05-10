@@ -17,7 +17,7 @@ PostRouter.get("/:id",async(req,res)=>{
     const {id} = req.params
     
     try {
-        let allPosts = await PostModel.find({userId:id});
+        let allPosts = await PostModel.find({userId:id}).populate("userDetails");
         res.send(allPosts);
     } catch (error) {
         console.log(error);
