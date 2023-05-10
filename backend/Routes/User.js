@@ -97,7 +97,7 @@ UserRouter.get("/:id",async(req,res)=>{
   const user = await UserModel.findOne({_id:id});
 
   const data = await Promise.all(user.friends.map(el=>UserModel.findById(el)))
-  res.send(user)
+  // res.send(user)
   if(user){
     res.status(200).send(data)
 
