@@ -30,11 +30,11 @@ const server = app.listen(8000,()=>{
 });
 
 
-app.listen(process.env.port,()=>{
+app.listen(process.env.PORT || 5000,()=>{
   mongoose.connect(
     process.env.MONGO,
   )
-  .then(()=>console.log(`server has been connected on ${process.env.PORT}`))
+  .then(()=>console.log(`server has been connected to ${process.env.PORT}`))
   .catch(e=>console.log(e));
 })
 
