@@ -34,7 +34,7 @@ const ViewProfile = () => {
     <Sidebar />
     <div className="profile_container">
         <div className="profile_container_subdiv">
-          <div style={{ width: "35%" }}>
+          <div style={{ minWidth: "35%" }}>
             <div className="profile-div" style={{ overflow: "hidden" }}>
               <img
                 src={friendProfile.profile}
