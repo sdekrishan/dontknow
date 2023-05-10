@@ -155,7 +155,7 @@ select{
 
 .btn {
   width: 150px;
-  background-color: rgba(0,0,0,.8);
+  background-color: #333333;
   border: none;
   outline: none;
   height: 49px;
@@ -189,7 +189,7 @@ select{
   top: -10%;
   right: 48%;
   transform: translateY(-50%);
-  background-image: linear-gradient(-45deg, rgba(0,0,0,.8) 0%, rgba(0,0,0,.8) 100%);
+  background-image: linear-gradient(-45deg, #333333 0%, #333333 100%);
   transition: 1.8s ease-in-out;
   border-radius: 50%;
   z-index: 6;
