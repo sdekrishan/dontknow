@@ -9,7 +9,6 @@ import {
   deletePost,
   getSingleUserProfilePosts,
 } from "../Redux/Posts/Post.action";
-import "./Styles/Profile.css";
 import { AiFillEye, AiOutlineDelete } from "react-icons/ai";
 import ProfilePostModal from "./SubComponents/ProfilePostModal";
 import ProfileRenameModal from "./SubComponents/ProfileRenameModal";

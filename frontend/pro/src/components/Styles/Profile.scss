@@ -25,11 +25,9 @@
 // style={{ borderRadius: ".5rem",height:'160px',width:'100%' }}
 .container_subdiv_img{
     border-radius: .5rem;
-    height: 160px;
     width:100%;
-    @media screen and (max-width:768px) {
-        height:130px
-    }
+    height: auto;
+    
 }
 .container_subdiv_btn{
     width: 60px;
