@@ -18,10 +18,10 @@ PostRouter.get("/:id",async(req,res)=>{
     
     try {
         let allPosts = await PostModel.find({userId:id}).populate("userDetails");
-        res.send(allPosts);
+        return res.send(allPosts);
     } catch (error) {
         console.log(error);
-        res.status(404).send("something went wrong. Please try again after some time.");
+        return res.status(404).send("something went wrong. Please try again after some time.");
     }
 })
 
@@ -46,13 +46,13 @@ PostRouter.post("/create/:id",async(req,res)=>{
         let newPost = new PostModel({userId:postId,userDetails:postId,picture:mycloud === "" ? mycloud : mycloud.secure_url,content}) 
         await newPost.save()
         
-           res.status(201).send({msg:"post has been created",post:newPost})
+           return res.status(201).send({msg:"post has been created",post:newPost})
          }else{
-           res.status(404).send('user not found')
+           return res.status(404).send('user not found')
          }
      } catch (error) {
       console.log(error); 
-      res.send(error)
+      return res.send(error)
      }
 });
 
@@ -62,10 +62,10 @@ PostRouter.delete("/delete/:id",async(req,res)=>{
     const {id} = req.params;
     try {
         await PostModel.findByIdAndDelete(id);
-        res.status(200).send('post has been deleted')
+        return res.status(200).send('post has been deleted')
     } catch (error) {
         console.log(error);
-        res.status(500).send(error)
+        return res.status(500).send(error)
     }
 })
 
@@ -79,9 +79,9 @@ PostRouter.get("/all/:id",async(req,res)=>{
         const usersFriendsPosts=  await Promise.all(
             user.friends.map((el)=>PostModel.find({userId:el}).populate("userDetails").populate("commentDetails"))
         )
-        res.status(201).send({posts:allPosts.concat(usersFriendsPosts.flat(1)),user:user});
+        return res.status(201).send({posts:allPosts.concat(usersFriendsPosts.flat(1)),user:user});
     } catch (error) {
-        res.send(error);
+        return res.send(error);
         console.log(error);
     }
 })
@@ -106,11 +106,11 @@ PostRouter.patch("/like/:id",async(req,res)=>{
         const usersFriendsPosts=  await Promise.all(
             user.friends.map((el)=>PostModel.find({userId:el}).populate('userDetails'))
         )
-        res.status(201).send({posts:allPosts.concat(usersFriendsPosts.flat(1)),user:user});
-        // res.status(201).send("post has been liked")
+        return res.status(201).send({posts:allPosts.concat(usersFriendsPosts.flat(1)),user:user});
+        // return res.status(201).send("post has been liked")
     } catch (error) {
         console.log(error);
-        res.status(400).send(error)
+        return res.status(400).send(error)
     }
 })
 
@@ -127,10 +127,10 @@ PostRouter.patch("/comment/:id",async(req,res)=>{
         await PostModel.findByIdAndUpdate({_id:id},{comments:[...allComments,{comment,userId}],commentDetails:[...allCommentDetails,userId]});
         // const allPosts = await PostModel.find().populate("commentDetails").populate("userDetails")
         // console.log(allPosts);
-        res.status(201).send({msg:'comment has been added to post'})
+        return res.status(201).send({msg:'comment has been added to post'})
     } catch (error) {
         console.log(error);
-        res.status(404).send(error)
+        return res.status(404).send(error)
     }
 })
 module.exports = {PostRouter}

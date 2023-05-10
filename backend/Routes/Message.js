@@ -10,10 +10,10 @@ MessageRoute.post("/:conversationId",async(req,res)=>{
     try {
         const newMessage = new MessageModel({senderId,conversationId,text});
         await newMessage.save();
-        res.status(200).send(newMessage)
+        return res.status(200).send(newMessage)
     } catch (error) {
         console.log(error);
-        res.status(500).send(error)
+        return res.status(500).send(error)
     }
 });
 
@@ -23,10 +23,10 @@ MessageRoute.get("/:conversationId",async(req,res)=>{
     const {conversationId} = req.params;
     try {
         const messages = await MessageModel.find({conversationId});
-        res.status(201).send(messages)
+        return res.status(201).send(messages)
     } catch (error) {
         console.log(error);
-        res.status(500).send(error)
+        return res.status(500).send(error)
     }
 })
 
