@@ -34,7 +34,7 @@ app.listen(process.env.port,()=>{
   mongoose.connect(
     process.env.MONGO,
   )
-  .then(()=>console.log(`server has been connected on ${process.env.port}`))
+  .then(()=>console.log(`server has been connected on ${process.env.PORT}`))
   .catch(e=>console.log(e));
 })
 
