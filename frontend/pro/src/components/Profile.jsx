@@ -1,6 +1,6 @@
-import { Box, Button, Flex, Grid, Image, Input, Text } from "@chakra-ui/react";
-import "./Styles/Profile.scss";
 import React, { useEffect, useState } from "react";
+import "./Styles/Profile.scss";
+import { Button, useToast } from '@chakra-ui/react'
 import Sidebar from "./Sidebar";
 import { BsPencil } from "react-icons/bs";
 import { useDispatch, useSelector } from "react-redux";
@@ -22,6 +22,7 @@ const Profile = () => {
   const dispatch = useDispatch();
   const { id, token } = useSelector((store) => store.auth);
   const { profilePosts } = useSelector((store) => store.posts);
+  const toast = useToast();
 
   const handleOpen = () => setPostOpen(true);
   const handleClose = () => setPostOpen(false);
@@ -38,12 +39,33 @@ const Profile = () => {
   const handleFile = (e) => {
     setPicture(e.target.files[0]);
   };
+
+
   const updatePicture = () => {
     const formData = new FormData();
     formData.append("file", picture);
     console.log("profile formdata", formData);
-    dispatch(changeDpFun(id, formData));
+    if(!picture){
+      return toast({
+        title: 'Invalid Image.',
+        description: "Please Choose a Valid Image.",
+        status: 'warning',
+        duration: 3000,
+        isClosable: true,
+      })
+    }else{
+      dispatch(changeDpFun(id, formData));
+      return toast({
+        title: 'Image Updated.',
+        description: "Image has been successfully updated.",
+        status: 'success',
+        duration: 3000,
+        isClosable: true,
+      })
+    }
   };
+
+
   const deletePostFun = (postId) => {
     dispatch(deletePost(postId, token)).then((res) => {
       if (res.type === "DELETE_POST_SUCCESS") {
@@ -66,18 +88,19 @@ const Profile = () => {
             <div className="profile-div" style={{ overflow: "hidden" }}>
               <img
                 src={userData.profile}
-                style={{ borderRadius: ".5rem" }}
+                className="container_subdiv_img"
                 alt={userData.name}
               />
               <div className="container_subdiv_inputdiv">
                 <input type="file" name="img" onChange={(e) => handleFile(e)} />
-                <button
+                <Button
+                colorScheme="red"
                   isLoading={pictureLoading}
                   className="container_subdiv_btn"
                   onClick={updatePicture}
                 >
                   Edit
-                </button>
+                </Button>
               </div>
             </div>
           </div>

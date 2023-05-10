@@ -14,12 +14,12 @@ import SinglePost from './SinglePost';
 
 const ProfilePostModal = ({data,isOpen, onClose}) => {
 
-    console.log(data);
+  
   return (
-    <Modal isOpen={isOpen}  onClose={onClose} >
+    <Modal isOpen={isOpen}  onClose={onClose} size="2xl" >
     <ModalOverlay />
     <ModalContent>
-      <ModalHeader></ModalHeader>
+      <ModalHeader> Post</ModalHeader>
       <ModalCloseButton  />
       <ModalBody>
         <SinglePost postData={data}/>

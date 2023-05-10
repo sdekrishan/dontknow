@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import Sidebar from './Sidebar'
-import { Box, Button, Flex, Input, Text } from '@chakra-ui/react'
 import { useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { getFriendProfile } from '../Redux/User/User.Actions'
 import { getFriendPosts } from '../Redux/Posts/Post.action'
-import { AiFillEye } from 'react-icons/ai'
 import ProfilePostModal from './SubComponents/ProfilePostModal'
 
 const ViewProfile = () => {
@@ -15,7 +13,7 @@ const ViewProfile = () => {
     const {friendPosts} = useSelector(store => store.posts)
     const dispatch = useDispatch();
     const [postOpen, setPostOpen] = useState(false);
-    const [singlePostData, setSinglePostData] = useState(null);
+    const [singlePostData, setSinglePostData] = useState({});
     
     useEffect(()=>{
        dispatch(getFriendProfile(id))
@@ -25,10 +23,11 @@ const ViewProfile = () => {
     const handleViewPost = (post) => {
       handleOpen()
       setSinglePostData(post);
-      
     };
     const handleClose = () => setPostOpen(false);
-    const handleOpen = () => setPostOpen(true)
+    const handleOpen = () => setPostOpen(true);
+
+    console.log('friendsposts',friendPosts);
   return (
     <>
     <Sidebar />
@@ -38,7 +37,7 @@ const ViewProfile = () => {
             <div className="profile-div" style={{ overflow: "hidden" }}>
               <img
                 src={friendProfile.profile}
-                style={{ borderRadius: ".5rem" }}
+                className='container_subdiv_img'
                 alt={friendProfile.name}
               />
               

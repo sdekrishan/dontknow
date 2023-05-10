@@ -74,17 +74,17 @@ const smallLinkBar = [
   {
     name: "Home",
     route: "/home",
-    icon: <BiHomeAlt />,
+    icon: <BiHomeAlt size={'20px'} />,
   },
   {
     name: "Friends",
     route: "/friends",
-    icon: <BsPeople />,
+    icon: <BsPeople size={'20px'} />,
   },
   {
     name:"Chats",
     route:"/chat",
-    icon:<BsChat/>
+    icon:<BsChat size={'20px'}/>
   },
   {
     name: "Profile",
@@ -227,7 +227,7 @@ const Sidebar = () => {
           color={active === "Create Post" ? "white" : "black"}
         >
           <Box >
-            <BsPlusSquare />
+            <BsPlusSquare size={'20px'}/>
           </Box>
         </Box>
       </div>
