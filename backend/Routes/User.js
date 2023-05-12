@@ -214,8 +214,12 @@ UserRouter.patch("/profile/:id",async(req, res)=>{
   try {
       const user = await UserModel.findById(id);
       if(user){
-        const mycloud = await cloudinary.uploader.upload(img.tempFilePath);
-        await UserModel.findByIdAndUpdate({_id:id},{profile:mycloud.secure_url})
+        cloudinary.uploader.upload(img.tempFilePath,async(error,result)=>{
+          if(error) throw error;
+          else{
+            await UserModel.findByIdAndUpdate({_id:id},{profile:result.url})
+          }
+        });
         let newUser = await UserModel.findById(id);
 
         return res.status(201).send({msg:"img updated",user:newUser})
@@ -227,6 +231,7 @@ UserRouter.patch("/profile/:id",async(req, res)=>{
    return res.send(error)
   }
 })
+
 
 // for sending friend requests
 

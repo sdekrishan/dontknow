@@ -10,7 +10,7 @@ cloudinary.config({
   cloud_name: "dwkrorz1k",
   api_key: "272165627193615",
   api_secret: "BROfva11bTlvSZGy1a1eaVGbcbE",
-  secure:true
+//   secure:true
 });
 
 //for getting all the posts related to a particular user
@@ -60,6 +60,8 @@ PostRouter.post("/create/:id",async(req,res)=>{
       return res.send(error)
      }
 });
+
+
 
 // for deleting a post
 

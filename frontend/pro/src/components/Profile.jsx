@@ -43,7 +43,6 @@ const Profile = () => {
   const updatePicture = () => {
     const formData = new FormData();
     formData.append("file", picture);
-    console.log("profile formdata", formData);
     if(!picture){
       return toast({
         title: 'Invalid Image.',
