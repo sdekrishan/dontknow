@@ -15,7 +15,7 @@ import {
 import Message from "./SubComponents/Message";
 import { io } from "socket.io-client";
 import { BsFillCircleFill } from "react-icons/bs";
-const link = "http://localhost:8000";
+const link = "wss://encouraging-marshy-ocarina.glitch.me/";
 
 const Chats = () => {
   const dispatch = useDispatch();

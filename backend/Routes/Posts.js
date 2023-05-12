@@ -8,7 +8,8 @@ const cloudinary = require('cloudinary').v2;
 cloudinary.config({
   cloud_name: "dwkrorz1k",
   api_key: "272165627193615",
-  api_secret: "BROfva11bTlvSZGy1a1eaVGbcbE"
+  api_secret: "BROfva11bTlvSZGy1a1eaVGbcbE",
+  secure:true
 });
 
 //for getting all the posts related to a particular user
