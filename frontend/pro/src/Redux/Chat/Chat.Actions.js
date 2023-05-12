@@ -11,9 +11,7 @@ const {
 export const getMessagesOfChat = (conversationId) => (dispatch) => {
   dispatch({ type: GET_MESSAGES_REQUEST });
   return axios
-    .get(
-      `https://dontknow-6zckggalj-sdekrishan.vercel.app/message/${conversationId}`
-    )
+    .get(`https://lestalk.onrender.com/message/${conversationId}`)
     .then((res) => dispatch({ type: GET_MESSAGES_SUCCESS, payload: res.data }))
     .catch((err) => dispatch({ type: GET_MESSAGES_ERROR }));
 };
@@ -22,10 +20,10 @@ export const sendMessageToFriend =
   (conversationId, senderId, text) => (dispatch) => {
     dispatch({ type: SEND_MESSAGE_REQUEST });
     return axios
-      .post(
-        `https://dontknow-6zckggalj-sdekrishan.vercel.app/message/${conversationId}`,
-        { senderId, text }
-      )
+      .post(`https://lestalk.onrender.com/message/${conversationId}`, {
+        senderId,
+        text,
+      })
       .then((res) =>
         dispatch({ type: SEND_MESSAGE_SUCCESS, payload: res.data })
       )

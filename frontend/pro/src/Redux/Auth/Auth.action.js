@@ -10,7 +10,7 @@ import axios from "axios";
 export const signUpUser = (form) => (dispatch) => {
   dispatch({ type: SIGNUP_REQUEST });
   return axios
-    .post(`https://dontknow-6zckggalj-sdekrishan.vercel.app/register`, form)
+    .post(`https://lestalk.onrender.com/register`, form)
     .then((res) => dispatch({ type: SIGNUP_SUCCESS }))
     .catch((err) => dispatch({ type: SIGNUP_ERROR }));
 };
@@ -18,7 +18,7 @@ export const signUpUser = (form) => (dispatch) => {
 export const signInUser = (form) => (dispatch) => {
   dispatch({ type: SIGNIN_REQUEST });
   return axios
-    .post(`https://dontknow-6zckggalj-sdekrishan.vercel.app/login`, form)
+    .post(`https://lestalk.onrender.com/login`, form)
     .then((res) => {
       return dispatch({ type: SIGNIN_SUCCESS, payload: res.data });
     })

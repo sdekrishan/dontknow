@@ -71,9 +71,7 @@ const Chats = () => {
 
   useEffect(() => {
     axios
-      .get(
-        `https://dontknow-6zckggalj-sdekrishan.vercel.app/message/${conversation.current?._id}`
-      )
+      .get(`https://lestalk.onrender.com/message/${conversation.current?._id}`)
       .then((res) => setMessageState(res.data))
       .catch((err) => console.log(err));
     // dispatch(getMessagesOfChat(conversation.current?._id)).then(res => setMessageState(res.payload))
@@ -90,7 +88,7 @@ const Chats = () => {
 
     axios
       .get(
-        `https://dontknow-6zckggalj-sdekrishan.vercel.app/chat/getchat/${userData._id}/${friendId}`
+        `https://lestalk.onrender.com/chat/getchat/${userData._id}/${friendId}`
       )
       .then((res) => {
         if (res.data.already) {
@@ -98,7 +96,7 @@ const Chats = () => {
           conversation.current = res.data.userChat[0];
         } else {
           axios
-            .post("https://dontknow-6zckggalj-sdekrishan.vercel.app/chat", {
+            .post("https://lestalk.onrender.com/chat", {
               senderId: userData._id,
               receiverId: friendId,
             })

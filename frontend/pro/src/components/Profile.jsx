@@ -52,14 +52,25 @@ const Profile = () => {
         isClosable: true,
       })
     }else{
-      dispatch(changeDpFun(id, formData));
-      return toast({
-        title: 'Image Updated.',
-        description: "Image has been successfully updated.",
-        status: 'success',
-        duration: 3000,
-        isClosable: true,
-      })
+      dispatch(changeDpFun(id, formData).then(res => {
+        if(res.type ==="CHANGE_DP_SUCCESS"){
+          return toast({
+            title: 'Image Updated.',
+            description: "Image has been successfully updated.",
+            status: 'success',
+            duration: 3000,
+            isClosable: true,
+          })
+        }else{
+          toast({
+            title: 'Image updation failed',
+            description: "Something went wrong. Please try again later.",
+            status: 'error',
+            duration: 3000,
+            isClosable: true,
+          })
+        }
+      }));
     }
   };
 

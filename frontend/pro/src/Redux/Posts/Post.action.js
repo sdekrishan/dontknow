@@ -26,7 +26,7 @@ import axios from "axios";
 export const getSingleUserPosts = (id, token) => (dispatch) => {
   dispatch({ type: GET_SINGLE_USER_POSTS_REQUEST });
   return axios
-    .get(`https://dontknow-6zckggalj-sdekrishan.vercel.app/posts/all/${id}`, {
+    .get(`https://lestalk.onrender.com/posts/all/${id}`, {
       headers: {
         "Content-type": "aplication/json",
         authorization: token,
@@ -43,7 +43,7 @@ export const getSingleUserPosts = (id, token) => (dispatch) => {
 export const getFriendPosts = (id, token) => (dispatch) => {
   dispatch({ type: GET_FRIEND_POSTS_REQUEST });
   return axios
-    .get(`https://dontknow-6zckggalj-sdekrishan.vercel.app/posts/${id}`, {
+    .get(`https://lestalk.onrender.com/posts/${id}`, {
       headers: {
         "Content-type": "aplication/json",
         authorization: token,
@@ -59,7 +59,7 @@ export const getFriendPosts = (id, token) => (dispatch) => {
 export const getSingleUserProfilePosts = (id, token) => (dispatch) => {
   dispatch({ type: GET_SINGLE_USER_PROFILE_POSTS_REQUEST });
   return axios
-    .get(`https://dontknow-6zckggalj-sdekrishan.vercel.app/posts/${id}`, {
+    .get(`https://lestalk.onrender.com/posts/${id}`, {
       headers: {
         "Content-type": "aplication/json",
         authorization: token,
@@ -77,15 +77,11 @@ export const getSingleUserProfilePosts = (id, token) => (dispatch) => {
 export const createNewPost = (id, details, token) => (dispatch) => {
   dispatch({ type: CREATE_POST_REQUEST });
   return axios
-    .post(
-      `http://localhost:8080/posts/create/${id}`,
-      details,
-      {
-        headers: {
-          authorization: token,
-        },
-      }
-    )
+    .post(`https://lestalk.onrender.com/posts/create/${id}`, details, {
+      headers: {
+        authorization: token,
+      },
+    })
     .then((res) =>
       dispatch({ type: CREATE_POST_SUCCESS, payload: res.data.post })
     )
@@ -95,15 +91,11 @@ export const createNewPost = (id, details, token) => (dispatch) => {
 export const likeFunction = (id, postId, token) => (dispatch) => {
   dispatch({ type: LIKE_REQUEST });
   return axios
-    .patch(
-      `https://dontknow-6zckggalj-sdekrishan.vercel.app/posts/like/${postId}`,
-      id,
-      {
-        headers: {
-          authorization: token,
-        },
-      }
-    )
+    .patch(`https://lestalk.onrender.com/posts/like/${postId}`, id, {
+      headers: {
+        authorization: token,
+      },
+    })
     .then((res) => dispatch({ type: LIKE_SUCCESS, payload: res.data.posts }))
     .catch((err) => dispatch({ type: LIKE_ERROR }));
 };
@@ -111,15 +103,11 @@ export const likeFunction = (id, postId, token) => (dispatch) => {
 export const addCommentFun = (id, comment, token) => (dispatch) => {
   dispatch({ type: ADD_COMMENT_REQUEST });
   return axios
-    .patch(
-      `https://dontknow-6zckggalj-sdekrishan.vercel.app/posts/comment/${id}`,
-      comment,
-      {
-        headers: {
-          authorization: token,
-        },
-      }
-    )
+    .patch(`https://lestalk.onrender.com/posts/comment/${id}`, comment, {
+      headers: {
+        authorization: token,
+      },
+    })
     .then((res) => dispatch({ type: ADD_COMMENT_SUCCESS }))
     .catch((err) => dispatch({ type: ADD_COMMENT_ERROR }));
 };
@@ -127,14 +115,11 @@ export const addCommentFun = (id, comment, token) => (dispatch) => {
 export const deletePost = (id, token) => (dispatch) => {
   dispatch({ type: DELETE_POST_REQUEST });
   return axios
-    .delete(
-      `https://dontknow-6zckggalj-sdekrishan.vercel.app/posts/delete/${id}`,
-      {
-        headers: {
-          authorization: token,
-        },
-      }
-    )
+    .delete(`https://lestalk.onrender.com/posts/delete/${id}`, {
+      headers: {
+        authorization: token,
+      },
+    })
     .then((res) => dispatch({ type: DELETE_POST_SUCCESS }))
     .catch((err) => dispatch({ type: DELETE_POST_ERROR }));
 };

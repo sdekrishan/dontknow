@@ -34,7 +34,7 @@ import {
 export const getAllUsers = (id) => (dispatch) => {
   dispatch({ type: GET_ALL_USERS_REQUEST });
   return axios
-    .get(`https://dontknow-6zckggalj-sdekrishan.vercel.app/search/${id}`)
+    .get(`https://lestalk.onrender.com/search/${id}`)
     .then((res) => dispatch({ type: GET_ALL_USERS_SUCCESS, payload: res.data }))
     .catch((err) => dispatch({ type: GET_ALL_USERS_ERROR }));
 };
@@ -42,7 +42,7 @@ export const getAllUsers = (id) => (dispatch) => {
 export const getSingleUserDetails = (id) => (dispatch) => {
   dispatch({ type: GET_SINGLE_USER_DATA_REQUEST });
   return axios
-    .get(`https://dontknow-6zckggalj-sdekrishan.vercel.app/single/${id}`)
+    .get(`https://lestalk.onrender.com/single/${id}`)
     .then((res) =>
       dispatch({ type: GET_SINGLE_USER_DATA_SUCCESS, payload: res.data })
     )
@@ -52,25 +52,18 @@ export const getSingleUserDetails = (id) => (dispatch) => {
 export const updateUserFun = (id, userDetails) => (dispatch) => {
   dispatch({ type: UPDATE_USER_REQUEST });
   return axios
-    .patch(
-      `https://dontknow-6zckggalj-sdekrishan.vercel.app/${id}`,
-      userDetails
-    )
+    .patch(`https://lestalk.onrender.com/${id}`, userDetails)
     .then((res) =>
       dispatch({ type: UPDATE_USER_SUCCESS, payload: res.data.user })
     )
     .catch((err) => dispatch({ type: UPDATE_USER_ERROR }));
 };
 
-
 // for changing profile picture
 export const changeDpFun = (id, img) => (dispatch) => {
   dispatch({ type: CHANGE_DP_REQUEST });
   return axios
-    .patch(
-      `http://localhost:8080/profile/${id}`,
-      img
-    )
+    .patch(`https://lestalk.onrender.com/profile/${id}`, img)
     .then((res) =>
       dispatch({ type: CHANGE_DP_SUCCESS, payload: res.data.user })
     )
@@ -80,7 +73,7 @@ export const changeDpFun = (id, img) => (dispatch) => {
 export const getAllUnfollowedFriends = (id) => (dispatch) => {
   dispatch({ type: GET_ALL_FRIENDS_REQUEST });
   return axios
-    .get(`https://dontknow-6zckggalj-sdekrishan.vercel.app/unfollowed/${id}`)
+    .get(`https://lestalk.onrender.com/unfollowed/${id}`)
     .then((res) =>
       dispatch({
         type: GET_ALL_FRIENDS_SUCCESS,
@@ -93,7 +86,7 @@ export const getAllUnfollowedFriends = (id) => (dispatch) => {
 export const followPeopleFun = (id, followId) => (dispatch) => {
   dispatch({ type: ADD_FRIEND_REQUEST });
   return axios
-    .patch(`https://dontknow-6zckggalj-sdekrishan.vercel.app/follow/${id}`, {
+    .patch(`https://lestalk.onrender.com/follow/${id}`, {
       followId,
     })
     .then((res) =>
@@ -105,10 +98,7 @@ export const followPeopleFun = (id, followId) => (dispatch) => {
 export const unfollowFriend = (senderId, followId) => (dispatch) => {
   dispatch({ type: FRIEND_REQUEST_REQUEST });
   return axios
-    .patch(
-      `https://dontknow-6zckggalj-sdekrishan.vercel.app/unfollow/${senderId}`,
-      { followId }
-    )
+    .patch(`https://lestalk.onrender.com/unfollow/${senderId}`, { followId })
     .then((res) => dispatch({ type: FRIEND_REQUEST_SUCCESS }))
     .catch((err) => dispatch({ type: FRIEND_REQUEST_ERROR }));
 };
@@ -116,10 +106,7 @@ export const unfollowFriend = (senderId, followId) => (dispatch) => {
 export const sendFriendRequest = (senderId, followId) => (dispatch) => {
   dispatch({ type: FRIEND_REQUEST_REQUEST });
   return axios
-    .patch(
-      `https://dontknow-6zckggalj-sdekrishan.vercel.app/request/${senderId}`,
-      { followId }
-    )
+    .patch(`https://lestalk.onrender.com/request/${senderId}`, { followId })
     .then((res) => dispatch({ type: FRIEND_REQUEST_SUCCESS }))
     .catch((err) => dispatch({ type: FRIEND_REQUEST_ERROR }));
 };
@@ -127,7 +114,7 @@ export const sendFriendRequest = (senderId, followId) => (dispatch) => {
 export const cancelSendFriendRequest = (id, followId) => (dispatch) => {
   dispatch({ type: FRIEND_REQUEST_REQUEST });
   return axios
-    .patch(`https://dontknow-6zckggalj-sdekrishan.vercel.app/unrequest/${id}`, {
+    .patch(`https://lestalk.onrender.com/unrequest/${id}`, {
       followId,
     })
     .then((res) => dispatch({ type: FRIEND_REQUEST_SUCCESS }))
@@ -137,7 +124,7 @@ export const cancelSendFriendRequest = (id, followId) => (dispatch) => {
 export const cancelArrivingRequest = (id, followId) => (dispatch) => {
   dispatch({ type: FRIEND_REQUEST_REQUEST });
   return axios
-    .patch(`https://dontknow-6zckggalj-sdekrishan.vercel.app/reject/${id}`, {
+    .patch(`https://lestalk.onrender.com/reject/${id}`, {
       followId,
     })
     .then((res) => dispatch({ type: FRIEND_REQUEST_SUCCESS }))
@@ -147,7 +134,7 @@ export const cancelArrivingRequest = (id, followId) => (dispatch) => {
 export const acceptFriendRequest = (id, followId) => (dispatch) => {
   dispatch({ type: FRIEND_REQUEST_REQUEST });
   return axios
-    .patch(`https://dontknow-6zckggalj-sdekrishan.vercel.app/accept/${id}`, {
+    .patch(`https://lestalk.onrender.com/accept/${id}`, {
       followId,
     })
     .then((res) => dispatch({ type: FRIEND_REQUEST_SUCCESS }))
@@ -157,7 +144,7 @@ export const acceptFriendRequest = (id, followId) => (dispatch) => {
 export const cancelAcceptedFriendRequest = (id, followId) => (dispatch) => {
   dispatch({ type: FRIEND_REQUEST_REQUEST });
   return axios
-    .patch(`https://dontknow-6zckggalj-sdekrishan.vercel.app/accept/${id}`, {
+    .patch(`https://lestalk.onrender.com/accept/${id}`, {
       followId,
     })
     .then((res) => dispatch({ type: FRIEND_REQUEST_SUCCESS }))
@@ -167,7 +154,7 @@ export const cancelAcceptedFriendRequest = (id, followId) => (dispatch) => {
 export const getFriendProfile = (id) => (dispatch) => {
   dispatch({ type: GET_FRIENDS_PROFILE_REQUEST });
   return axios
-    .get(`https://dontknow-6zckggalj-sdekrishan.vercel.app/single/${id}`)
+    .get(`https://lestalk.onrender.com/single/${id}`)
     .then((res) =>
       dispatch({ type: GET_FRIENDS_PROFILE_SUCCESS, payload: res.data })
     )
