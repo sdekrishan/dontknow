@@ -78,7 +78,7 @@ export const createNewPost = (id, details, token) => (dispatch) => {
   dispatch({ type: CREATE_POST_REQUEST });
   return axios
     .post(
-      `https://dontknow-5xwnqu87v-sdekrishan.vercel.app/posts/create/${id}`,
+      `http://localhost:8080/posts/create/${id}`,
       details,
       {
         headers: {

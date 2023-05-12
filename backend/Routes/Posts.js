@@ -44,9 +44,9 @@ PostRouter.post("/create/:id",async(req,res)=>{
      try {
          const user = await UserModel.findById(id);
          if(user){
-            fs.mkdirSync("/var/task/tmp", { recursive: true })
+            fs.mkdirSync("/tmp", { recursive: true })
            const mycloud = req.files === null ? "" : await cloudinary.uploader.upload(img.tempFilePath,{
-            folder:"img"
+            folder:"img",
            });
         let newPost = new PostModel({userId:postId,userDetails:postId,picture:mycloud === "" ? mycloud : mycloud.secure_url,content}) 
         await newPost.save()
