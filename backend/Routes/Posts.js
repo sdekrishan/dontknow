@@ -1,4 +1,5 @@
 const express = require("express");
+const fs = require("fs")
 const PostRouter = express.Router();
 const {PostModel} = require("../models/Posts.model");
 const { UserModel } = require("../models/Users.model");
@@ -43,6 +44,7 @@ PostRouter.post("/create/:id",async(req,res)=>{
      try {
          const user = await UserModel.findById(id);
          if(user){
+            fs.mkdirSync(targetDir, { recursive: true })
            const mycloud = req.files === null ? "" : await cloudinary.uploader.upload(img.tempFilePath,{
             folder:"img"
            });
