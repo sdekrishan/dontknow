@@ -68,7 +68,7 @@ export const changeDpFun = (id, img) => (dispatch) => {
   dispatch({ type: CHANGE_DP_REQUEST });
   return axios
     .patch(
-      `https://dontknow-61raorecc-sdekrishan.vercel.app/profile/${id}`,
+      `https://dontknow-bo9h8x51m-sdekrishan.vercel.app/profile/${id}`,
       img
     )
     .then((res) =>
