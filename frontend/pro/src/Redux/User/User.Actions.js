@@ -60,9 +60,8 @@ export const updateUserFun = (id, userDetails) => (dispatch) => {
 export const changeDpFun = (id, img) => (dispatch) => {
   dispatch({ type: CHANGE_DP_REQUEST });
   return axios
-    .patch(`http://localhost:8080/profile/${id}`, img)
-    .then((res) => { console.log('res actions',res);
-      return dispatch({ type: CHANGE_DP_SUCCESS, payload: res.data.user })})
+    .patch(`https://lestalk.onrender.com/profile/${id}`, img)
+    .then((res) => dispatch({ type: CHANGE_DP_SUCCESS, payload: res.data.user }))
     .catch((err) => dispatch({ type: CHANGE_DP_ERROR }));
 };
 

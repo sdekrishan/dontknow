@@ -39,7 +39,6 @@ const Profile = () => {
     setPicture(e.target.files[0]);
   };
 
-console.log("userData",userData);
   const updatePicture = () => {
     const formData = new FormData();
     formData.append("file", picture);
