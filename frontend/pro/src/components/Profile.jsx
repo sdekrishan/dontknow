@@ -39,7 +39,7 @@ const Profile = () => {
     setPicture(e.target.files[0]);
   };
 
-
+console.log("userData",userData);
   const updatePicture = () => {
     const formData = new FormData();
     formData.append("file", picture);
@@ -52,7 +52,8 @@ const Profile = () => {
         isClosable: true,
       })
     }else{
-      dispatch(changeDpFun(id, formData).then(res => {
+      dispatch(changeDpFun(id, formData)).then(res => {
+        console.log("profile res",res);
         if(res.type ==="CHANGE_DP_SUCCESS"){
           return toast({
             title: 'Image Updated.',
@@ -70,7 +71,7 @@ const Profile = () => {
             isClosable: true,
           })
         }
-      }));
+      });
     }
   };
 

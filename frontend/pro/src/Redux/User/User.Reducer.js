@@ -58,6 +58,7 @@ const UserReducer = (state = initialState, {type,payload})=>{
             }
         }
         case(CHANGE_DP_SUCCESS):{
+            console.log('reducer',state.userData,payload);
             return {
                 ...state,
                 pictureLoading:false,

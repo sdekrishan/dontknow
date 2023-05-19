@@ -214,15 +214,10 @@ UserRouter.patch("/profile/:id",async(req, res)=>{
   try {
       const user = await UserModel.findById(id);
       if(user){
-        cloudinary.uploader.upload(img.tempFilePath,async(error,result)=>{
-          if(error) throw error;
-          else{
-            await UserModel.findByIdAndUpdate({_id:id},{profile:result.url})
-          }
-        });
-        let newUser = await UserModel.findById(id);
-
+        const response = await cloudinary.uploader.upload(img.tempFilePath)
+        let newUser =await UserModel.findByIdAndUpdate(id, {$set:{profile:response.url}})
         return res.status(201).send({msg:"img updated",user:newUser})
+
       }else{
         return res.status(404).send('user not found')
       }

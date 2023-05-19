@@ -23,9 +23,6 @@ import {
   GET_SINGLE_USER_DATA_ERROR,
   GET_SINGLE_USER_DATA_REQUEST,
   GET_SINGLE_USER_DATA_SUCCESS,
-  SEND_FRIEND_REQUEST_ERROR,
-  SEND_FRIEND_REQUEST_REQUEST,
-  SEND_FRIEND_REQUEST_SUCCESS,
   UPDATE_USER_ERROR,
   UPDATE_USER_REQUEST,
   UPDATE_USER_SUCCESS,
@@ -63,10 +60,9 @@ export const updateUserFun = (id, userDetails) => (dispatch) => {
 export const changeDpFun = (id, img) => (dispatch) => {
   dispatch({ type: CHANGE_DP_REQUEST });
   return axios
-    .patch(`https://lestalk.onrender.com/profile/${id}`, img)
-    .then((res) =>
-      dispatch({ type: CHANGE_DP_SUCCESS, payload: res.data.user })
-    )
+    .patch(`http://localhost:8080/profile/${id}`, img)
+    .then((res) => { console.log('res actions',res);
+      return dispatch({ type: CHANGE_DP_SUCCESS, payload: res.data.user })})
     .catch((err) => dispatch({ type: CHANGE_DP_ERROR }));
 };
 
