@@ -96,6 +96,27 @@ PostRouter.get("/all/:id",async(req,res)=>{
     }
 })
 
+
+// after commenting getting the data
+
+PostRouter.get("/allposts/:id",async(req,res)=>{
+    const {id} = req.params;
+
+
+    try {
+        const allPosts = await PostModel.find({userId:id}).populate('userDetails').populate("commentDetails");
+        const user = await UserModel.findOne({_id:id});
+        const usersFriendsPosts=  await Promise.all(
+            user.friends.map((el)=>PostModel.find({userId:el}).populate("userDetails").populate("commentDetails"))
+        )
+        return res.status(201).send({posts:allPosts.concat(usersFriendsPosts.flat(1)),user:user});
+    } catch (error) {
+        console.log(error);
+        return res.send(error);
+    }
+})
+
+
 //for liking a post
 
 PostRouter.patch("/like/:id",async(req,res)=>{

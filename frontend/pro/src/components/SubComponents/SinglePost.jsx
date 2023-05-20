@@ -27,6 +27,7 @@ import {
 import "./Styles/SinglePost.scss"
 import { AiOutlineSend } from "react-icons/ai";
 import CommentLoader from "./CommentLoader";
+import axios from "axios";
 
 
 const SinglePost = ({ postData }) => {
@@ -61,10 +62,14 @@ const SinglePost = ({ postData }) => {
     dispatch(addCommentFun(post._id, commentData, token))
       .then((response) => {
         if (response.type === "ADD_COMMENT_SUCCESS") {
-          dispatch(getSingleUserPosts(id, token)).then((res) => {
-            const data = res.payload.posts.find((el) => el._id === post._id);
+          axios.get(`http://localhost:8080/posts/allposts/${id}`,{
+            headers:{
+              authorization:token
+            }
+          }).then(res => {
+              const data = res.data.posts.find((el) => el._id === post._id);
             setCurrentPost(data);
-          });
+          }).catch(err => console.log(err))
         }
       })
       .catch((err) => console.log(err));

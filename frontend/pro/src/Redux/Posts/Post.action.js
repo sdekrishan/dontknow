@@ -26,11 +26,11 @@ import axios from "axios";
 export const getSingleUserPosts = (id, token,page) => (dispatch) => {
   dispatch({ type: GET_SINGLE_USER_POSTS_REQUEST });
   return axios
-    .get(`https://lestalk.onrender.com/posts/all/${id}?page=${page}`, {
-      headers: {
-        "Content-type": "aplication/json",
-        authorization: token,
-      },
+    .get(`http://localhost:8080/posts/all/${id}?page=${page}`, {
+        headers: {
+          "Content-type": "aplication/json",
+          authorization: token,
+        },
     })
     .then((res) =>
       dispatch({ type: GET_SINGLE_USER_POSTS_SUCCESS, payload: res.data })
@@ -123,3 +123,18 @@ export const deletePost = (id, token) => (dispatch) => {
     .then((res) => dispatch({ type: DELETE_POST_SUCCESS }))
     .catch((err) => dispatch({ type: DELETE_POST_ERROR }));
 };
+
+export const allPostsFun = (id,token)=> dispatch =>{
+  dispatch({ type: GET_SINGLE_USER_POSTS_REQUEST });
+  return axios
+    .get(`http://localhost:8080/posts/allposts/${id}`, {
+      headers: {
+        "Content-type": "aplication/json",
+        authorization: token,
+      },
+    })
+    .then((res) =>
+      dispatch({ type: GET_SINGLE_USER_POSTS_SUCCESS, payload: res.data })
+    )
+    .catch((err) => dispatch({ type: GET_SINGLE_USER_POSTS_ERROR })); 
+}
