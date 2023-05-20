@@ -11,13 +11,16 @@
 }
 
 .postdiv{
-    width: 65%;
+    width: 76%;
     @media screen and (max-width:768px) {
         width: 100vw;
     }
 }
 .chatdiv{
-    width: 35%;
+    width: 18vw;
+    position: fixed;
+    right:0;
+    top:0;
     @media screen and (max-width:768px) {
         display: none;
     }

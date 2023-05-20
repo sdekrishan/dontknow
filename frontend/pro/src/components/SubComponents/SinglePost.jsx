@@ -62,7 +62,7 @@ const SinglePost = ({ postData }) => {
     dispatch(addCommentFun(post._id, commentData, token))
       .then((response) => {
         if (response.type === "ADD_COMMENT_SUCCESS") {
-          axios.get(`http://localhost:8080/posts/allposts/${id}`,{
+          axios.get(`https://lestalk.onrender.com/posts/allposts/${id}`,{
             headers:{
               authorization:token
             }
