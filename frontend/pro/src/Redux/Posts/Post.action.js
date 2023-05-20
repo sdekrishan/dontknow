@@ -23,10 +23,10 @@ import {
 } from "./Post.ActionTypes";
 import axios from "axios";
 //for getting single user posts user+friends post
-export const getSingleUserPosts = (id, token) => (dispatch) => {
+export const getSingleUserPosts = (id, token,page) => (dispatch) => {
   dispatch({ type: GET_SINGLE_USER_POSTS_REQUEST });
   return axios
-    .get(`https://lestalk.onrender.com/posts/all/${id}`, {
+    .get(`https://lestalk.onrender.com/posts/all/${id}?page=${page}`, {
       headers: {
         "Content-type": "aplication/json",
         authorization: token,

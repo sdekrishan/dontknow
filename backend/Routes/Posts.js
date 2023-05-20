@@ -80,16 +80,19 @@ PostRouter.delete("/delete/:id",async(req,res)=>{
 
 PostRouter.get("/all/:id",async(req,res)=>{
     const {id} = req.params;
+    let page = req.query.page || 1;
+    let limit = 10;
+
     try {
         const allPosts = await PostModel.find({userId:id}).populate('userDetails').populate("commentDetails");
         const user = await UserModel.findOne({_id:id});
         const usersFriendsPosts=  await Promise.all(
             user.friends.map((el)=>PostModel.find({userId:el}).populate("userDetails").populate("commentDetails"))
         )
-        return res.status(201).send({posts:allPosts.concat(usersFriendsPosts.flat(1)),user:user});
+        return res.status(201).send({posts:allPosts.concat(usersFriendsPosts.flat(1)).slice((((page-1)*limit)+1),((page*limit)+1)),user:user});
     } catch (error) {
-        return res.send(error);
         console.log(error);
+        return res.send(error);
     }
 })
 

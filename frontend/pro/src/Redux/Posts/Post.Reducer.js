@@ -28,10 +28,10 @@ const PostReducer = (state = initialState, {type,payload})=>{
             }
         }
         case(GET_SINGLE_USER_POSTS_SUCCESS):{
-            const shuffledArray = shuffleArray(payload.posts)
+            // const shuffledArray = shuffleArray(payload.posts)
             return{
                 ...state,
-                posts:shuffledArray,
+                posts:[...state.posts,...payload.posts],
                 userDetails:payload.user,
                 isLoading:false,
                 isError:false
@@ -54,7 +54,7 @@ const PostReducer = (state = initialState, {type,payload})=>{
         case(GET_SINGLE_USER_PROFILE_POSTS_SUCCESS):{
             return{
                 ...state,
-                profilePosts:payload,
+                profilePosts:[...state.posts,...payload],
                 isLoading:false,
                 isError:false
             }
@@ -92,10 +92,9 @@ const PostReducer = (state = initialState, {type,payload})=>{
             }
         }
         case(LIKE_SUCCESS):{
-            const shuffledArray = shuffleArray(payload)
             return {
                 ...state,
-                posts:shuffledArray,
+                posts:payload,
                 isLoading:false
             }
         }
