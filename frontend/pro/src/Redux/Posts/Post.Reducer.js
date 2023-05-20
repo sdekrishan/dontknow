@@ -54,7 +54,7 @@ const PostReducer = (state = initialState, {type,payload})=>{
         case(GET_SINGLE_USER_PROFILE_POSTS_SUCCESS):{
             return{
                 ...state,
-                profilePosts:[...state.posts,...payload],
+                profilePosts:payload,
                 isLoading:false,
                 isError:false
             }
